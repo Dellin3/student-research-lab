@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/start-here</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/research-guide</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/data-hub</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/math</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/viewer</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/worksheet</loc>
-  </url>
-  <url>
-    <loc>https://primes-ring-website-p9yv.vercel.app/impact</loc>
-  </url>
+  <url><loc>https://student-research-lab.vercel.app/</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/start-here</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/find-a-direction</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/research-workflow</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/ai-literature</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/build-a-project</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/outreach</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/worksheet</loc></url>
+  <url><loc>https://student-research-lab.vercel.app/case-studies</loc></url>
 </urlset>

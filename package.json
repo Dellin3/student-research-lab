@@ -1,5 +1,5 @@
 {
-  "name": "primes-ring-website",
+  "name": "student-research-lab",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,13 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.6.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-helmet-async": "^3.0.0",
-    "react-router-dom": "^7.18.1",
-    "three": "^0.185.1"
+    "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

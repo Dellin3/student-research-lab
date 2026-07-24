@@ -1,52 +1,34 @@
-# Mathematics of Saturn Ring Occultations
+# Research Starter Lab
 
-This is a PRIMES Math Junior research portal for organizing mission context, mathematical framework, team research modules, visual references, and local Cassini ring-data inspection tools.
+A practical pathway from curiosity to a real student research project.
 
-The site is built as a React/Vite front-end. It does not use a backend and should not include unpublished PRIMES data without permission.
+Research Starter Lab is an independent educational website for high school students. It guides students through choosing a direction, reviewing literature, using AI responsibly, forming questions, building toy models, finding public data, contacting mentors, revising work, and producing a meaningful final output.
 
-## Portal Sections
+## Pages
 
-- Project Overview
-- Mission Background
-- Mathematical Framework
-- Team Members
-- Algorithm Modules
-- Visual Gallery
-- Real Data Viewer
-- Progress & Next Steps
+- Home
+- Start Here
+- Find a Direction
+- Research Workflow
+- AI & Literature
+- Build a Project
+- Outreach
+- Worksheet
+- Case Studies
 
-## Current Features
+The worksheet is interactive, printable, and saved only in the student's browser.
 
-- React + Vite research portal
-- Dark academic dashboard design
-- Panel-based navigation
-- NASA/JPL visual reference gallery
-- Team module layout
-- Prototype Cassini data viewer
-- Local radial-window export prototype
-
-## Run Locally
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+## Production build
 
 ```bash
 npm run build
 ```
 
-## Data and Image Notes
-
-- Public images are used for educational research context.
-- Image credits should remain visible in the website.
-- The data viewer currently uses a small Cassini subset for demonstration.
-- Unpublished PRIMES data should not be added without permission.
-
-## Current Status
-
-Website structure and visual portal are under active development.
-
-Next steps include adding more real data subsets, comparison views, derivative diagnostics, stationary phase visualization, and branch bookkeeping prototypes.
+The site uses React, Vite, React Router, and React Helmet Async. Vercel rewrites all application routes to `index.html` so direct route refreshes work.
