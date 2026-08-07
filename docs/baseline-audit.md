@@ -132,3 +132,32 @@ Additional maintainability observation: `src/index.css` and `src/App.css` both d
 - Printable worksheet behavior through `window.print()` and dedicated print CSS that removes site chrome and action controls.
 - External case-study link behavior: new tab with `target="_blank"` and `rel="noopener noreferrer"`.
 - No current use of `navigator`; direct browser APIs are limited to `document.getElementById`, `window.scrollTo`, `window.setTimeout`, `window.confirm`, `window.print`, and `localStorage`.
+
+## Step 3 Static Rendering Architecture
+
+- `npm run build` first runs the normal Vite client build and then runs `scripts/prerender.mjs`.
+- The prerender script loads `src/entry-server.jsx` through Vite's server module runner, so no separate framework or long-lived server bundle is required.
+- `src/entry-server.jsx` renders the same `App` and authoritative React Router route tree used by the browser. It supplies a `StaticRouter` and renders with `react-dom/server`.
+- `src/config/routes.js` remains the canonical public route list. Its nine sitemap-enabled routes determine which HTML files are generated:
+  - `dist/index.html`
+  - `dist/start-here/index.html`
+  - `dist/find-a-direction/index.html`
+  - `dist/research-workflow/index.html`
+  - `dist/ai-literature/index.html`
+  - `dist/build-a-project/index.html`
+  - `dist/outreach/index.html`
+  - `dist/worksheet/index.html`
+  - `dist/case-studies/index.html`
+- Each generated document contains route-specific metadata and visible React markup before JavaScript executes. The build replaces the generic fallback metadata rather than adding a second title, description, canonical, or robots tag.
+- `src/main.jsx` uses React 19's `hydrateRoot` when prerendered markup exists. The empty development shell continues to use `createRoot`.
+- Worksheet static output always contains the empty public form. Browser storage is not accessed during server rendering or the first hydration render.
+- After hydration, the worksheet loads the existing `research-starter-worksheet` JSON object without changing its key or field shape. Save, clear, confirmation, and print behavior remain client-side.
+- Validation commands:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run check:seo`
+  - `npm run check:prerender`
+- Known limitations:
+  - Static HTML reflects content at build time and requires a new deployment when page content or metadata changes.
+  - The wildcard React NotFound page remains available during client navigation but is not generated as an indexable public route.
+  - This architecture is static generation, not request-time SSR; it does not provide per-request or user-specific HTML.

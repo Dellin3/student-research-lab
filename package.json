@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:client && npm run prerender",
+    "build:client": "vite build",
     "check:seo": "node scripts/check-seo.mjs",
+    "check:prerender": "node scripts/check-prerender.mjs",
     "lint": "eslint .",
+    "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

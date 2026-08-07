@@ -29,6 +29,10 @@ npm run dev
 
 ```bash
 npm run build
+npm run check:seo
+npm run check:prerender
 ```
 
-The site uses React, Vite, React Router, and React Helmet Async. Vercel rewrites all application routes to `index.html` so direct route refreshes work.
+The production build compiles the Vite client and then pre-renders every public route from the central route configuration. Each route receives its own static `index.html` with page content and metadata, then hydrates as the same React application in the browser.
+
+The site uses React, Vite, React Router, and React Helmet Async. Vercel serves the generated route directories directly.

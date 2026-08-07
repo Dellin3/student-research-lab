@@ -49,6 +49,10 @@ const WORKSHEET_FIELDS = [
   ['output', 'Possible final output', 'Paper, poster, notebook, model, dataset, visualization, or tool?'],
 ]
 
+const EMPTY_WORKSHEET = Object.fromEntries(
+  WORKSHEET_FIELDS.map(([key]) => [key, '']),
+)
+
 function RouteSeo({ path }) {
   const route = getRoute(path)
 
@@ -331,21 +335,37 @@ function OutreachPage() {
 }
 
 function WorksheetPage() {
-  const emptyForm = Object.fromEntries(WORKSHEET_FIELDS.map(([key]) => [key, '']))
-  const [form, setForm] = useState(() => {
-    try { return { ...emptyForm, ...JSON.parse(localStorage.getItem('research-starter-worksheet') || '{}') } }
-    catch { return emptyForm }
-  })
+  const [form, setForm] = useState(() => ({ ...EMPTY_WORKSHEET }))
   const [saved, setSaved] = useState(false)
+
+  useEffect(() => {
+    let storedForm
+    try {
+      storedForm = JSON.parse(window.localStorage.getItem('research-starter-worksheet') || 'null')
+    } catch {
+      storedForm = null
+    }
+
+    if (!storedForm) {
+      return undefined
+    }
+
+    const timer = window.setTimeout(() => {
+      setForm({ ...EMPTY_WORKSHEET, ...storedForm })
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [])
+
   const save = () => {
-    localStorage.setItem('research-starter-worksheet', JSON.stringify(form))
+    window.localStorage.setItem('research-starter-worksheet', JSON.stringify(form))
     setSaved(true)
     window.setTimeout(() => setSaved(false), 1800)
   }
   const clear = () => {
     if (window.confirm('Clear every response in this worksheet?')) {
-      setForm(emptyForm)
-      localStorage.removeItem('research-starter-worksheet')
+      setForm({ ...EMPTY_WORKSHEET })
+      window.localStorage.removeItem('research-starter-worksheet')
     }
   }
   return (
