@@ -1,12 +1,5 @@
 {
   "rewrites": [
-    { "source": "/start-here", "destination": "/index.html" },
-    { "source": "/find-a-direction", "destination": "/index.html" },
-    { "source": "/research-workflow", "destination": "/index.html" },
-    { "source": "/ai-literature", "destination": "/index.html" },
-    { "source": "/build-a-project", "destination": "/index.html" },
-    { "source": "/outreach", "destination": "/index.html" },
-    { "source": "/worksheet", "destination": "/index.html" },
-    { "source": "/case-studies", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

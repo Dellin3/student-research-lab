@@ -1,19 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet-async'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import Seo from './components/Seo.jsx'
+import { getRoute, NAVIGATION_ROUTES } from './config/routes.js'
+import NotFoundPage from './pages/NotFoundPage.jsx'
 import './App.css'
-
-const NAV_ITEMS = [
-  ['/', 'Home'],
-  ['/start-here', 'Start Here'],
-  ['/find-a-direction', 'Find a Direction'],
-  ['/research-workflow', 'Research Workflow'],
-  ['/ai-literature', 'AI & Literature'],
-  ['/build-a-project', 'Build a Project'],
-  ['/outreach', 'Outreach'],
-  ['/worksheet', 'Worksheet'],
-  ['/case-studies', 'Case Studies'],
-]
 
 const PATHWAY = [
   'Interest', 'Focused Field', 'Sources', 'Expert Thinking', 'Questions',
@@ -59,12 +49,15 @@ const WORKSHEET_FIELDS = [
   ['output', 'Possible final output', 'Paper, poster, notebook, model, dataset, visualization, or tool?'],
 ]
 
-function PageMeta({ title, description }) {
+function RouteSeo({ path }) {
+  const route = getRoute(path)
+
   return (
-    <Helmet>
-      <title>{title} | Research Starter Lab</title>
-      <meta name="description" content={description} />
-    </Helmet>
+    <Seo
+      title={route.title}
+      description={route.description}
+      pathname={route.path}
+    />
   )
 }
 
@@ -86,9 +79,9 @@ function Header() {
           <i /><i /><i /><span className="sr-only">Toggle navigation</span>
         </button>
         <nav id="primary-navigation" className={open ? 'primary-nav is-open' : 'primary-nav'}>
-          {NAV_ITEMS.map(([to, label]) => (
-            <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={({ isActive }) => isActive ? 'active' : undefined}>
-              {label}
+          {NAVIGATION_ROUTES.map((route) => (
+            <NavLink key={route.path} to={route.path} end={route.path === '/'} onClick={() => setOpen(false)} className={({ isActive }) => isActive ? 'active' : undefined}>
+              {route.navigationLabel}
             </NavLink>
           ))}
         </nav>
@@ -129,7 +122,7 @@ function ArrowSequence({ items, compact = false }) {
 function HomePage() {
   return (
     <>
-      <PageMeta title="Home" description="A practical pathway that helps high school students turn curiosity into a real research project." />
+      <RouteSeo path="/" />
       <section className="home-hero">
         <div className="hero-copy">
           <p className="eyebrow">Independent research, made navigable</p>
@@ -180,7 +173,7 @@ function StartHerePage() {
   ]
   return (
     <>
-      <PageMeta title="Start Here" description="Understand the student research journey and complete a concrete first-day checklist." />
+      <RouteSeo path="/start-here" />
       <PageIntro eyebrow="Orientation" title="Start here" description="A research project is a chain of increasingly precise decisions. You do not need a perfect topic on day one; you need a record of what interests you and a method for narrowing it." />
       <main className="page-content">
         <section><SectionHeading eyebrow="The whole journey" title="From interest to an inspectable result" description="Every stage should leave evidence of your thinking. That record helps you notice progress, explain your work to mentors, and recover when an approach fails." /><ArrowSequence items={PATHWAY} compact /></section>
@@ -200,7 +193,7 @@ function StartHerePage() {
 function FindDirectionPage() {
   return (
     <>
-      <PageMeta title="Find a Direction" description="Narrow an interest into a concrete, researchable problem across many fields." />
+      <RouteSeo path="/find-a-direction" />
       <PageIntro eyebrow="Stage one" title="Find a direction" description="Good research topics are not found fully formed. They are narrowed through reading, comparison, and contact with concrete phenomena." />
       <main className="page-content">
         <section><SectionHeading eyebrow="The narrowing ladder" title="Move from a noun to a question" description="At each step, replace a broad label with something more observable and specific." /><ArrowSequence items={['Interest', 'Broad Field', 'Subfield', 'Concrete Phenomenon', 'Specific Researchable Problem']} /></section>
@@ -224,7 +217,7 @@ function WorkflowPage() {
   const cycle = ['Question', 'Source', 'Model', 'Test', 'Failure', 'Revision', 'New Question']
   return (
     <>
-      <PageMeta title="Research Workflow" description="Learn an iterative research workflow built around tests, failures, revisions, and new questions." />
+      <RouteSeo path="/research-workflow" />
       <PageIntro eyebrow="How research moves" title="Research is iterative" description="A project rarely travels in one direction. Each source, test, and failure can change the question—and that change is progress when you document why it happened." />
       <main className="page-content">
         <section className="cycle-section">
@@ -257,7 +250,7 @@ function AiLiteraturePage() {
   ]
   return (
     <>
-      <PageMeta title="AI & Literature" description="Search, map, verify, and cite research literature while using AI responsibly." />
+      <RouteSeo path="/ai-literature" />
       <PageIntro eyebrow="Sources and tools" title="AI & literature" description="Literature review is not a pile of summaries. It is a map of how experts define a problem, produce evidence, disagree, and identify what remains unknown." />
       <main className="page-content">
         <section><SectionHeading eyebrow="A reliable method" title="Search outward, verify inward" /><ol className="method-list">{method.map(([title, text], index) => <li key={title}><span>{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol></section>
@@ -293,7 +286,7 @@ function BuildProjectPage() {
   ]
   return (
     <>
-      <PageMeta title="Build a Project" description="Formulate a question, build a toy model, analyze public data, validate results, and produce a final deliverable." />
+      <RouteSeo path="/build-a-project" />
       <PageIntro eyebrow="From reading to making" title="Build a project" description="A strong student project is not defined by scale. It is defined by a clear question, transparent assumptions, evidence you can inspect, and revisions you can explain." />
       <main className="page-content">
         <section><SectionHeading eyebrow="Project anatomy" title="Nine parts of an inspectable project" /><div className="build-grid">{blocks.map(([title, text], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>
@@ -311,10 +304,11 @@ function BuildProjectPage() {
 function OutreachPage() {
   return (
     <>
-      <PageMeta title="Outreach" description="Identify suitable mentors, write specific emails, follow up professionally, and use feedback well." />
+      <RouteSeo path="/outreach" />
       <PageIntro eyebrow="Mentorship" title="Outreach" description="A useful mentor is not necessarily the most famous person in a broad field. Look for someone whose recent work closely overlaps your specific question, method, or dataset." />
       <main className="page-content">
         <section className="three-column">
+          <h2 className="sr-only">Preparing for mentor outreach</h2>
           <article><span className="card-number">01</span><h3>Identify a match</h3><p>Read the lab page and at least one recent publication. Confirm that the person still works on the topic you plan to mention.</p></article>
           <article><span className="card-number">02</span><h3>Prepare evidence</h3><p>Have a short question, a source note, and a small attempt to share. Preparation makes focused advice easier.</p></article>
           <article><span className="card-number">03</span><h3>Make a small ask</h3><p>Ask one answerable question or request a brief conversation. Do not ask a stranger to design or supervise your entire project.</p></article>
@@ -356,7 +350,7 @@ function WorksheetPage() {
   }
   return (
     <>
-      <PageMeta title="Worksheet" description="An interactive and printable worksheet for planning and documenting a student research project." />
+      <RouteSeo path="/worksheet" />
       <PageIntro eyebrow="Working document" title="Student research worksheet" description="Use this page as a living research record. Your answers can remain incomplete, change over time, and become more precise as you learn.">
         <div className="worksheet-actions"><button className="button primary" type="button" onClick={save}>{saved ? 'Saved locally' : 'Save progress'}</button><button className="button secondary" type="button" onClick={() => window.print()}>Print worksheet</button><button className="text-button" type="button" onClick={clear}>Clear responses</button></div>
       </PageIntro>
@@ -376,7 +370,7 @@ function WorksheetPage() {
 function CaseStudiesPage() {
   return (
     <>
-      <PageMeta title="Case Studies" description="See how a student interest can develop into an evidence-based research project." />
+      <RouteSeo path="/case-studies" />
       <PageIntro eyebrow="Research in practice" title="Case studies" description="A finished project can make the pathway look inevitable. A useful case study shows the narrower questions, technical choices, revisions, and outputs that connected the beginning to the result." />
       <main className="page-content case-page">
         <article className="case-card">
@@ -396,10 +390,6 @@ function CaseStudiesPage() {
       </main>
     </>
   )
-}
-
-function NotFoundPage() {
-  return <main className="not-found"><p className="eyebrow">404</p><h1>This page is not in the research notebook.</h1><p>Return home or begin with the student pathway.</p><div className="button-row"><Link className="button primary" to="/">Return home</Link><Link className="button secondary" to="/start-here">Start here</Link></div></main>
 }
 
 export default function App() {

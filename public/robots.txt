@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://student-research-lab.vercel.app/sitemap.xml
-Sitemap: https://student-research-lab.vercel.app/sitemap.txt
+Sitemap: https://student-research-lab-theta.vercel.app/sitemap.xml

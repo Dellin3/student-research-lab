@@ -5,6 +5,10 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+document.head
+  .querySelectorAll('[data-seo-fallback="true"]')
+  .forEach((element) => element.remove())
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HelmetProvider>
