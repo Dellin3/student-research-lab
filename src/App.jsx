@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Seo from './components/Seo.jsx'
+import HomePage from './components/home/HomePage.jsx'
 import { getRoute, NAVIGATION_ROUTES } from './config/routes.js'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import './App.css'
@@ -8,19 +9,6 @@ import './App.css'
 const PATHWAY = [
   'Interest', 'Focused Field', 'Sources', 'Expert Thinking', 'Questions',
   'Toy Model', 'Data', 'Mentor Feedback', 'Revision', 'Output',
-]
-
-const HOME_GUIDES = [
-  ['01', 'Choose a research direction', 'Move from a subject you enjoy to one observable phenomenon. A direction is useful when it is narrow enough to name what changes, what causes it, or what remains unexplained.', '/find-a-direction'],
-  ['02', 'Find and verify sources', 'Begin with review articles and textbooks for vocabulary, then trace important claims back to original papers. Record the author, date, method, evidence, and limitations.', '/ai-literature'],
-  ['03', 'Use AI responsibly', 'Use AI to generate search terms, clarify language, and compare ideas—not as a source of facts. Verify every claim and citation against the original publication.', '/ai-literature'],
-  ['04', 'Notice expert thinking', 'Look across several papers for recurring choices: what experts measure, simplify, compare, model, test, and treat as uncertain.', '/ai-literature'],
-  ['05', 'Turn confusion into questions', 'Keep a list of contradictions, unfamiliar concepts, surprising graphs, and unexplained assumptions. A precise gap can become a researchable question.', '/build-a-project'],
-  ['06', 'Begin with a toy model', 'Build the smallest version that preserves the central mechanism. A toy model makes assumptions visible and gives you something concrete to test.', '/build-a-project'],
-  ['07', 'Find public data', 'Search government repositories, university archives, open-data portals, and paper supplements. Check units, collection methods, and missing values.', '/build-a-project'],
-  ['08', 'Contact professors', 'Write after doing enough work to ask a specific question. Show what you have read, what you have tried, and what focused advice would help.', '/outreach'],
-  ['09', 'Learn from feedback', 'No reply or rejection is information, not a verdict. Improve the question, contact a better-matched person, and turn criticism into revision.', '/outreach'],
-  ['10', 'Document an output', 'Create a paper, poster, notebook, model, data story, or tool that records your question, method, evidence, limitations, and next steps.', '/build-a-project'],
 ]
 
 const FIELD_EXAMPLES = [
@@ -67,13 +55,21 @@ function RouteSeo({ path }) {
 
 function Header() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }, [location.pathname])
 
+  useEffect(() => {
+    const updateHeader = () => setScrolled(window.scrollY > 24)
+    updateHeader()
+    window.addEventListener('scroll', updateHeader, { passive: true })
+    return () => window.removeEventListener('scroll', updateHeader)
+  }, [])
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Research Starter Lab home">
           <span className="brand-mark" aria-hidden="true">RSL</span>
@@ -123,49 +119,6 @@ function ArrowSequence({ items, compact = false }) {
   return <ol className={`arrow-sequence${compact ? ' compact' : ''}`}>{items.map((item) => <li key={item}>{item}</li>)}</ol>
 }
 
-function HomePage() {
-  return (
-    <>
-      <RouteSeo path="/" />
-      <section className="home-hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Independent research, made navigable</p>
-          <h1>Research<br />Starter Lab</h1>
-          <p className="hero-subtitle">A practical pathway from curiosity to a real student research project.</p>
-          <p className="hero-description">This site helps high school students move from an area of interest to literature, questions, models, data, mentorship, revision, and a meaningful final output.</p>
-          <div className="button-row">
-            <Link className="button primary" to="/start-here">Start the Pathway</Link>
-            <Link className="button secondary" to="/worksheet">Open the Worksheet</Link>
-            <Link className="text-link" to="/case-studies">View Case Studies <span>→</span></Link>
-          </div>
-        </div>
-        <aside className="hero-note">
-          <p className="note-label">A field note</p>
-          <blockquote>Research does not begin when you already know the answer. It begins when you can describe what you do not understand—and take one careful step toward finding out.</blockquote>
-          <div className="note-rule" /><p>Observe closely. Keep records. Revise often.</p>
-        </aside>
-      </section>
-      <section className="pathway-section">
-        <SectionHeading eyebrow="The pathway" title="Ten stages, revisited as often as needed" description="Use this as a map, not a rigid timeline. Strong projects move backward and forward whenever evidence changes the question." />
-        <ArrowSequence items={PATHWAY} />
-      </section>
-      <section className="guide-section">
-        <SectionHeading eyebrow="Field guide" title="What the work actually involves" description="Each stage produces a small, visible artifact: a source note, a question draft, a model, a graph, an email, or a revision." />
-        <div className="guide-grid">
-          {HOME_GUIDES.map(([number, title, text, to]) => (
-            <article className="guide-card" key={number}><span className="card-number">{number}</span><h3>{title}</h3><p>{text}</p><Link to={to}>Explore this stage <span>→</span></Link></article>
-          ))}
-        </div>
-      </section>
-      <section className="closing-panel">
-        <p className="eyebrow">Start with evidence of thought</p><h2>Your first research result can be one page.</h2>
-        <p>Record an interest, three credible sources, one persistent confusion, and the smallest next action.</p>
-        <Link className="button light" to="/worksheet">Create your first research record</Link>
-      </section>
-    </>
-  )
-}
-
 function StartHerePage() {
   const checklist = [
     ['Choose one area', 'Write down a subject you return to voluntarily—not the subject you think sounds most impressive.'],
@@ -179,7 +132,7 @@ function StartHerePage() {
     <>
       <RouteSeo path="/start-here" />
       <PageIntro eyebrow="Orientation" title="Start here" description="A research project is a chain of increasingly precise decisions. You do not need a perfect topic on day one; you need a record of what interests you and a method for narrowing it." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section><SectionHeading eyebrow="The whole journey" title="From interest to an inspectable result" description="Every stage should leave evidence of your thinking. That record helps you notice progress, explain your work to mentors, and recover when an approach fails." /><ArrowSequence items={PATHWAY} compact /></section>
         <section className="split-section">
           <div><p className="eyebrow">A better expectation</p><h2>Uncertainty is part of the method</h2></div>
@@ -199,7 +152,7 @@ function FindDirectionPage() {
     <>
       <RouteSeo path="/find-a-direction" />
       <PageIntro eyebrow="Stage one" title="Find a direction" description="Good research topics are not found fully formed. They are narrowed through reading, comparison, and contact with concrete phenomena." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section><SectionHeading eyebrow="The narrowing ladder" title="Move from a noun to a question" description="At each step, replace a broad label with something more observable and specific." /><ArrowSequence items={['Interest', 'Broad Field', 'Subfield', 'Concrete Phenomenon', 'Specific Researchable Problem']} /></section>
         <section className="split-section">
           <div><p className="eyebrow">Test your direction</p><h2>A useful problem has boundaries</h2></div>
@@ -223,7 +176,7 @@ function WorkflowPage() {
     <>
       <RouteSeo path="/research-workflow" />
       <PageIntro eyebrow="How research moves" title="Research is iterative" description="A project rarely travels in one direction. Each source, test, and failure can change the question—and that change is progress when you document why it happened." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section className="cycle-section">
           <div className="cycle-copy"><p className="eyebrow">The working loop</p><h2>Return with better information</h2><p>A loop is not repetition if each pass sharpens an assumption, method, measurement, or question.</p></div>
           <ol className="cycle">{cycle.map((item, index) => <li key={item}><span>{index + 1}</span>{item}</li>)}</ol>
@@ -256,7 +209,7 @@ function AiLiteraturePage() {
     <>
       <RouteSeo path="/ai-literature" />
       <PageIntro eyebrow="Sources and tools" title="AI & literature" description="Literature review is not a pile of summaries. It is a map of how experts define a problem, produce evidence, disagree, and identify what remains unknown." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section><SectionHeading eyebrow="A reliable method" title="Search outward, verify inward" /><ol className="method-list">{method.map(([title, text], index) => <li key={title}><span>{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol></section>
         <section className="two-column-cards">
           <article><p className="eyebrow">Primary sources</p><h2>Evidence from the original work</h2><p>Research papers, datasets, technical reports, field observations, interviews, experiments, and source documents present original evidence or analysis.</p></article>
@@ -292,7 +245,7 @@ function BuildProjectPage() {
     <>
       <RouteSeo path="/build-a-project" />
       <PageIntro eyebrow="From reading to making" title="Build a project" description="A strong student project is not defined by scale. It is defined by a clear question, transparent assumptions, evidence you can inspect, and revisions you can explain." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section><SectionHeading eyebrow="Project anatomy" title="Nine parts of an inspectable project" /><div className="build-grid">{blocks.map(([title, text], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>
         <section className="split-section">
           <div><p className="eyebrow">Start smaller</p><h2>Your toy model should feel almost too simple</h2></div>
@@ -310,7 +263,7 @@ function OutreachPage() {
     <>
       <RouteSeo path="/outreach" />
       <PageIntro eyebrow="Mentorship" title="Outreach" description="A useful mentor is not necessarily the most famous person in a broad field. Look for someone whose recent work closely overlaps your specific question, method, or dataset." />
-      <main className="page-content">
+      <main id="main-content" className="page-content">
         <section className="three-column">
           <h2 className="sr-only">Preparing for mentor outreach</h2>
           <article><span className="card-number">01</span><h3>Identify a match</h3><p>Read the lab page and at least one recent publication. Confirm that the person still works on the topic you plan to mention.</p></article>
@@ -374,7 +327,7 @@ function WorksheetPage() {
       <PageIntro eyebrow="Working document" title="Student research worksheet" description="Use this page as a living research record. Your answers can remain incomplete, change over time, and become more precise as you learn.">
         <div className="worksheet-actions"><button className="button primary" type="button" onClick={save}>{saved ? 'Saved locally' : 'Save progress'}</button><button className="button secondary" type="button" onClick={() => window.print()}>Print worksheet</button><button className="text-button" type="button" onClick={clear}>Clear responses</button></div>
       </PageIntro>
-      <main className="worksheet-content">
+      <main id="main-content" className="worksheet-content">
         <div className="privacy-note">Your entries stay in this browser. They are not sent to a server.</div>
         <form className="worksheet-form" onSubmit={(event) => event.preventDefault()}>
           {WORKSHEET_FIELDS.map(([key, label, prompt], index) => (
@@ -392,7 +345,7 @@ function CaseStudiesPage() {
     <>
       <RouteSeo path="/case-studies" />
       <PageIntro eyebrow="Research in practice" title="Case studies" description="A finished project can make the pathway look inevitable. A useful case study shows the narrower questions, technical choices, revisions, and outputs that connected the beginning to the result." />
-      <main className="page-content case-page">
+      <main id="main-content" className="page-content case-page">
         <article className="case-card">
           <div className="case-index"><span>Case study</span><strong>01</strong></div>
           <div className="case-copy">
@@ -414,17 +367,22 @@ function CaseStudiesPage() {
 
 export default function App() {
   return (
-    <div className="site-shell"><Header /><Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/start-here" element={<StartHerePage />} />
-      <Route path="/find-a-direction" element={<FindDirectionPage />} />
-      <Route path="/research-workflow" element={<WorkflowPage />} />
-      <Route path="/ai-literature" element={<AiLiteraturePage />} />
-      <Route path="/build-a-project" element={<BuildProjectPage />} />
-      <Route path="/outreach" element={<OutreachPage />} />
-      <Route path="/worksheet" element={<WorksheetPage />} />
-      <Route path="/case-studies" element={<CaseStudiesPage />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes><Footer /></div>
+    <div className="site-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/start-here" element={<StartHerePage />} />
+        <Route path="/find-a-direction" element={<FindDirectionPage />} />
+        <Route path="/research-workflow" element={<WorkflowPage />} />
+        <Route path="/ai-literature" element={<AiLiteraturePage />} />
+        <Route path="/build-a-project" element={<BuildProjectPage />} />
+        <Route path="/outreach" element={<OutreachPage />} />
+        <Route path="/worksheet" element={<WorksheetPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+      <Footer />
+    </div>
   )
 }

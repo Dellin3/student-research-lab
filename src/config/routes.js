@@ -1,11 +1,9 @@
-import { SITE } from './site.js'
-
 export const PUBLIC_ROUTES = [
   {
     path: '/',
-    title: SITE.defaultTitle,
+    title: 'How to Start Research in High School | Research Starter Lab',
     description:
-      'A practical pathway that helps high school students turn curiosity into a real research project.',
+      'A free step-by-step pathway for high school students to find a research topic, read scientific literature, form a testable question, use public data, contact mentors, revise their work, and create a real research output.',
     navigationLabel: 'Home',
     sitemap: true,
   },

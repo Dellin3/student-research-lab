@@ -25,6 +25,33 @@
   --radius-lg: 6px;
   --radius-md: 4px;
   --shadow: 0 1px 2px rgba(28, 40, 58, 0.05);
+  --paper-base: #f7f3e9;
+  --paper-raised: #fffdf7;
+  --paper-shadow: rgba(18, 32, 49, 0.13);
+  --paper-edge: rgba(96, 79, 50, 0.2);
+  --ink: #182a43;
+  --ink-soft: #596575;
+  --sage-raised: #dfe7dd;
+  --gold-raised: #b08a4b;
+  --navy-surface: #14263e;
+  --navy-raised: #1b314d;
+  --shadow-paper:
+    0 1px 1px rgba(29, 42, 58, 0.08),
+    0 10px 28px rgba(29, 42, 58, 0.09),
+    0 30px 68px rgba(29, 42, 58, 0.08);
+  --shadow-floating:
+    0 2px 3px rgba(16, 30, 46, 0.1),
+    0 18px 38px rgba(16, 30, 46, 0.13),
+    0 42px 88px rgba(16, 30, 46, 0.1);
+  --shadow-navy:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 16px 35px rgba(3, 12, 24, 0.22),
+    0 36px 70px rgba(3, 12, 24, 0.15);
+  --motion-fast: 220ms;
+  --motion-medium: 420ms;
+  --motion-slow: 780ms;
+  --motion-narrative: 1800ms;
+  --ease-studio: cubic-bezier(0.22, 0.68, 0.2, 1);
   --sans:
     'Source Sans 3', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
@@ -54,7 +81,24 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 58% 34% at 82% 10%, rgba(139, 115, 73, 0.055), transparent 70%),
+    radial-gradient(ellipse 55% 32% at 8% 32%, rgba(95, 115, 104, 0.045), transparent 72%),
+    linear-gradient(180deg, var(--paper-base), var(--bg) 38%, #f4f0e7 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(28, 40, 58, 0.025) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(139, 115, 73, 0.014) 0 1px, transparent 1px 7px);
+  -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 92%);
+  mask-image: radial-gradient(ellipse at center, black, transparent 92%);
 }
 
 a {

@@ -70,19 +70,20 @@ for (const route of routes) {
   }
 
   const html = readFileSync(file, 'utf8')
+  const headHtml = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || ''
   const titleMatches = [
-    ...html.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title>/gi),
+    ...headHtml.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title>/gi),
   ].map((match) => decodeHtml(match[1].trim()))
-  const descriptionTags = tags(html, 'meta').filter(
+  const descriptionTags = tags(headHtml, 'meta').filter(
     (tag) => attribute(tag, 'name') === 'description',
   )
-  const robotsTags = tags(html, 'meta').filter(
+  const robotsTags = tags(headHtml, 'meta').filter(
     (tag) => attribute(tag, 'name') === 'robots',
   )
-  const canonicalTags = tags(html, 'link').filter(
+  const canonicalTags = tags(headHtml, 'link').filter(
     (tag) => attribute(tag, 'rel') === 'canonical',
   )
-  const openGraphUrls = tags(html, 'meta').filter(
+  const openGraphUrls = tags(headHtml, 'meta').filter(
     (tag) => attribute(tag, 'property') === 'og:url',
   )
   const h1Matches = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)]
