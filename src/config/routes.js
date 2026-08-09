@@ -32,6 +32,15 @@ export const PUBLIC_ROUTES = [
     sitemap: true,
   },
   {
+    path: '/research-question-builder',
+    title:
+      'Free Research Question Builder for High School Students | Research Starter Lab',
+    description:
+      'Use a free interactive research question builder to narrow a broad interest, identify variables and evidence, check project scope, and create a focused high school research question.',
+    navigationLabel: 'Question Builder',
+    sitemap: true,
+  },
+  {
     path: '/ai-literature',
     title: 'AI & Literature | Research Starter Lab',
     description:

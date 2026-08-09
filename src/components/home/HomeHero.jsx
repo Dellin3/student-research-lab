@@ -13,7 +13,7 @@ export default function HomeHero() {
           question, and build the smallest project that can teach you something.
         </p>
         <div className="home-hero-actions">
-          <Link className="button primary" to="/worksheet">
+          <Link className="button primary" to="/research-question-builder">
             Build a Research Question
           </Link>
           <Link className="button secondary" to="/start-here">

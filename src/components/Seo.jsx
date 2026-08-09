@@ -8,6 +8,7 @@ export default function Seo({
   image,
   type = 'website',
   noindex = false,
+  jsonLd = [],
 }) {
   const canonicalUrl = absoluteUrl(pathname)
   const imageUrl = image
@@ -59,6 +60,15 @@ export default function Seo({
       {pathname === '/' && (
         <script type="application/ld+json">{JSON.stringify(webSiteData)}</script>
       )}
+      {jsonLd.map((entry, index) => (
+        <script
+          // Additional page-specific schema (BreadcrumbList, WebApplication, etc.)
+          key={`jsonld-${index}`}
+          type="application/ld+json"
+        >
+          {JSON.stringify(entry)}
+        </script>
+      ))}
     </Helmet>
   )
 }

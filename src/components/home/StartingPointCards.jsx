@@ -14,7 +14,7 @@ const startingPoints = [
     number: '02',
     title: 'I have a topic, but no testable question.',
     text: 'Move from “I want to study this” toward something specific enough to measure, compare, model, or falsify.',
-    link: '/research-workflow',
+    link: '/research-question-builder',
     action: 'Build the question',
     motif: 'question',
   },

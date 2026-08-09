@@ -4,6 +4,7 @@ import Seo from './components/Seo.jsx'
 import HomePage from './components/home/HomePage.jsx'
 import { getRoute, NAVIGATION_ROUTES } from './config/routes.js'
 import NotFoundPage from './pages/NotFoundPage.jsx'
+import ResearchQuestionBuilderPage from './pages/ResearchQuestionBuilderPage.jsx'
 import './App.css'
 
 const PATHWAY = [
@@ -141,7 +142,7 @@ function StartHerePage() {
         <section><SectionHeading eyebrow="Day one" title="A concrete first-day checklist" /><ol className="checklist">
           {checklist.map(([title, text], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
         </ol></section>
-        <aside className="callout"><div><p className="eyebrow">Before you stop</p><h2>Make tomorrow obvious.</h2></div><p>End each session by writing one action that begins with a verb and can be completed in under an hour.</p><Link className="button primary" to="/worksheet">Record it in the worksheet</Link></aside>
+        <aside className="callout"><div><p className="eyebrow">Before you stop</p><h2>Make tomorrow obvious.</h2></div><p>End each session by writing one action that begins with a verb and can be completed in under an hour. If you already have a topic, <Link to="/research-question-builder">test whether your question is specific enough</Link>.</p><Link className="button primary" to="/worksheet">Record it in the worksheet</Link></aside>
       </main>
     </>
   )
@@ -163,7 +164,7 @@ function FindDirectionPage() {
         </section>
         <section className="two-column-cards">
           <article><p className="eyebrow">Too broad</p><h2>“I want to study climate change.”</h2><p>This names an important area but not a system, scale, variable, mechanism, or feasible source of evidence.</p></article>
-          <article className="accent-card"><p className="eyebrow">Researchable direction</p><h2>“How does tree cover relate to summer surface temperature across neighborhoods in my city?”</h2><p>This version suggests variables, public geospatial data, a scale of analysis, limitations, and possible mentors.</p></article>
+          <article className="accent-card"><p className="eyebrow">Researchable direction</p><h2>“How does tree cover relate to summer surface temperature across neighborhoods in my city?”</h2><p>This version suggests variables, public geospatial data, a scale of analysis, limitations, and possible mentors. Next, <Link to="/research-question-builder">turn your topic into a research question</Link>.</p></article>
         </section>
       </main>
     </>
@@ -190,7 +191,7 @@ function WorkflowPage() {
           <div><p className="eyebrow">Research log</p><h2>Record decisions, not only results</h2></div>
           <div className="prose"><p>For every substantial change, record the date, what you expected, what happened, and what you changed next.</p><ul><li>The source or observation that prompted the change</li><li>The assumption, method, or question you revised</li><li>The evidence that would support or challenge the new direction</li><li>The smallest next test</li></ul></div>
         </section>
-        <aside className="callout"><div><p className="eyebrow">Useful habit</p><h2>Version your thinking.</h2></div><p>Keep question v1, v2, and v3. The differences show how evidence improved your project.</p><Link className="button primary" to="/worksheet">Update your research record</Link></aside>
+        <aside className="callout"><div><p className="eyebrow">Useful habit</p><h2>Version your thinking.</h2></div><p>Keep question v1, v2, and v3. The differences show how evidence improved your project. You can also <Link to="/research-question-builder">build a testable research question</Link> before recording the next version.</p><Link className="button primary" to="/worksheet">Update your research record</Link></aside>
       </main>
     </>
   )
@@ -375,6 +376,7 @@ export default function App() {
         <Route path="/start-here" element={<StartHerePage />} />
         <Route path="/find-a-direction" element={<FindDirectionPage />} />
         <Route path="/research-workflow" element={<WorkflowPage />} />
+        <Route path="/research-question-builder" element={<ResearchQuestionBuilderPage />} />
         <Route path="/ai-literature" element={<AiLiteraturePage />} />
         <Route path="/build-a-project" element={<BuildProjectPage />} />
         <Route path="/outreach" element={<OutreachPage />} />

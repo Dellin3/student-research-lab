@@ -9,6 +9,7 @@
     "build:client": "vite build",
     "check:seo": "node scripts/check-seo.mjs",
     "check:prerender": "node scripts/check-prerender.mjs",
+    "check:question-builder": "node scripts/check-question-builder.mjs",
     "lint": "eslint .",
     "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview"
