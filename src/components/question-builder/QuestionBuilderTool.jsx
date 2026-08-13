@@ -7,15 +7,20 @@ import {
   FIELD_PRESETS,
   GENERIC_EVIDENCE_SOURCES,
   GENERIC_METHODS,
+  RELATION_TYPES,
   STAGES,
   STORAGE_KEY,
   TIME_OPTIONS,
   getFieldPreset,
 } from '../../data/questionBuilderPresets.js'
 import { buildResearchRecord, generateQuestions } from '../../utils/questionGenerator.js'
+import {
+  builderImportNeedsConfirmation,
+  importBuilderDraft,
+  readResearchRecord,
+  saveResearchRecord,
+} from '../../utils/researchRecord.js'
 import LogicDiagram from './LogicDiagram.jsx'
-
-const WORKSHEET_KEY = 'research-starter-worksheet'
 
 function DiagnosticBar({ score }) {
   const filled = Math.max(0, Math.min(2, score))
@@ -36,33 +41,16 @@ async function copyText(text) {
   return false
 }
 
-function worksheetHasContent(stored) {
-  if (!stored || typeof stored !== 'object') return false
-  return Object.values(stored).some((value) => String(value || '').trim().length > 0)
-}
-
-function mapBuilderToWorksheet(state, primaryQuestion) {
-  const questions = [
-    primaryQuestion,
-    state.factor && state.outcome
-      ? `Factor/outcome draft: ${state.factor} → ${state.outcome}`
-      : '',
+function humanReviewItems(field) {
+  const evidenceNoun = field === 'Mathematics' ? 'proof route or computation' : 'data or observations'
+  return [
+    ['Feasibility', 'Can you complete the smallest test with your actual time, tools, and access?'],
+    ['Prior work', `What sources show how ${field || 'this discipline'} already frames the problem?`],
+    ['Ethics / safety', 'Could the work affect people, animals, privacy, equipment, or the environment?'],
+    ['Relevance', 'Who would learn something useful from the result, and why?'],
+    ['Challengeability', `What result in the ${evidenceNoun} would force you to revise the question?`],
+    ['Clarity', 'Can another student identify the action, target, and bounded setting?'],
   ]
-    .filter(Boolean)
-    .join('\n')
-
-  return {
-    interest: state.broadInterest || '',
-    field: state.field || '',
-    phenomenon: state.phenomenon || '',
-    questions,
-    data: state.evidenceSource || '',
-    toyModel: state.smallestVersion || '',
-    limitations: [state.mainConstraint, state.timeAvailable && `Time available: ${state.timeAvailable}`]
-      .filter(Boolean)
-      .join('\n'),
-    nextAction: 'Refine the research question and identify the first inspectable test.',
-  }
 }
 
 export default function QuestionBuilderTool() {
@@ -193,54 +181,41 @@ export default function QuestionBuilderTool() {
     }
   }
 
-  function openWorksheetFlow() {
-    let stored
-    try {
-      stored = JSON.parse(window.localStorage.getItem(WORKSHEET_KEY) || 'null')
-    } catch {
-      stored = null
-    }
-    if (worksheetHasContent(stored)) {
+  function openResearchRecordFlow() {
+    const stored = readResearchRecord(window.localStorage)
+    const incoming = generated.primary?.incomplete ? '' : generated.primary?.text || ''
+    if (builderImportNeedsConfirmation(stored, state, incoming)) {
       setWorksheetChoice('choose')
       return
     }
-    importBuilderDraft(false)
+    writeBuilderDraft('keep')
   }
 
-  function importBuilderDraft(replace) {
-    const mapped = mapBuilderToWorksheet(state, generated.primary?.incomplete ? '' : generated.primary?.text)
-    let next = { ...mapped }
-    if (!replace) {
-      try {
-        const stored = JSON.parse(window.localStorage.getItem(WORKSHEET_KEY) || 'null') || {}
-        next = { ...stored }
-        for (const [key, value] of Object.entries(mapped)) {
-          if (!String(stored[key] || '').trim() && value) next[key] = value
-        }
-      } catch {
-        next = mapped
-      }
-    }
+  function writeBuilderDraft(mode) {
     try {
-      window.localStorage.setItem(WORKSHEET_KEY, JSON.stringify(next))
-      setCopyNote(replace ? 'Builder draft imported into worksheet' : 'Empty worksheet fields filled from builder')
+      const stored = readResearchRecord(window.localStorage)
+      const question = generated.primary?.incomplete ? '' : generated.primary?.text || ''
+      const next = importBuilderDraft(stored, state, question, mode)
+      saveResearchRecord(next, window.localStorage)
+      setCopyNote(mode === 'replace' ? 'Builder draft replaced the current record question' : 'Builder draft added to Research Record')
     } catch {
-      setCopyNote('Could not write worksheet draft')
+      setCopyNote('Could not update Research Record')
     }
     setWorksheetChoice(null)
   }
 
   const evidenceSuggestions = preset?.evidenceSources || GENERIC_EVIDENCE_SOURCES
   const methodSuggestions = preset?.methods || GENERIC_METHODS
+  const isEmptyDraft = generated.statusLabel === 'START HERE'
   const liveRegionText = generated.primary && !generated.primary.incomplete
-    ? `${generated.statusLabel}: ${generated.primary.text}`
+    ? generated.primary.text
     : ''
 
   return (
     <div className="qb-tool">
       <div className="qb-tool-toolbar">
-        <div className="qb-field-presets" role="group" aria-label="Optional field presets">
-          <span className="qb-toolbar-label">Field preset</span>
+        <div className="qb-field-presets" role="group" aria-label="Optional discipline lenses">
+          <span className="qb-toolbar-label">Discipline Lens</span>
           <div className="qb-chip-row">
             <button
               type="button"
@@ -263,7 +238,9 @@ export default function QuestionBuilderTool() {
             ))}
           </div>
           <p className="qb-helper">
-            Presets change examples and suggestions only. They do not write your project for you.
+            A discipline lens changes vocabulary, examples, and useful structures—not your saved
+            words. Loading an example chooses its natural lens; changing the lens later never
+            overwrites your draft.
           </p>
         </div>
 
@@ -340,7 +317,7 @@ export default function QuestionBuilderTool() {
                 Do not try to sound academic yet. Start with the thing you genuinely want to understand.
               </p>
               <div className="qb-suggestions" aria-label="Interest examples">
-                {(preset?.interestExamples || ["Saturn's rings", 'graph theory', 'neural networks', 'antibiotic resistance', 'urban heat', 'voting behavior']).map((item) => (
+                {(preset?.interestExamples || ['urban heat', 'graph theory', 'neural networks', 'antibiotic resistance', 'voting behavior', "Saturn's rings"]).map((item) => (
                   <button key={item} type="button" className="qb-suggest" onClick={() => updateField('broadInterest', item)}>
                     {item}
                   </button>
@@ -386,6 +363,18 @@ export default function QuestionBuilderTool() {
           {stage.id === 'relationship' && (
             <fieldset className="qb-fieldset">
               <legend>Name the relationship you want to study</legend>
+              <label className="qb-label" htmlFor={`${baseId}-relation`}>Relationship structure</label>
+              <select
+                id={`${baseId}-relation`}
+                className="qb-select"
+                value={state.relationType}
+                onChange={(event) => updateField('relationType', event.target.value)}
+              >
+                <option value="">Choose a structure</option>
+                {RELATION_TYPES.map((item) => (
+                  <option key={item.value} value={item.value}>{item.label}</option>
+                ))}
+              </select>
               <div className="qb-grid-2">
                 <div>
                   <label className="qb-label" htmlFor={`${baseId}-factor`}>
@@ -459,7 +448,7 @@ export default function QuestionBuilderTool() {
                 onChange={(event) => updateField('evidenceSource', event.target.value)}
                 autoComplete="off"
               />
-              <div className="qb-suggestions" aria-label="Evidence source suggestions">
+              <div className="qb-suggestions" aria-label="Suggested sources">
                 {evidenceSuggestions.map((item) => (
                   <button key={item} type="button" className="qb-suggest" onClick={() => updateField('evidenceSource', item)}>
                     {item}
@@ -548,7 +537,7 @@ export default function QuestionBuilderTool() {
 
           {generated.diagnostics.warnings.length > 0 && (
             <div className="qb-warnings" role="status">
-              <p className="qb-warnings-title">Scope check</p>
+              <p className="qb-warnings-title">Draft checks</p>
               <ul>
                 {generated.diagnostics.warnings.map((warning) => (
                   <li key={warning}>{warning}</li>
@@ -560,21 +549,21 @@ export default function QuestionBuilderTool() {
         </div>
 
         <div className="qb-nav-actions">
-          <button
-            type="button"
-            className="button secondary"
-            disabled={stageIndex === 0}
-            onClick={() => setStageIndex((value) => Math.max(0, value - 1))}
-          >
-            Back
-          </button>
+          {stageIndex > 0 && (
+            <button
+              type="button"
+              className="button secondary"
+              onClick={() => setStageIndex((value) => Math.max(0, value - 1))}
+            >
+              Back
+            </button>
+          )}
           <button
             type="button"
             className="button primary"
-            disabled={stageIndex === STAGES.length - 1}
             onClick={() => setStageIndex((value) => Math.min(STAGES.length - 1, value + 1))}
           >
-            Next
+            {stageIndex === STAGES.length - 1 ? 'Review draft' : 'Next'}
           </button>
         </div>
         </div>
@@ -588,50 +577,54 @@ export default function QuestionBuilderTool() {
               aria-live="polite"
               aria-atomic="true"
             >
-              {liveRegionText || (generated.primary?.text || 'Fill the stages to form a draft question. Empty fields stay blank rather than inventing wording.')}
+              {isEmptyDraft
+                ? 'Your question will take shape here. Start with an interest; it does not need to sound academic yet.'
+                : liveRegionText || generated.primary?.text}
             </p>
-            <p className="qb-question-type">{generated.questionType}</p>
+            {!isEmptyDraft && <p className="qb-question-type">{generated.questionType}</p>}
 
-            {generated.diagnostics.missingPieces.length > 0 && (
-              <div className="qb-missing">
-                <p className="qb-panel-label">Needs work</p>
+            <div className="qb-next-box">
+              <p className="qb-panel-label">Next</p>
+              <p>{isEmptyDraft
+                ? 'Name the subject, pattern, or problem you keep returning to.'
+                : generated.nextImprovement}</p>
+            </div>
+
+            {!isEmptyDraft && generated.diagnostics.missingPieces.length > 0 && (
+              <details className="qb-missing">
+                <summary>Visible structure still to define</summary>
                 <ul>
                   {generated.diagnostics.missingPieces.slice(0, 3).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-              </div>
+              </details>
             )}
 
-            <div className="qb-next-box">
-              <p className="qb-panel-label">Next</p>
-              <p>{generated.nextImprovement}</p>
-            </div>
-
-            {generated.candidates.length > 1 && (
-              <div className="qb-candidates">
-                <p className="qb-panel-label">Candidate structures</p>
+            {!isEmptyDraft && generated.candidates.length > 1 && (
+              <details className="qb-candidates">
+                <summary>Show up to two alternative structures</summary>
                 <ol>
-                  {generated.candidates.map((item) => (
+                  {generated.candidates.slice(1, 3).map((item) => (
                     <li key={`${item.id}-${item.text}`}>
                       <span>{item.type}</span>
                       <p>{item.text}</p>
                     </li>
                   ))}
                 </ol>
-              </div>
+              </details>
             )}
 
             <LogicDiagram state={state} />
 
-            <section className="qb-diagnostic" aria-labelledby={`${baseId}-diagnostic-title`}>
+            {!isEmptyDraft && <section className="qb-diagnostic" aria-labelledby={`${baseId}-diagnostic-title`}>
               <h3 id={`${baseId}-diagnostic-title`}>First-draft diagnostic</h3>
               <p className="qb-diagnostic-note">
                 These indicators explain the draft from your visible inputs. They do not certify research quality.
               </p>
               <p className="qb-overall">Overall: {generated.diagnostics.overallStatus}</p>
               <ul className="qb-diagnostic-list">
-                {generated.diagnostics.dimensions.map((dimension) => {
+                {generated.diagnostics.dimensions.slice(0, Math.min(6, stageIndex + 2)).map((dimension) => {
                   const open = expandedDiagnostic === dimension.id
                   return (
                     <li key={dimension.id}>
@@ -655,25 +648,39 @@ export default function QuestionBuilderTool() {
                   )
                 })}
               </ul>
-            </section>
+            </section>}
+
+            {!isEmptyDraft && <section className="qb-human-review" aria-labelledby={`${baseId}-human-review`}>
+              <p className="qb-label-tag">HUMAN REVIEW</p>
+              <h3 id={`${baseId}-human-review`}>Checks this builder cannot decide</h3>
+              <p>Discuss these with a teacher, mentor, librarian, or knowledgeable peer.</p>
+              <dl>
+                {humanReviewItems(state.field).map(([label, prompt]) => (
+                  <div key={label}>
+                    <dt>{label}</dt>
+                    <dd>{prompt}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>}
 
             <div className="qb-preview-actions">
               <button type="button" className="button secondary" onClick={handleCopyQuestion}>Copy Question</button>
               <button type="button" className="button secondary" onClick={handleCopyRecord}>Copy Research Record</button>
-              <button type="button" className="button primary" onClick={openWorksheetFlow}>Open Worksheet</button>
-              <Link className="qb-text-link" to="/worksheet">Go to worksheet page</Link>
+              <button type="button" className="button primary" onClick={openResearchRecordFlow}>Add to Research Record</button>
+              <Link className="qb-text-link" to="/worksheet">Open current record page</Link>
             </div>
 
             {worksheetChoice === 'choose' && (
-              <div className="qb-worksheet-choice" role="region" aria-label="Worksheet import choice">
-                <p>Your worksheet already has content. Choose how to proceed:</p>
-                <button type="button" className="button secondary" onClick={() => setWorksheetChoice(null)}>
-                  Keep existing worksheet
+              <div className="qb-worksheet-choice" role="region" aria-label="Research Record question choice">
+                <p>Your Research Record already has a different current question. Choose explicitly:</p>
+                <button type="button" className="button secondary" onClick={() => writeBuilderDraft('keep')}>
+                  Keep existing
                 </button>
-                <button type="button" className="button primary" onClick={() => importBuilderDraft(true)}>
-                  Import builder draft
+                <button type="button" className="button primary" onClick={() => writeBuilderDraft('replace')}>
+                  Replace with builder draft
                 </button>
-                <Link className="button ghost" to="/worksheet">Open worksheet without changing it</Link>
+                <button type="button" className="button ghost" onClick={() => setWorksheetChoice(null)}>Cancel</button>
               </div>
             )}
 

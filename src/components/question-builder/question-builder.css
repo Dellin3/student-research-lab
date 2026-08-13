@@ -455,6 +455,14 @@
   margin: 0 0 0.65rem;
 }
 
+.qb-candidates summary {
+  cursor: pointer;
+  color: var(--qb-ink);
+  font-weight: 600;
+  min-height: 44px;
+  padding: 0.6rem 0;
+}
+
 .qb-logic {
   margin: 1rem 0;
   padding-top: 0.85rem;
@@ -485,24 +493,24 @@
   transition: fill 320ms ease;
 }
 
-.qb-logic-node.is-active {
+.qb-logic-node.is-defined {
   color: var(--qb-active);
 }
 
-.qb-logic-node.is-active rect {
+.qb-logic-node.is-defined rect {
   fill: rgba(28, 43, 74, 0.08);
 }
 
-.qb-logic-node.is-active text,
+.qb-logic-node.is-defined text,
 .qb-logic-question.is-resolved text {
   fill: var(--qb-ink);
 }
 
-.qb-logic-node.is-incomplete {
+.qb-logic-node.is-partial {
   color: var(--qb-warn);
 }
 
-.qb-logic-node.is-incomplete rect {
+.qb-logic-node.is-partial rect {
   fill: rgba(138, 75, 43, 0.08);
   stroke-dasharray: 4 3;
 }
@@ -550,12 +558,12 @@
   background: rgba(255, 255, 255, 0.55);
 }
 
-.qb-swatch.is-active {
+.qb-swatch.is-defined {
   background: rgba(28, 43, 74, 0.18);
   border-color: var(--qb-active);
 }
 
-.qb-swatch.is-incomplete {
+.qb-swatch.is-partial {
   background: rgba(138, 75, 43, 0.12);
   border-color: var(--qb-warn);
   border-style: dashed;
@@ -648,6 +656,40 @@
   margin: 0.25rem 0;
 }
 
+.qb-human-review {
+  border-top: 1px solid var(--qb-line);
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+}
+
+.qb-human-review h3 {
+  margin: 0.35rem 0;
+  font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+}
+
+.qb-human-review > p:not(.qb-label-tag),
+.qb-human-review dd {
+  color: var(--qb-muted);
+  font-size: 0.88rem;
+}
+
+.qb-human-review dl {
+  margin: 0.75rem 0 0;
+}
+
+.qb-human-review dl div {
+  border-top: 1px solid rgba(28, 43, 74, 0.08);
+  padding: 0.55rem 0;
+}
+
+.qb-human-review dt {
+  font-weight: 700;
+}
+
+.qb-human-review dd {
+  margin: 0.15rem 0 0;
+}
+
 .qb-preview-actions {
   display: flex;
   flex-direction: column;
@@ -734,8 +776,6 @@
   .qb-preview-sticky {
     position: sticky;
     top: 5.5rem;
-    max-height: calc(100vh - 6.5rem);
-    overflow: auto;
   }
 }
 

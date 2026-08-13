@@ -28,4 +28,9 @@ function previewStaticRoutes() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), previewStaticRoutes()],
+  server: {
+    watch: {
+      ignored: ['**/artifacts/**'],
+    },
+  },
 })

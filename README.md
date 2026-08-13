@@ -8,15 +8,17 @@ Research Starter Lab is an independent educational website for high school stude
 
 - Home
 - Start Here
+- Learn hub
+- Tools hub
 - Find a Direction
 - Research Workflow
 - AI & Literature
 - Build a Project
 - Outreach
-- Worksheet
+- Research Record (served at `/worksheet`)
 - Case Studies
 
-The worksheet is interactive, printable, and saved only in the student's browser.
+The Research Record is interactive, printable, and saved only in the student's browser. The central route configuration defines 12 crawlable public routes, including the Learn and Tools hubs, and supplies the prerender and metadata pipeline.
 
 ## Development
 

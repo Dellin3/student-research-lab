@@ -2,6 +2,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/start-here", "destination": "/start-here/index.html" },
+    { "source": "/learn", "destination": "/learn/index.html" },
+    { "source": "/tools", "destination": "/tools/index.html" },
     { "source": "/find-a-direction", "destination": "/find-a-direction/index.html" },
     { "source": "/research-workflow", "destination": "/research-workflow/index.html" },
     { "source": "/research-question-builder", "destination": "/research-question-builder/index.html" },

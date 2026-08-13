@@ -1,212 +1,140 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import useInViewOnce from './useInViewOnce.js'
 
 const stages = [
   {
     title: 'Interest',
-    description: 'Notice the subject, pattern, or problem you return to without being assigned.',
-    output: 'An honest interest statement',
+    happens: 'Notice a subject, pattern, or problem that keeps pulling you back.',
+    produced: 'A plain-language interest statement',
+    mistake: 'Choosing a topic only because it sounds impressive.',
     link: '/find-a-direction',
   },
   {
-    title: 'Focused Field',
-    description: 'Narrow a broad subject to a field, subfield, and concrete phenomenon.',
-    output: 'A bounded direction',
+    title: 'Direction',
+    happens: 'Narrow the interest to a phenomenon, system, population, or relationship.',
+    produced: 'A bounded direction worth reading about',
+    mistake: 'Treating a whole discipline as a research topic.',
     link: '/find-a-direction',
   },
   {
-    title: 'Sources',
-    description: 'Learn the vocabulary and trace important claims back to credible original work.',
-    output: 'A small source map',
+    title: 'Literature',
+    happens: 'Learn vocabulary, trace claims to original sources, and record disagreements.',
+    produced: 'A small source map with unresolved ideas',
+    mistake: 'Collecting links without noting what each source contributes.',
     link: '/ai-literature',
   },
   {
-    title: 'Expert Thinking',
-    description: 'Look for the methods, assumptions, comparisons, and limitations experts repeat.',
-    output: 'A list of field patterns',
-    link: '/ai-literature',
+    title: 'Question',
+    happens: 'Turn a durable uncertainty into something you can compare, measure, compute, or prove.',
+    produced: 'Several specific question drafts',
+    mistake: 'Writing a question whose answer is already assumed.',
+    link: '/research-question-builder',
   },
   {
-    title: 'Questions',
-    description: 'Turn persistent confusion into something specific enough to test or challenge.',
-    output: 'Several question drafts',
-    link: '/research-workflow',
-  },
-  {
-    title: 'Toy Model',
-    description: 'Build the smallest version that preserves the mechanism you want to understand.',
-    output: 'A first inspectable attempt',
+    title: 'Smallest Test',
+    happens: 'Build the least complicated attempt that preserves the idea you need to inspect.',
+    produced: 'A toy model, proof attempt, protocol, or analysis',
+    mistake: 'Building the full project before checking the central assumption.',
     link: '/build-a-project',
   },
   {
-    title: 'Data',
-    description: 'Find evidence you can inspect, document, compare, and use responsibly.',
-    output: 'A documented evidence plan',
+    title: 'Evidence',
+    happens: 'Document what happened, including null results, errors, and limits.',
+    produced: 'An inspectable result and evidence notes',
+    mistake: 'Keeping only observations that support the first idea.',
     link: '/build-a-project',
-  },
-  {
-    title: 'Mentor Feedback',
-    description: 'Ask a well-matched person a focused question grounded in work you have already done.',
-    output: 'Specific outside critique',
-    link: '/outreach',
   },
   {
     title: 'Revision',
-    description: 'Change the question, model, or method in response to what the evidence exposed.',
-    output: 'A dated decision record',
+    happens: 'Use the evidence to change the question, method, or smallest test.',
+    produced: 'A dated decision and a better next version',
+    mistake: 'Calling every change a failure instead of recording what it taught.',
     link: '/research-workflow',
   },
   {
     title: 'Output',
-    description: 'Make your question, method, evidence, limitations, and next steps visible to others.',
-    output: 'A paper, poster, notebook, model, or tool',
-    link: '/build-a-project',
+    happens: 'Make the question, method, evidence, limitations, and next steps visible.',
+    produced: 'A paper, poster, notebook, model, dataset, or tool',
+    mistake: 'Presenting the final answer without the reasoning trail.',
+    link: '/worksheet',
   },
 ]
 
-const stagePoints = [
-  [220, 90],
-  [780, 235],
-  [220, 380],
-  [780, 525],
-  [220, 670],
-  [780, 815],
-  [220, 960],
-  [780, 1105],
-  [220, 1250],
-  [780, 1435],
-]
+const recommendedIndexes = { direction: 1, question: 3, test: 4 }
 
-function StageSymbol({ index }) {
-  const type = index % 5
-  return (
-    <span className="roadmap-symbol" aria-hidden="true">
-      <svg viewBox="0 0 46 46">
-        {type === 0 && <><circle cx="23" cy="23" r="12" /><path d="M23 5v6M23 35v6M5 23h6M35 23h6" /></>}
-        {type === 1 && <><path d="M8 12h30M12 22h22M16 32h14" /><circle cx="38" cy="12" r="3" /></>}
-        {type === 2 && <><rect x="8" y="9" width="28" height="30" /><path d="M14 17h16M14 24h11M14 31h14" /></>}
-        {type === 3 && <><path d="M7 34l10-12 8 6 13-17" /><circle cx="38" cy="11" r="4" /><path d="M7 39h32" /></>}
-        {type === 4 && <><path d="M9 14c8-7 20-7 28 0M37 32c-8 7-20 7-28 0" /><path d="M34 9l4 5-6 2M12 37l-4-5 6-2" /></>}
-      </svg>
-    </span>
-  )
-}
-
-export default function PathwayOverview() {
-  const [sectionRef, isVisible] = useInViewOnce({ threshold: 0.06 })
-  const itemRefs = useRef([])
-  const [activeStage, setActiveStage] = useState(0)
-
-  useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return undefined
-
-    const observer = new IntersectionObserver(
-      () => {
-        const focusY = window.innerHeight * 0.46
-        const closest = itemRefs.current
-          .filter(Boolean)
-          .map((item) => ({
-            index: Number(item.dataset.stage),
-            distance: Math.abs(
-              item.getBoundingClientRect().top +
-              item.getBoundingClientRect().height / 2 -
-              focusY,
-            ),
-          }))
-          .sort((a, b) => a.distance - b.distance)[0]
-
-        if (closest) setActiveStage(closest.index)
-      },
-      { rootMargin: '-28% 0px -48% 0px', threshold: [0.15, 0.35, 0.6] },
-    )
-
-    itemRefs.current.forEach((item) => item && observer.observe(item))
-    return () => observer.disconnect()
-  }, [])
-
-  const lightPosition = `${8 + (activeStage / (stages.length - 1)) * 84}%`
-  const pathProgress = Math.max(0.1, (activeStage + 1) / stages.length)
-  const [markerX, markerY] = stagePoints[activeStage]
+export default function PathwayOverview({ recommendedStage }) {
+  const recommendedIndex = recommendedIndexes[recommendedStage] ?? 0
+  const [activeIndex, setActiveIndex] = useState(recommendedIndex)
+  const active = stages[activeIndex]
 
   return (
-    <section
-      className={`home-section home-pathway-overview${isVisible ? ' is-pathway-visible' : ''}`}
-      aria-labelledby="pathway-title"
-      ref={sectionRef}
-      style={{ '--path-light-y': lightPosition }}
-    >
-      <span className="pathway-boundary-mark" aria-hidden="true">FIELD COORDINATES / 01—10</span>
-      <div className="home-section-heading">
-        <p className="eyebrow">The pathway</p>
-        <h2 id="pathway-title">A research project is a sequence of better questions.</h2>
-        <p>
-          Move forward when you can, and return when new evidence changes what
-          you thought you knew.
-        </p>
-      </div>
-      <div className="roadmap-field">
-        <svg className="roadmap-trail" viewBox="0 0 1000 1580" preserveAspectRatio="none" aria-hidden="true">
-          <path
-            className="roadmap-trail-base"
-            pathLength="1"
-            d="M220 90 C470 90 535 235 780 235 S470 380 220 380 S535 525 780 525 S470 670 220 670 S535 815 780 815 S470 960 220 960 S535 1105 780 1105 S470 1250 220 1250 S535 1435 780 1435"
-          />
-          <path
-            className="roadmap-trail-active"
-            pathLength="1"
-            strokeDasharray={`${pathProgress} 1`}
-            d="M220 90 C470 90 535 235 780 235 S470 380 220 380 S535 525 780 525 S470 670 220 670 S535 815 780 815 S470 960 220 960 S535 1105 780 1105 S470 1250 220 1250 S535 1435 780 1435"
-          />
-          <path className="roadmap-return-loop" d="M220 1250 C925 1230 925 730 220 670" />
-          <path className="roadmap-return-arrow" d="M220 670l24-7-8 22" />
-          <g
-            className="roadmap-current-marker"
-            style={{ '--marker-x': `${markerX}px`, '--marker-y': `${markerY}px` }}
-          >
-            <circle className="marker-glow" r="16" />
-            <circle className="marker-ring" r="7" />
-            <circle className="marker-core" r="2.5" />
-          </g>
-        </svg>
-        <span className="roadmap-annotation annotation-question" aria-hidden="true">question changes here</span>
-        <span className="roadmap-annotation annotation-revision" aria-hidden="true">evidence changes the question</span>
-        <ol className="home-roadmap">
-          {stages.map((stage, index) => (
-            <li
-              className={[
-                'roadmap-item',
-                activeStage === index ? 'is-active' : index < activeStage ? 'is-past' : 'is-future',
-                index === activeStage - 1 ? 'is-previous' : '',
-                index === 8 ? 'is-revision' : '',
-                index === 9 ? 'is-output' : '',
-              ].filter(Boolean).join(' ')}
-              data-stage={index}
-              ref={(item) => { itemRefs.current[index] = item }}
-              key={stage.title}
+    <section className="research-map-section" aria-labelledby="research-map-heading">
+      <div className="home-shell">
+        <div className="section-heading map-heading">
+          <p className="home-kicker">The Research Map</p>
+          <h2 id="research-map-heading">Eight moves, with revision built in.</h2>
+          <p>
+            Use this as a map, not a rule. Select any node to inspect the work
+            at that stage. Evidence often sends a project backward before it
+            moves forward.
+          </p>
+        </div>
+
+        <div className="research-map-layout">
+          <div className="map-plot">
+            <svg
+              className="map-path"
+              viewBox="0 0 1000 420"
+              role="img"
+              aria-labelledby="map-svg-title map-svg-desc"
             >
-              <Link to={stage.link}>
-                <span className="roadmap-number">{String(index + 1).padStart(2, '0')}</span>
-                <StageSymbol index={index} />
-                <span className="roadmap-copy">
-                  <h3>{stage.title}</h3>
-                  <span>{stage.description}</span>
-                  <span className="roadmap-output">
-                    <b>What you produce:</b> {stage.output}
-                  </span>
-                  <span className="roadmap-next">
-                    {index < stages.length - 1
-                      ? `Next: ${stages[index + 1].title}`
-                      : 'Then share what you learned'}
-                    <i aria-hidden="true">→</i>
-                  </span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+              <title id="map-svg-title">Eight-stage research map</title>
+              <desc id="map-svg-desc">
+                A path from interest through output, with a visible revision
+                loop returning from revision to the question and smallest test.
+              </desc>
+              <path className="map-main-line" d="M70 102H930" />
+              <path className="map-loop-line" d="M806 102C806 330 438 330 438 102" />
+              <path className="map-loop-arrow" d="M438 102l-12 20 24-2" />
+              <text x="590" y="286">revise the question or test</text>
+            </svg>
+            <ol className="map-nodes">
+              {stages.map((stage, index) => (
+                <li
+                  className={[
+                    activeIndex === index ? 'is-active' : '',
+                    recommendedIndex === index ? 'is-recommended' : '',
+                    index === 6 ? 'is-revision' : '',
+                  ].filter(Boolean).join(' ')}
+                  key={stage.title}
+                >
+                  <button
+                    type="button"
+                    aria-pressed={activeIndex === index}
+                    onClick={() => setActiveIndex(index)}
+                    onFocus={() => setActiveIndex(index)}
+                  >
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    {stage.title}
+                    {recommendedIndex === index && <small>Recommended</small>}
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <article className="map-detail-panel" aria-labelledby="active-map-stage">
+            <p className="home-meta">Stage {String(activeIndex + 1).padStart(2, '0')}</p>
+            <h3 id="active-map-stage">{active.title}</h3>
+            <dl>
+              <div><dt>What happens</dt><dd>{active.happens}</dd></div>
+              <div><dt>What you produce</dt><dd>{active.produced}</dd></div>
+              <div><dt>Common mistake</dt><dd>{active.mistake}</dd></div>
+            </dl>
+            <Link to={active.link}>Continue from {active.title} <span aria-hidden="true">→</span></Link>
+          </article>
+        </div>
       </div>
-      <span className="pathway-exit-node" aria-hidden="true"><i />OUTPUT / 10</span>
     </section>
   )
 }

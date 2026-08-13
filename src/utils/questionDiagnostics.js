@@ -1,9 +1,9 @@
 import { BROAD_TOPIC_TERMS } from '../data/questionBuilderPresets.js'
 
 const STATUS_LABELS = {
-  0: 'Needs definition',
+  0: 'Missing',
   1: 'Developing',
-  2: 'Ready for a first test',
+  2: 'Strong',
 }
 
 const GENERIC_CONTEXT_PATTERNS = [
@@ -29,11 +29,41 @@ function hasText(value) {
   return clean(value).length > 0
 }
 
+const WEAK_PHRASES = /^(?:thing|things|stuff|something|anything|topic|research|project|question|good|bad|maybe|random|constraint|none|n\/a|idk|unknown|test|sodas)$/i
+const ACTION_SIGNALS = /\b(?:analy[sz]e|compare|compute|count|derive|estimate|evaluate|examine|inspect|measure|model|observe|plot|prove|reconstruct|run|search|simulate|solve|test|track|validate|classify|collect|calculate|enumerate)\b/i
+
+/**
+ * Conservatively classify student-entered phrases. This deliberately accepts
+ * identifiers and notation (CIFAR-10, psi'', n <= 20, O(n log n),
+ * RSS_2010_170) rather than treating prose as the only legitimate structure.
+ */
+export function assessPhraseStructure(value) {
+  const text = clean(value)
+  if (!text) return 'empty'
+  if (WEAK_PHRASES.test(text)) return 'weak'
+  const alphabetic = text.replace(/[^a-z]/gi, '').toLowerCase()
+  const uniqueLetters = new Set(alphabetic).size
+  const repeatedChunk = /^(.{2,6})\1{2,}$/i.test(alphabetic)
+    || /^(.{2,3})\1+.{0,1}$/i.test(alphabetic)
+  const repetitiveAlphabetic = alphabetic.length >= 10 && uniqueLetters <= 4
+  if (
+    /^(.)\1{3,}$/i.test(text)
+    || /^[a-z]{8,}$/i.test(text) && !/[aeiouy]/i.test(text)
+    || repeatedChunk
+    || repetitiveAlphabetic
+  ) {
+    return 'weak'
+  }
+  if (/(?:asdf|qwer|zxcv|lorem ipsum|blah|foo bar)/i.test(text)) return 'weak'
+  if (!/[a-z0-9\u0370-\u03ff]/i.test(text)) return 'weak'
+  return 'plausible'
+}
+
 function isMeaningfulPhrase(value, minWords = 3) {
   const text = clean(value)
-  if (!text) return false
+  if (assessPhraseStructure(text) !== 'plausible') return false
   const words = text.split(/\s+/).filter(Boolean)
-  return words.length >= minWords || text.length >= 18
+  return words.length >= minWords || text.length >= 12 || /[_<>=()'"\d]/.test(text)
 }
 
 function isBroadTopicOnly(interest) {
@@ -56,19 +86,31 @@ function isMathematicalMode(state) {
   const evidence = clean(state.evidenceSource).toLowerCase()
   return (
     field === 'Mathematics'
-    || ['prove', 'compute', 'classify'].includes(method)
+    || ['prove', 'compute'].includes(method)
     || /proof|derivation|counterexample|theorem|computation/.test(evidence)
   )
 }
 
 function scoreSpecificity(state) {
-  const phenomenon = hasText(state.phenomenon)
-  const context = hasText(state.context)
-  const factorOrStructure = hasText(state.factor) || isMathematicalMode(state)
+  const phenomenonAssessment = assessPhraseStructure(state.phenomenon)
+  const contextAssessment = assessPhraseStructure(state.context)
+  const factorAssessment = assessPhraseStructure(state.factor)
+  const phenomenon = phenomenonAssessment !== 'empty'
+  const context = contextAssessment !== 'empty'
+  const factorOrStructure = factorAssessment !== 'empty' || isMathematicalMode(state)
   let score = 0
   if (phenomenon) score += 1
   if (phenomenon && (context || factorOrStructure)) score += 1
-  if (score === 2 && (!context || !isMeaningfulPhrase(state.phenomenon, 2))) {
+  if (
+    score === 2
+    && (
+      !context
+      || phenomenonAssessment !== 'plausible'
+      || contextAssessment !== 'plausible'
+      || (hasText(state.factor) && factorAssessment !== 'plausible')
+      || !isMeaningfulPhrase(state.phenomenon, 2)
+    )
+  ) {
     score = 1
   }
   return score
@@ -79,38 +121,50 @@ function scoreMeasurability(state) {
     return isMeaningfulPhrase(state.outcome, 2) ? 2 : 1
   }
   if (isMathematicalMode(state) && (hasText(state.phenomenon) || hasText(state.factor))) {
-    return hasText(state.phenomenon) ? 2 : 1
+    return assessPhraseStructure(state.phenomenon) === 'plausible' ? 2 : 1
   }
   return 0
 }
 
 function scoreEvidence(state) {
-  const source = hasText(state.evidenceSource)
+  const sourceAssessment = assessPhraseStructure(state.evidenceSource)
+  const source = sourceAssessment !== 'empty'
   const access = clean(state.evidenceAccess)
   if (!source && !access) return 0
-  if (!source) return 1
+  if (!source || sourceAssessment === 'weak') return 1
   if (access === 'I do not know yet' || !access) return 1
   if (access === 'I think it exists') return 1
   return 2
 }
 
 function scoreScope(state) {
-  const smallest = hasText(state.smallestVersion)
-  const meaningfulSmallest = isMeaningfulPhrase(state.smallestVersion, 4)
-  const boundedContext = hasText(state.context) && !isGenericContext(state.context)
+  const smallestAssessment = assessPhraseStructure(state.smallestVersion)
+  const meaningfulSmallest = smallestAssessment === 'plausible'
+    && ACTION_SIGNALS.test(clean(state.smallestVersion))
+  const boundedContext = assessPhraseStructure(state.context) === 'plausible'
+    && !isGenericContext(state.context)
   const time = hasText(state.timeAvailable)
-  let score = 0
-  if (smallest) score += 1
-  if (meaningfulSmallest && (boundedContext || time)) score += 1
-  return score
+  if (meaningfulSmallest && boundedContext && time) return 2
+  if (smallestAssessment !== 'empty' || boundedContext || time) return 1
+  return 0
 }
 
 function scoreComparisonStructure(state) {
-  if (hasText(state.comparison)) return 2
-  if (isMathematicalMode(state) && hasText(state.phenomenon) && hasText(state.context)) {
-    return 2
+  if (hasText(state.comparison)) {
+    return assessPhraseStructure(state.comparison) === 'plausible' ? 2 : 1
   }
-  if (hasText(state.factor) && hasText(state.outcome)) return 1
+  if (isMathematicalMode(state) && hasText(state.phenomenon) && hasText(state.context)) {
+    return assessPhraseStructure(state.phenomenon) === 'plausible'
+      && assessPhraseStructure(state.context) === 'plausible'
+      ? 2
+      : 1
+  }
+  if (
+    hasText(state.factor)
+    && hasText(state.outcome)
+    && assessPhraseStructure(state.factor) === 'plausible'
+    && assessPhraseStructure(state.outcome) === 'plausible'
+  ) return 1
   if (hasText(state.factor) || hasText(state.outcome)) return 1
   return 0
 }
@@ -118,7 +172,10 @@ function scoreComparisonStructure(state) {
 function scoreChallengeability(state) {
   if (hasText(state.outcome)) return isMeaningfulPhrase(state.outcome, 2) ? 2 : 1
   if (isMathematicalMode(state) && (hasText(state.phenomenon) || hasText(state.factor))) {
-    return 2
+    return assessPhraseStructure(state.phenomenon) === 'plausible'
+      && (!hasText(state.factor) || assessPhraseStructure(state.factor) === 'plausible')
+      ? 2
+      : 1
   }
   if (hasText(state.methodType) && /metric|accuracy|runtime|frequency|rate|score/i.test(clean(state.outcome))) {
     return 2
@@ -200,13 +257,13 @@ function explainDimension(id, score, state) {
       if (score === 1) {
         return {
           status,
-          reason: 'A small version exists, but the time window or bounded setting is incomplete.',
-          next: 'Bound the system and choose a realistic amount of available time.',
+          reason: 'Some scope information exists, but a bounded setting, time window, and plausible small action are not all present.',
+          next: 'Name a real action for the smallest test, bound its setting, and choose an available time window.',
         }
       }
       return {
         status,
-        reason: 'Scope is bounded by a smallest version plus time or context constraints.',
+        reason: 'Scope includes a real smallest-test action, a bounded context, and an available time window.',
         next: 'Protect that small version; expand only after it works.',
       }
     case 'comparisonStructure':
@@ -276,6 +333,7 @@ export function evaluateDiagnostics(rawState = {}) {
     timeAvailable: clean(rawState.timeAvailable),
     smallestVersion: clean(rawState.smallestVersion),
     mainConstraint: clean(rawState.mainConstraint),
+    relationType: clean(rawState.relationType),
   }
 
   const dimensions = [
@@ -318,11 +376,23 @@ export function evaluateDiagnostics(rawState = {}) {
     warnings.push('You named a phenomenon; next bound the setting where you will study it.')
   }
 
-  const weakest = [...dimensions].sort((a, b) => a.score - b.score)[0]
+  const criticalIds = ['specificity', 'evidence', 'scope', 'challengeability']
+  const critical = dimensions.filter((item) => criticalIds.includes(item.id))
+  const weakest = [...critical, ...dimensions.filter((item) => !criticalIds.includes(item.id))]
+    .sort((a, b) => a.score - b.score)[0]
   const total = dimensions.reduce((sum, item) => sum + item.score, 0)
-  let overallStatus = 'Needs definition'
-  if (total >= 9) overallStatus = 'Ready for a first test'
-  else if (total >= 5) overallStatus = 'Developing'
+  const hasAnyInput = Object.values(state).some(hasText)
+  const hasWeakCriticalInput = [
+    state.phenomenon,
+    state.evidenceSource,
+    state.smallestVersion,
+    isMathematicalMode(state) ? state.phenomenon : state.outcome,
+  ].some((value) => hasText(value) && assessPhraseStructure(value) === 'weak')
+  let overallStatus = 'START HERE'
+  if (hasAnyInput) overallStatus = 'STRUCTURE INCOMPLETE'
+  if (critical.every((item) => item.score >= 1)) overallStatus = 'DRAFT TAKING SHAPE'
+  if (critical.every((item) => item.score === 2)) overallStatus = 'STRUCTURALLY COMPLETE'
+  if (hasWeakCriticalInput) overallStatus = 'STRUCTURE INCOMPLETE'
 
   const missingPieces = []
   if (!hasText(state.phenomenon)) missingPieces.push('A concrete phenomenon is missing.')
@@ -341,6 +411,7 @@ export function evaluateDiagnostics(rawState = {}) {
     mostImportantNext: weakest?.next || 'Add one concrete detail to the current stage.',
     missingPieces,
     mathematicalMode: isMathematicalMode(state),
+    criticalIds,
   }
 }
 

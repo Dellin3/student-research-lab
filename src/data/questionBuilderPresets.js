@@ -10,6 +10,7 @@ export const STAGES = [
 
 export const EMPTY_BUILDER_STATE = {
   field: '',
+  relationType: '',
   broadInterest: '',
   phenomenon: '',
   factor: '',
@@ -61,6 +62,16 @@ export const GENERIC_METHODS = [
   'reconstruct',
   'analyze',
   'test',
+  'compute',
+]
+
+export const RELATION_TYPES = [
+  { value: 'controlled-change', label: 'Controlled change' },
+  { value: 'association', label: 'Association' },
+  { value: 'comparison', label: 'Comparison' },
+  { value: 'mechanism', label: 'Mechanism' },
+  { value: 'prediction-estimation', label: 'Prediction / estimation' },
+  { value: 'mathematical-structure', label: 'Mathematical structure' },
 ]
 
 export const FIELD_PRESETS = {
@@ -262,6 +273,7 @@ export const BUILDER_EXAMPLES = [
     note: 'Educational case inspired by the Saturn Rings Reconstruction Lab pathway.',
     state: {
       field: 'Physics',
+      relationType: 'comparison',
       broadInterest: "Saturn's rings",
       phenomenon: 'how fine radial structure appears in occultation-derived profiles',
       factor: 'radial sampling resolution',
@@ -285,6 +297,7 @@ export const BUILDER_EXAMPLES = [
     note: 'Uses a mathematical structure rather than an experimental factor/outcome template.',
     state: {
       field: 'Mathematics',
+      relationType: 'mathematical-structure',
       broadInterest: 'graph theory',
       phenomenon: 'extremal behavior of a graph invariant',
       factor: 'maximum degree',
@@ -307,6 +320,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Computer Science',
+      relationType: 'comparison',
       broadInterest: 'neural networks',
       phenomenon: 'classification robustness when lighting changes',
       factor: 'data augmentation strategy',
@@ -328,6 +342,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Biology',
+      relationType: 'controlled-change',
       broadInterest: 'antibiotic resistance',
       phenomenon: 'growth response of a bacterial strain under graded antibiotic exposure',
       factor: 'antibiotic concentration',
@@ -349,6 +364,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Environmental Science',
+      relationType: 'association',
       broadInterest: 'urban heat',
       phenomenon: 'afternoon surface temperature differences across neighborhoods',
       factor: 'tree canopy cover',
@@ -370,6 +386,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Social Science',
+      relationType: 'comparison',
       broadInterest: 'study strategies',
       phenomenon: 'retention after spaced self-testing',
       factor: 'spacing interval',
@@ -391,6 +408,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Physics',
+      relationType: 'controlled-change',
       broadInterest: 'fluid dynamics',
       phenomenon: 'vortex shedding behind an obstacle',
       factor: 'obstacle shape',
@@ -412,6 +430,7 @@ export const BUILDER_EXAMPLES = [
     badge: 'EXAMPLE',
     state: {
       field: 'Mathematics',
+      relationType: 'mathematical-structure',
       broadInterest: 'combinatorics',
       phenomenon: 'counting restricted lattice paths',
       factor: 'restriction rule',

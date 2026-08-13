@@ -5,13 +5,15 @@ Research Starter Lab is a practical educational pathway that helps high school s
 Main pages:
 - Home: https://student-research-lab-theta.vercel.app/
 - Start Here: https://student-research-lab-theta.vercel.app/start-here
+- Learn: https://student-research-lab-theta.vercel.app/learn
+- Tools: https://student-research-lab-theta.vercel.app/tools
 - Find a Direction: https://student-research-lab-theta.vercel.app/find-a-direction
 - Research Workflow: https://student-research-lab-theta.vercel.app/research-workflow
 - Research Question Builder: https://student-research-lab-theta.vercel.app/research-question-builder
 - AI & Literature: https://student-research-lab-theta.vercel.app/ai-literature
 - Build a Project: https://student-research-lab-theta.vercel.app/build-a-project
 - Outreach: https://student-research-lab-theta.vercel.app/outreach
-- Worksheet: https://student-research-lab-theta.vercel.app/worksheet
+- Research Record: https://student-research-lab-theta.vercel.app/worksheet
 - Case Studies: https://student-research-lab-theta.vercel.app/case-studies
 
-The site teaches source verification, responsible AI use, iterative research, toy models, public data, mentor outreach, revision, and research communication.
+The site teaches source verification, responsible AI use, iterative research, toy models, public data, mentor outreach, revision, and research communication. Student drafts in the Research Record remain local to the browser.

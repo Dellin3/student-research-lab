@@ -1,0 +1,27 @@
+.width-text,
+.width-article,
+.width-standard,
+.width-workspace {
+  width: calc(100% - 2rem);
+  margin-inline: auto;
+}
+
+.width-text { max-width: var(--width-text); }
+.width-article { max-width: var(--width-article); }
+.width-standard { max-width: var(--width-standard); }
+.width-workspace { max-width: var(--width-workspace); }
+.width-bleed { width: var(--width-bleed); }
+
+.section-dense { padding-block: var(--space-7); }
+.section-medium { padding-block: var(--space-8); }
+.section-immersive { padding-block: var(--space-9); }
+.section-quiet { padding-block: clamp(4rem, 10vw, 8rem); }
+
+@media (min-width: 48rem) {
+  .width-text,
+  .width-article,
+  .width-standard,
+  .width-workspace {
+    width: calc(100% - 4rem);
+  }
+}

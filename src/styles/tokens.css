@@ -1,0 +1,105 @@
+:root {
+  color-scheme: light;
+
+  --color-paper: #f7f3e9;
+  --color-paper-deep: #eee8dc;
+  --color-paper-raised: #fffdf7;
+  --color-ink: #182a43;
+  --color-ink-soft: #596575;
+  --color-navy: #14263e;
+  --color-navy-deep: #102037;
+  --color-gold: #9a7740;
+  --color-gold-soft: #d8c39d;
+  --color-sage: #667c6f;
+  --color-sage-soft: #dfe7dd;
+  --color-danger: #8a4b2b;
+  --color-line: rgba(24, 42, 67, 0.16);
+
+  --text-strong: var(--color-ink);
+  --text: #3d4656;
+  --text-muted: var(--color-ink-soft);
+  --surface-base: var(--color-paper);
+  --surface-subtle: #f3efe6;
+  --surface-raised: var(--color-paper-raised);
+  --surface-inverse: var(--color-navy);
+  --border-subtle: var(--color-line);
+  --border-strong: rgba(24, 42, 67, 0.32);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --width-text: 42rem;
+  --width-article: 54rem;
+  --width-standard: 72rem;
+  --width-workspace: 82rem;
+  --width-bleed: 100%;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --shadow-low: 0 1px 2px rgba(18, 32, 49, 0.06);
+  --shadow-mid: 0 12px 28px rgba(18, 32, 49, 0.1);
+  --shadow-high: 0 24px 58px rgba(18, 32, 49, 0.14);
+
+  --motion-fast: 160ms;
+  --motion-medium: 320ms;
+  --motion-slow: 680ms;
+  --motion-narrative: 1800ms;
+  --ease-standard: cubic-bezier(0.22, 0.68, 0.2, 1);
+
+  --font-sans: "Source Sans 3", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", ui-monospace, monospace;
+  --step--1: 0.78rem;
+  --step-0: 1rem;
+  --step-1: clamp(1.15rem, 1.5vw, 1.35rem);
+  --step-2: clamp(1.6rem, 3vw, 2.5rem);
+  --step-3: clamp(2.5rem, 5.5vw, 5.4rem);
+
+  /* Stable aliases for existing component styles. */
+  --bg: var(--color-paper);
+  --bg-deep: var(--color-paper-deep);
+  --surface: var(--color-paper-raised);
+  --surface-strong: var(--surface-subtle);
+  --beige: #ebe4d8;
+  --beige-panel: var(--surface-subtle);
+  --border: var(--color-line);
+  --navy: var(--color-navy);
+  --navy-deep: var(--color-navy-deep);
+  --gold: var(--color-gold);
+  --gold-pale: var(--color-gold-soft);
+  --gold-soft: rgba(154, 119, 64, 0.12);
+  --blue: #355070;
+  --blue-soft: rgba(53, 80, 112, 0.1);
+  --blue-muted: #4a6278;
+  --sage: var(--color-sage);
+  --sage-pale: var(--color-sage-soft);
+  --sage-soft: rgba(102, 124, 111, 0.1);
+  --line: var(--color-line);
+  --white: var(--color-paper-raised);
+  --paper: var(--color-paper);
+  --paper-deep: var(--color-paper-deep);
+  --paper-base: var(--color-paper);
+  --paper-raised: var(--color-paper-raised);
+  --paper-edge: rgba(96, 79, 50, 0.2);
+  --paper-shadow: rgba(18, 32, 49, 0.13);
+  --ink: var(--color-ink);
+  --ink-soft: var(--color-ink-soft);
+  --navy-surface: var(--color-navy);
+  --navy-raised: #1b314d;
+  --shadow: var(--shadow-low);
+  --shadow-paper: var(--shadow-mid);
+  --shadow-floating: var(--shadow-high);
+  --shadow-navy: 0 16px 35px rgba(3, 12, 24, 0.22);
+  --ease-studio: var(--ease-standard);
+  --sans: var(--font-sans);
+  --heading: var(--font-serif);
+  --mono: var(--font-mono);
+}

@@ -1,4 +1,4 @@
-import { BUILDER_EXAMPLES } from '../src/data/questionBuilderPresets.js'
+import { BUILDER_EXAMPLES, FIELD_PRESETS, RELATION_TYPES } from '../src/data/questionBuilderPresets.js'
 import { evaluateDiagnostics } from '../src/utils/questionDiagnostics.js'
 import { buildResearchRecord, generateQuestions } from '../src/utils/questionGenerator.js'
 
@@ -25,7 +25,7 @@ function assertNoBrokenSlots(text, message) {
   const result = generateQuestions({})
   const diagnostics = evaluateDiagnostics({})
   assert(result.candidates.every((item) => item.incomplete || !item.text), 'EMPTY: should not invent a complete question')
-  assert(diagnostics.overallStatus === 'Needs definition', 'EMPTY: overall should need definition')
+  assert(diagnostics.overallStatus === 'START HERE', 'EMPTY: overall should start here')
   assert(diagnostics.dimensions.every((item) => item.score === 0), 'EMPTY: all dimensions should be 0')
 }
 
@@ -59,7 +59,7 @@ function assertNoBrokenSlots(text, message) {
   assert(result.candidates.some((item) => item.id === 'relationship'), 'RELATIONSHIP: should include relationship structure')
   assertIncludes(result.primary.text, 'radial sampling resolution', 'RELATIONSHIP: primary should use factor')
   assertIncludes(result.primary.text, 'detected peak structure', 'RELATIONSHIP: primary should use outcome')
-  assert(result.diagnostics.overallStatus !== 'Needs definition', 'RELATIONSHIP: should not remain undefined')
+  assert(result.diagnostics.overallStatus !== 'START HERE', 'RELATIONSHIP: should not remain at start')
   result.candidates.forEach((item) => assertNoBrokenSlots(item.text, 'RELATIONSHIP candidate'))
 }
 
@@ -152,10 +152,33 @@ function assertNoBrokenSlots(text, message) {
   assertIncludes(result.primary.text, 'radial sampling resolution', 'SATURN: primary should mention factor')
   assertIncludes(result.primary.text, 'detected peak structure', 'SATURN: primary should mention outcome')
   assertIncludes(result.primary.text, 'Cassini', 'SATURN: primary should mention context')
-  assert(result.diagnostics.overallStatus === 'Ready for a first test' || result.diagnostics.overallStatus === 'Developing', 'SATURN: should be developing or ready')
+  assert(['DRAFT TAKING SHAPE', 'STRUCTURALLY COMPLETE'].includes(result.diagnostics.overallStatus), 'SATURN: should be taking shape or complete')
   const record = buildResearchRecord(saturn.state)
   assertIncludes(record.text, 'RESEARCH QUESTION DRAFT', 'SATURN: record header')
   assertIncludes(record.text, 'Candidate questions:', 'SATURN: record candidates')
+}
+
+// K. BUNDLED EXAMPLES AND DISCIPLINE LENSES
+for (const example of BUILDER_EXAMPLES) {
+  const result = generateQuestions(example.state)
+  assert(result.primary?.text, `EXAMPLE ${example.id}: should generate a primary question`)
+  assert(result.state.field === example.field, `EXAMPLE ${example.id}: should use its natural discipline`)
+  result.candidates.forEach((item) => assertNoBrokenSlots(item.text, `EXAMPLE ${example.id}`))
+}
+for (const [field, preset] of Object.entries(FIELD_PRESETS)) {
+  assert(preset.methods.length > 0, `LENS ${field}: methods missing`)
+  assert(preset.phenomenonExamples.length > 0, `LENS ${field}: examples missing`)
+}
+
+// L. RELATION TYPE VALUES AND EXACT STATUSES
+assert(
+  RELATION_TYPES.map((item) => item.value).join('|')
+    === 'controlled-change|association|comparison|mechanism|prediction-estimation|mathematical-structure',
+  'RELATION TYPES: requested values changed',
+)
+const allowedStatuses = new Set(['START HERE', 'STRUCTURE INCOMPLETE', 'DRAFT TAKING SHAPE', 'STRUCTURALLY COMPLETE'])
+for (const example of BUILDER_EXAMPLES) {
+  assert(allowedStatuses.has(generateQuestions(example.state).statusLabel), `STATUS ${example.id}: unexpected label`)
 }
 
 // J. MALFORMED / WHITESPACE INPUT

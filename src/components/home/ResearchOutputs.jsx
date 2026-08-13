@@ -1,79 +1,51 @@
-import useInViewOnce from './useInViewOnce.js'
+import { Link } from 'react-router-dom'
 
-const outputs = [
-  {
-    title: 'Research record',
-    text: 'A written trace of what you believed, tested, and changed.',
-    icon: 'record',
-    example: 'Aug 06 — assumption revised',
-  },
-  {
-    title: 'Source map',
-    text: 'A small collection of credible sources connected to specific questions.',
-    icon: 'sources',
-    example: '3 sources → 1 unresolved claim',
-  },
-  {
-    title: 'Inspectable artifact',
-    text: 'A model, analysis, dataset, proof attempt, experiment, or reproducible result.',
-    icon: 'artifact',
-    example: 'result_03 / confidence noted',
-  },
-  {
-    title: 'Next-step memo',
-    text: 'What failed, what remains uncertain, and what you would test next.',
-    icon: 'memo',
-    example: 'Next test → isolate one variable',
-  },
+const recordSections = [
+  ['Current question', 'Keep the question you are testing now—not the first version forever.'],
+  ['Sources', 'Record what each source contributes and where its limits begin.'],
+  ['Unresolved ideas', 'Keep vocabulary, contradictions, and assumptions visible.'],
+  ['Smallest test', 'Name the next model, proof attempt, observation, or comparison.'],
+  ['Evidence', 'Attach results, null findings, errors, and context.'],
+  ['Revision history', 'Date important changes and explain what prompted them.'],
+  ['Next action', 'Choose one concrete task small enough to begin.'],
 ]
 
-function OutputIcon({ type }) {
-  return (
-    <svg viewBox="0 0 180 100" aria-hidden="true">
-      {type === 'record' && <><path d="M18 18h144v64H18zM34 34h92M34 48h112M34 62h78" /><path className="artifact-accent-line" d="M132 34h17" /></>}
-      {type === 'sources' && <><circle cx="35" cy="52" r="11" /><circle cx="92" cy="28" r="9" /><circle cx="142" cy="62" r="12" /><path d="M46 48l37-16M101 34l31 21M47 57l83 6" /><circle className="artifact-accent-fill" cx="92" cy="28" r="3" /></>}
-      {type === 'artifact' && <><path d="M18 80h145M24 76l28-30 24 13 31-38 24 26 28-17" /><circle cx="107" cy="21" r="5" /><path className="artifact-grid-line" d="M24 22v54M59 22v54M94 22v54M129 22v54" /></>}
-      {type === 'memo' && <><path d="M21 18h138v64H67L45 94l5-12H21zM39 37h94M39 52h72M39 67h41" /><path className="artifact-accent-line" d="M117 67h20" /></>}
-    </svg>
-  )
-}
-
 export default function ResearchOutputs() {
-  const [sectionRef, isVisible] = useInViewOnce({ threshold: 0.16 })
-
   return (
-    <section
-      className={`home-section home-outputs reveal-ready${isVisible ? ' is-revealed' : ''}`}
-      aria-labelledby="outputs-title"
-      data-reveal="rise"
-      ref={sectionRef}
-    >
-      <div className="home-section-heading">
-        <p className="eyebrow">What you leave with</p>
-        <h2 id="outputs-title">Finish with evidence of your thinking.</h2>
-        <p>
-          The value of a project is not only its conclusion. It is the record
-          that lets someone else understand how you arrived there.
-        </p>
-      </div>
-      <div className="output-portfolio">
-        {outputs.map((output, index) => (
-          <article
-            className={`output-artifact artifact-${output.icon}`}
-            tabIndex="0"
-            key={output.title}
-          >
-            <header>
-              <span className="output-number">{String(index + 1).padStart(2, '0')}</span>
-              <span>PORTFOLIO ARTIFACT</span>
-            </header>
-            <div className="artifact-preview">
-              <OutputIcon type={output.icon} />
-              <small>{output.example}</small>
+    <section className="record-section" aria-labelledby="record-title">
+      <div className="home-shell record-layout">
+        <div className="record-copy">
+          <p className="home-kicker">Your Research Record</p>
+          <h2 id="record-title">Keep the reasoning, not just the result.</h2>
+          <p>
+            A living record helps you continue after a confusing result, ask
+            for focused feedback, and explain how the project changed.
+          </p>
+          <Link className="button primary" to="/worksheet">Open your Research Record</Link>
+          <small>Saved worksheet entries stay in this browser.</small>
+        </div>
+
+        <div className="record-preview" aria-label="Preview of the Research Record">
+          <header>
+            <div>
+              <span>RESEARCH RECORD</span>
+              <strong>Project workspace</strong>
             </div>
-            <div className="artifact-copy"><h3>{output.title}</h3><p>{output.text}</p></div>
-          </article>
-        ))}
+            <span className="record-state">Draft</span>
+          </header>
+          <div className="record-question">
+            <span>Current question</span>
+            <p>Your current question will stay visible here as it changes.</p>
+          </div>
+          <div className="record-index">
+            {recordSections.slice(1).map(([title, description]) => (
+              <div key={title}>
+                <span>{title}</span>
+                <p>{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
