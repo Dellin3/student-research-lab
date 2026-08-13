@@ -88,7 +88,8 @@ export default function ResearchQuestionBuilderPage() {
           </p>
           <p className="qb-intro-note">
             This is research coaching encoded into an interface—not an AI chatbot and not a form
-            that merely concatenates strings.
+            that merely concatenates strings. If you only have an interest, start with{' '}
+            <Link to="/topic-narrowing">Topic Narrowing Lab</Link>.
           </p>
         </div>
       </section>

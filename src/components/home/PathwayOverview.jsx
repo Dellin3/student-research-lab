@@ -14,7 +14,7 @@ const stages = [
     happens: 'Narrow the interest to a phenomenon, system, population, or relationship.',
     produced: 'A bounded direction worth reading about',
     mistake: 'Treating a whole discipline as a research topic.',
-    link: '/find-a-direction',
+    link: '/topic-narrowing',
   },
   {
     title: 'Literature',

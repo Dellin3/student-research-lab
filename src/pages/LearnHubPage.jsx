@@ -4,7 +4,7 @@ import RouteSeo from '../components/layout/RouteSeo.jsx'
 import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 const GUIDES = [
-  ['/find-a-direction', 'Find a direction', 'Narrow a broad interest toward a bounded phenomenon, structure, or relationship.'],
+  ['/find-a-direction', 'Find a direction', 'Learn how a broad interest becomes a bounded phenomenon, structure, or relationship. Then try Topic Narrowing Lab.'],
   ['/research-workflow', 'Research workflow', 'Use evidence, failure, and revision as a repeatable working cycle.'],
   ['/ai-literature', 'AI & literature', 'Search for sources, trace claims, map disagreements, and verify AI suggestions.'],
   ['/build-a-project', 'Build a project', 'Design a smallest investigation with transparent assumptions and inspectable evidence.'],
@@ -31,7 +31,7 @@ export default function LearnHubPage() {
         </section>
         <aside className="callout">
           <div><p className="eyebrow">Start</p><h2>New to research?</h2></div>
-          <p>Begin with the whole pathway and a first-day checklist before choosing a guide.</p>
+          <p>Begin with the whole pathway and a first-day checklist before choosing a guide. If you already have an interest, <Link to="/topic-narrowing">narrow a direction</Link>.</p>
           <Link className="button primary" to="/start-here">Start here</Link>
         </aside>
       </main>

@@ -127,8 +127,8 @@ export default function StartingPointCards() {
                 </button>
               </div>
               <p className="save-status" aria-live="polite">{status}</p>
-              <Link className="builder-link" to="/research-question-builder">
-                Continue to the question builder <span aria-hidden="true">→</span>
+              <Link className="builder-link" to="/topic-narrowing">
+                Continue to Topic Narrowing Lab <span aria-hidden="true">→</span>
               </Link>
             </div>
           )}

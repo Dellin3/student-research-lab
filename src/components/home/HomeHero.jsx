@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 const startingChoices = {
   direction: {
     label: 'I have an interest, but no direction',
-    recommendation: 'Name one thing you can observe inside that interest.',
-    explanation: 'A useful direction is narrower than a subject and still open enough to investigate.',
-    action: 'Find a direction',
-    link: '/find-a-direction',
+    recommendation: 'Turn the interest into one bounded research direction.',
+    explanation: 'A useful direction names an object, a way of looking, and a boundary. The question comes next.',
+    action: 'Narrow a direction',
+    link: '/topic-narrowing',
   },
   question: {
     label: 'I have a topic, but no question',

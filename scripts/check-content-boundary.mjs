@@ -12,7 +12,7 @@ if (/SaturnCasePreview/.test(homePage)) {
 const generalFiles = [
   'src/components/home/HomePage.jsx',
   'src/pages/StartHerePage.jsx',
-  'src/pages/FindDirectionPage.jsx',
+  'src/pages/TopicNarrowingPage.jsx',
   'src/pages/WorkflowPage.jsx',
   'src/pages/AiLiteraturePage.jsx',
   'src/pages/BuildProjectPage.jsx',

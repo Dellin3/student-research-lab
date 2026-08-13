@@ -14,6 +14,7 @@ import {
   getFieldPreset,
 } from '../../data/questionBuilderPresets.js'
 import { buildResearchRecord, generateQuestions } from '../../utils/questionGenerator.js'
+import { readNarrowingHandoff, clearNarrowingHandoff } from '../../utils/topicNarrowing.js'
 import {
   builderImportNeedsConfirmation,
   importBuilderDraft,
@@ -79,22 +80,46 @@ export default function QuestionBuilderTool() {
     }
 
     const timer = window.setTimeout(() => {
+      const handoff = readNarrowingHandoff()
+      const transferred = handoff && typeof handoff === 'object'
+        ? {
+            field: handoff.field || '',
+            broadInterest: handoff.broadInterest || '',
+            phenomenon: handoff.phenomenon || '',
+            context: handoff.context || '',
+            factor: handoff.factor || '',
+            relationType: handoff.relationType || '',
+            methodType: handoff.methodType || '',
+          }
+        : null
+
       if (saved && typeof saved === 'object') {
         setState((current) => ({
           ...current,
           ...Object.fromEntries(
             Object.keys(EMPTY_BUILDER_STATE).map((key) => [key, saved[key] ?? '']),
           ),
+          ...(transferred || {}),
         }))
         if (
           typeof saved.stageIndex === 'number'
           && saved.stageIndex >= 0
           && saved.stageIndex < STAGES.length
+          && !transferred
         ) {
           setStageIndex(saved.stageIndex)
+        } else if (transferred) {
+          setStageIndex(1)
         }
-        setSaveNote('Saved locally')
+        setSaveNote(transferred
+          ? 'Direction transferred from Topic Narrowing Lab. The next step is still to form a question.'
+          : 'Saved locally')
+      } else if (transferred) {
+        setState((current) => ({ ...current, ...transferred }))
+        setStageIndex(1)
+        setSaveNote('Direction transferred from Topic Narrowing Lab. The next step is still to form a question.')
       }
+      if (transferred) clearNarrowingHandoff()
       setHydrated(true)
     }, 0)
 

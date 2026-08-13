@@ -2,6 +2,7 @@ https://student-research-lab-theta.vercel.app/
 https://student-research-lab-theta.vercel.app/start-here
 https://student-research-lab-theta.vercel.app/learn
 https://student-research-lab-theta.vercel.app/tools
+https://student-research-lab-theta.vercel.app/topic-narrowing
 https://student-research-lab-theta.vercel.app/find-a-direction
 https://student-research-lab-theta.vercel.app/research-workflow
 https://student-research-lab-theta.vercel.app/research-question-builder

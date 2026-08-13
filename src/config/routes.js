@@ -26,8 +26,15 @@ export const PUBLIC_ROUTES = [
     path: '/tools',
     title: 'Student Research Tools | Research Starter Lab',
     description:
-      'Use free tools to shape a testable research question and keep a private, local Research Record.',
+      'Use free tools to narrow a research direction, shape a question, and keep a private, local Research Record.',
     navigationLabel: 'TOOLS',
+    sitemap: true,
+  },
+  {
+    path: '/topic-narrowing',
+    title: 'How to Narrow a Research Topic | Topic Narrowing Lab',
+    description:
+      'Turn a broad interest into a bounded research direction. Use this free Topic Narrowing Lab to choose an object, a discipline-specific lens, and one inspectable boundary before writing a question.',
     sitemap: true,
   },
   {

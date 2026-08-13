@@ -35,6 +35,11 @@ export default function FindDirectionPage() {
           <article><p className="eyebrow">Too broad</p><h2>“I want to study climate change.”</h2><p>This names an area but not a system, scale, variable, mechanism, or evidence source.</p></article>
           <article className="accent-card"><p className="eyebrow">Researchable direction</p><h2>“How does tree cover relate to summer surface temperature across neighborhoods in my city?”</h2><p>This suggests variables, public data, scale, and limitations. Next, <Link to="/research-question-builder">shape a testable question</Link>.</p></article>
         </section>
+        <aside className="callout">
+          <div><p className="eyebrow">Try the tool</p><h2>Practice the narrowing moves.</h2></div>
+          <p>This page explains the idea. Topic Narrowing Lab is the place to do the work: interest, object, lens, boundary, then a direction.</p>
+          <Link className="button primary" to="/topic-narrowing">Try Topic Narrowing Lab</Link>
+        </aside>
       </main>
     </>
   )

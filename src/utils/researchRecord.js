@@ -136,29 +136,51 @@ export function builderImportNeedsConfirmation(record, state, question) {
   return recordsWouldConflict(record, builderDraftToRecord(state, question))
 }
 
-/**
- * Import a builder draft without hidden merging.
- * "keep" leaves an existing record unchanged (or fills an empty one).
- * "replace" overlays incoming mapped fields and moves the old question to history.
- */
-export function importBuilderDraft(record, state, question, mode = 'keep') {
+export function importMappedDraft(record, incoming, mode = 'keep') {
   const current = migrateResearchRecord(record)
-  const incoming = builderDraftToRecord(state, question)
-
+  const next = migrateResearchRecord(incoming)
   if (mode === 'keep') {
-    if (!researchRecordHasContent(current)) return incoming
+    if (!researchRecordHasContent(current)) return next
     return current
   }
 
   const existingQuestion = current.question.current
   for (const [group, fields] of Object.entries(SHAPE)) {
     for (const field of fields) {
-      if (incoming[group][field]) current[group][field] = incoming[group][field]
+      if (next[group][field]) current[group][field] = next[group][field]
     }
   }
-  if (incoming.question.current && existingQuestion && existingQuestion !== incoming.question.current) {
+  if (next.question.current && existingQuestion && existingQuestion !== next.question.current) {
     current.question.history = [current.question.history, existingQuestion].filter(Boolean).join('\n')
-    current.question.current = incoming.question.current
+    current.question.current = next.question.current
   }
   return current
+}
+
+/**
+ * Import a builder draft without hidden merging.
+ * "keep" leaves an existing record unchanged (or fills an empty one).
+ * "replace" overlays incoming mapped fields and moves the old question to history.
+ */
+export function importBuilderDraft(record, state, question, mode = 'keep') {
+  return importMappedDraft(record, builderDraftToRecord(state, question), mode)
+}
+
+export function narrowingDraftToRecord(state = {}, directionText = '') {
+  const record = createEmptyResearchRecord()
+  const discipline = text(state.discipline)
+  const lens = text(state.lensLabel)
+  record.startingPoint.interest = text(state.interest)
+  record.startingPoint.direction = text(directionText) || [discipline, lens].filter(Boolean).join(' · ')
+  record.startingPoint.phenomenon = text(state.object)
+  record.next.action = 'Continue to Question Builder to form a testable or provable question from this direction.'
+  return record
+}
+
+export function narrowingImportNeedsConfirmation(record, state, directionText) {
+  return recordsWouldConflict(record, narrowingDraftToRecord(state, directionText))
+}
+
+export function importNarrowingDraft(record, state, directionText, mode = 'keep') {
+  return importMappedDraft(record, narrowingDraftToRecord(state, directionText), mode)
 }

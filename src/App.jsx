@@ -12,6 +12,7 @@ import OutreachPage from './pages/OutreachPage.jsx'
 import ResearchRecordPage from './pages/ResearchRecordPage.jsx'
 import ResearchQuestionBuilderPage from './pages/ResearchQuestionBuilderPage.jsx'
 import StartHerePage from './pages/StartHerePage.jsx'
+import TopicNarrowingPage from './pages/TopicNarrowingPage.jsx'
 import ToolsHubPage from './pages/ToolsHubPage.jsx'
 import WorkflowPage from './pages/WorkflowPage.jsx'
 import './App.css'
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/start-here" element={<StartHerePage />} />
         <Route path="/learn" element={<LearnHubPage />} />
         <Route path="/tools" element={<ToolsHubPage />} />
+        <Route path="/topic-narrowing" element={<TopicNarrowingPage />} />
         <Route path="/find-a-direction" element={<FindDirectionPage />} />
         <Route path="/research-workflow" element={<WorkflowPage />} />
         <Route path="/research-question-builder" element={<ResearchQuestionBuilderPage />} />

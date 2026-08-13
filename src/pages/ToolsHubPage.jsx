@@ -7,28 +7,37 @@ export default function ToolsHubPage() {
   return (
     <>
       <RouteSeo path="/tools" />
-      <PageIntro eyebrow="Tools hub" title="Tools for doing the next piece of work" description="Use these tools to create useful research artifacts. They support judgment and revision; they do not certify that a question is novel, true, ethical, or feasible." />
+      <PageIntro eyebrow="Tools hub" title="Tools for doing the next piece of work" description="Use these tools in sequence. They support judgment and revision; they do not certify that a direction or question is novel, true, ethical, or feasible." />
       <main id="main-content" className="page-content hub-page">
         <section>
-          <SectionHeading eyebrow="Build and save" title="Two places to turn thinking into work" />
-          <div className="tool-hub-grid">
-            <article>
-              <p className="eyebrow">Shape a question</p>
+          <SectionHeading eyebrow="A working sequence" title="Narrow a direction, form a question, keep the work" description="Each tool produces a different artifact. Do not skip to a polished question if the direction is still a field label." />
+          <ol className="tool-sequence">
+            <li>
+              <p className="eyebrow">01 · Narrow a direction</p>
+              <h2>Topic Narrowing Lab</h2>
+              <p>Turn a broad interest into one or more bounded research directions by naming an object, a discipline-specific lens, and one inspectable boundary.</p>
+              <Link className="button primary" to="/topic-narrowing">Open Topic Narrowing Lab</Link>
+            </li>
+            <li>
+              <p className="eyebrow">02 · Form a question</p>
               <h2>Research Question Builder</h2>
-              <p>Narrow an interest, name evidence and variables, inspect scope, and produce a draft you can revise. Suggestions are deterministic and remain visible to you.</p>
-              <Link className="button primary" to="/research-question-builder">Open question builder</Link>
-            </article>
-            <article>
-              <p className="eyebrow">Keep continuity</p>
+              <p>Turn a direction into a draft you can measure, compare, compute, or prove. Suggestions are deterministic and remain visible to you.</p>
+              <Link className="button secondary" to="/research-question-builder">Open question builder</Link>
+            </li>
+            <li>
+              <p className="eyebrow">03 · Keep the work</p>
               <h2>Research Record</h2>
               <p>Save sources, decisions, open questions, attempts, limitations, feedback, and next actions locally in your browser.</p>
               <Link className="button secondary" to="/worksheet">Open Research Record</Link>
-            </article>
-          </div>
+            </li>
+          </ol>
         </section>
         <section className="split-section">
           <div><p className="eyebrow">Understand</p><h2>A tool should leave evidence behind</h2></div>
-          <div className="prose"><p>Useful research tools help you compare versions, expose assumptions, or preserve decisions. Keep the output only when you can explain and revise it.</p><p>If you need context before using a tool, visit the <Link to="/learn">learning hub</Link>.</p></div>
+          <div className="prose">
+            <p>Useful research tools help you compare versions, expose assumptions, or preserve decisions. Keep the output only when you can explain and revise it.</p>
+            <p>If you need the concepts before using a tool, visit the <Link to="/learn">learning hub</Link> or the <Link to="/find-a-direction">Find a direction</Link> guide.</p>
+          </div>
         </section>
       </main>
     </>
