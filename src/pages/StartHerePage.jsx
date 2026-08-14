@@ -5,8 +5,8 @@ import RouteSeo from '../components/layout/RouteSeo.jsx'
 import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 const PATHWAY = [
-  'Interest', 'Focused Field', 'Sources', 'Expert Thinking', 'Questions',
-  'Toy Model', 'Data', 'Mentor Feedback', 'Revision', 'Output',
+  'Interest', 'Direction', 'Literature', 'Question', 'Investigation',
+  'Evidence', 'Revision', 'Communication',
 ]
 
 const CHECKLIST = [
@@ -40,7 +40,7 @@ export default function StartHerePage() {
         </section>
         <aside className="callout">
           <div><p className="eyebrow">Continue</p><h2>Make tomorrow obvious.</h2></div>
-          <p>End by choosing one action that begins with a verb and fits under an hour. If you have a topic, <Link to="/research-question-builder">test your question</Link>.</p>
+          <p>End by choosing one action that begins with a verb and fits under an hour. If you have a topic, <Link to="/research-question-builder">form a question</Link>. If you already have a question, <Link to="/investigation-planner">plan the first investigation</Link>.</p>
           <Link className="button primary" to="/worksheet">Open Research Record</Link>
         </aside>
       </main>

@@ -157,7 +157,8 @@ test.describe('R2 Topic Narrowing Lab', () => {
     const titles = await page.locator('.tool-sequence h2').allTextContents()
     expect(titles[0]).toMatch(/Topic Narrowing/)
     expect(titles[1]).toMatch(/Question Builder/)
-    expect(titles[2]).toMatch(/Research Record/)
+    expect(titles[2]).toMatch(/Investigation Planner/)
+    expect(titles[3]).toMatch(/Research Record/)
   })
 
   test('Find a Direction invites the lab without duplicating it', async ({ page }) => {

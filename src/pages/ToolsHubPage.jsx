@@ -10,7 +10,7 @@ export default function ToolsHubPage() {
       <PageIntro eyebrow="Tools hub" title="Tools for doing the next piece of work" description="Use these tools in sequence. They support judgment and revision; they do not certify that a direction or question is novel, true, ethical, or feasible." />
       <main id="main-content" className="page-content hub-page">
         <section>
-          <SectionHeading eyebrow="A working sequence" title="Narrow a direction, form a question, keep the work" description="Each tool produces a different artifact. Do not skip to a polished question if the direction is still a field label." />
+          <SectionHeading eyebrow="A working sequence" title="Narrow, question, investigate, and keep the work" description="Each tool produces a different artifact. Move forward when useful, or return when evidence changes the direction." />
           <ol className="tool-sequence">
             <li>
               <p className="eyebrow">01 · Narrow a direction</p>
@@ -25,9 +25,15 @@ export default function ToolsHubPage() {
               <Link className="button secondary" to="/research-question-builder">Open question builder</Link>
             </li>
             <li>
-              <p className="eyebrow">03 · Keep the work</p>
+              <p className="eyebrow">03 · Plan the first investigation</p>
+              <h2>Investigation Planner</h2>
+              <p>Define what evidence matters, the smallest informative investigation, a comparison or challenge, and one concrete first action.</p>
+              <Link className="button secondary" to="/investigation-planner">Open Investigation Planner</Link>
+            </li>
+            <li>
+              <p className="eyebrow">04 · Keep the work</p>
               <h2>Research Record</h2>
-              <p>Save sources, decisions, open questions, attempts, limitations, feedback, and next actions locally in your browser.</p>
+              <p>Keep plans, sources, evidence, revisions, feedback, and communication notes locally in your browser.</p>
               <Link className="button secondary" to="/worksheet">Open Research Record</Link>
             </li>
           </ol>

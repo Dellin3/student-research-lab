@@ -31,11 +31,11 @@ const stages = [
     link: '/research-question-builder',
   },
   {
-    title: 'Smallest Test',
-    happens: 'Build the least complicated attempt that preserves the idea you need to inspect.',
-    produced: 'A toy model, proof attempt, protocol, or analysis',
+    title: 'Investigation',
+    happens: 'Plan the least complicated attempt that preserves the idea you need to inspect.',
+    produced: 'A first investigation plan with evidence and a meaningful challenge',
     mistake: 'Building the full project before checking the central assumption.',
-    link: '/build-a-project',
+    link: '/investigation-planner',
   },
   {
     title: 'Evidence',
@@ -52,7 +52,7 @@ const stages = [
     link: '/research-workflow',
   },
   {
-    title: 'Output',
+    title: 'Communication',
     happens: 'Make the question, method, evidence, limitations, and next steps visible.',
     produced: 'A paper, poster, notebook, model, dataset, or tool',
     mistake: 'Presenting the final answer without the reasoning trail.',
@@ -60,7 +60,7 @@ const stages = [
   },
 ]
 
-const recommendedIndexes = { direction: 1, question: 3, test: 4 }
+const recommendedIndexes = { direction: 1, question: 3, test: 4, investigation: 4 }
 
 export default function PathwayOverview({ recommendedStage }) {
   const recommendedIndex = recommendedIndexes[recommendedStage] ?? 0

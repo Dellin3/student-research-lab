@@ -178,6 +178,15 @@ export default function QuestionBuilderTool() {
     setSaveNote('Local draft cleared')
   }
 
+  function persistForPlanner() {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, stageIndex }))
+      setSaveNote('Saved locally for Investigation Planner')
+    } catch {
+      setSaveNote('Could not save the draft for Investigation Planner')
+    }
+  }
+
   async function handleCopyQuestion() {
     const text = generated.primary?.incomplete ? '' : generated.primary?.text
     if (!text) {
@@ -693,6 +702,7 @@ export default function QuestionBuilderTool() {
               <button type="button" className="button secondary" onClick={handleCopyQuestion}>Copy Question</button>
               <button type="button" className="button secondary" onClick={handleCopyRecord}>Copy Research Record</button>
               <button type="button" className="button primary" onClick={openResearchRecordFlow}>Add to Research Record</button>
+              <Link className="button secondary" to="/investigation-planner" onClick={persistForPlanner}>Continue to Investigation Planner</Link>
               <Link className="qb-text-link" to="/worksheet">Open current record page</Link>
             </div>
 

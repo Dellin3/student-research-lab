@@ -11,10 +11,11 @@ Main pages:
 - Find a Direction: https://student-research-lab-theta.vercel.app/find-a-direction
 - Research Workflow: https://student-research-lab-theta.vercel.app/research-workflow
 - Research Question Builder: https://student-research-lab-theta.vercel.app/research-question-builder
+- Investigation Planner: https://student-research-lab-theta.vercel.app/investigation-planner
 - AI & Literature: https://student-research-lab-theta.vercel.app/ai-literature
 - Build a Project: https://student-research-lab-theta.vercel.app/build-a-project
 - Outreach: https://student-research-lab-theta.vercel.app/outreach
 - Research Record: https://student-research-lab-theta.vercel.app/worksheet
 - Case Studies: https://student-research-lab-theta.vercel.app/case-studies
 
-The site teaches source verification, responsible AI use, iterative research, toy models, public data, mentor outreach, revision, and research communication. Student drafts in the Research Record remain local to the browser.
+The site teaches source verification, responsible AI use, mode-aware investigation planning, iterative research, public data, mentor feedback, revision, and research communication. Student drafts in the Research Record remain local to the browser.

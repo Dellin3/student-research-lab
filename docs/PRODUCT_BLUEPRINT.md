@@ -21,11 +21,11 @@ Each major path should help the student see a concept, try it, understand the re
 
 - **Start:** orientation and first useful action.
 - **Learn:** direction, workflow, literature, project building, outreach.
-- **Tools:** Question Builder and Research Record.
+- **Tools:** Topic Narrowing Lab, Question Builder, Investigation Planner, and Research Record.
 - **Examples:** balanced worked examples plus one real Saturn physics example.
 - **Research Record:** the student's local structured notebook at `/worksheet`.
 
-Existing deep URLs remain stable. `/learn` and `/tools` are crawlable hubs.
+Existing deep URLs remain stable. `/learn` and `/tools` are crawlable hubs. `/investigation-planner` turns a question into a mode-aware first investigation without certifying feasibility or quality.
 
 ## Research honesty
 
@@ -33,4 +33,8 @@ Deterministic diagnostics describe visible structure only. Human review is alway
 
 ## Local-first record
 
-The canonical key remains `research-starter-worksheet`. Legacy fields are migrated into a versioned record without deleting unknown data. Cross-tool imports are explicit and never silently replace an existing question.
+The canonical key remains `research-starter-worksheet`. Legacy fields are migrated into a versioned record without deleting unknown data. Cross-tool imports are explicit and never silently replace an existing question. Structured plans, source and evidence logs, revision history, and mentor briefs stay local. JSON import validates the backup and requires an explicit merge or replacement choice; JSON, Markdown, and print exports keep browser-only work portable.
+
+## Delivery architecture
+
+The accepted React/Vite static-prerender architecture remains route-correct and hydration-safe. Routes currently share one client bundle; route-level lazy loading was not introduced because React `renderToString` and lazy route boundaries would add prerender/hydration risk for a modest bundle reduction. Revisit only with an SSR-compatible chunk-preload design.

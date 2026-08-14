@@ -6,6 +6,7 @@ https://student-research-lab-theta.vercel.app/topic-narrowing
 https://student-research-lab-theta.vercel.app/find-a-direction
 https://student-research-lab-theta.vercel.app/research-workflow
 https://student-research-lab-theta.vercel.app/research-question-builder
+https://student-research-lab-theta.vercel.app/investigation-planner
 https://student-research-lab-theta.vercel.app/ai-literature
 https://student-research-lab-theta.vercel.app/build-a-project
 https://student-research-lab-theta.vercel.app/outreach

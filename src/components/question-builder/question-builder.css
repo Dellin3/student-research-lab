@@ -51,7 +51,7 @@
   --qb-panel: rgba(255, 252, 245, 0.92);
   --qb-active: #1c2b4a;
   --qb-sage: #6e8b74;
-  --qb-gold: #b08a3c;
+  --qb-gold: var(--gold, #765621);
   --qb-warn: #8a4b2b;
   padding-top: 0.5rem;
 }

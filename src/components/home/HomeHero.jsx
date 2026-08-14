@@ -16,11 +16,11 @@ const startingChoices = {
     link: '/research-question-builder',
   },
   test: {
-    label: 'I have a question, but no project',
-    recommendation: 'Design the smallest test that could reveal one useful result.',
-    explanation: 'Start with an inspectable attempt, then let its limits guide the next version.',
-    action: 'Build the smallest test',
-    link: '/build-a-project',
+    label: 'I have a question, but no workable project',
+    recommendation: 'Plan the smallest investigation that could reveal one useful result.',
+    explanation: 'Choose a research mode, define the evidence and challenge, then name one concrete first action.',
+    action: 'Plan an investigation',
+    link: '/investigation-planner',
   },
 }
 

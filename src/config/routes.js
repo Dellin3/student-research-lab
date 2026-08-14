@@ -60,6 +60,14 @@ export const PUBLIC_ROUTES = [
     sitemap: true,
   },
   {
+    path: '/investigation-planner',
+    title:
+      'Research Project Planner | Investigation Planner | Research Starter Lab',
+    description:
+      'Turn a research question into a small, workable investigation with mode-aware evidence, comparison, constraints, limitations, and a concrete first action.',
+    sitemap: true,
+  },
+  {
     path: '/ai-literature',
     title: 'AI & Literature | Research Starter Lab',
     description:

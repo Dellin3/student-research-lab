@@ -263,7 +263,7 @@
 }
 
 .tn-node.is-defined .tn-node-label { font-weight: 700; }
-.tn-node.is-waiting { opacity: 0.62; }
+.tn-node.is-waiting { color: var(--tn-muted); }
 
 .tn-legend {
   display: flex;

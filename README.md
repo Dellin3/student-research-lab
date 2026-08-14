@@ -15,10 +15,11 @@ Research Starter Lab is an independent educational website for high school stude
 - AI & Literature
 - Build a Project
 - Outreach
+- Investigation Planner
 - Research Record (served at `/worksheet`)
 - Case Studies
 
-The Research Record is interactive, printable, and saved only in the student's browser. The central route configuration defines 12 crawlable public routes, including the Learn and Tools hubs, and supplies the prerender and metadata pipeline.
+The core journey is Interest → Direction → Question → Investigation → Sources / Evidence → Revision → Communication. The Research Record is interactive, printable, and saved only in the student's browser. It supports structured plans, source and evidence logs, revision history, a local mentor brief, JSON backup/import, and Markdown export.
 
 ## Development
 
@@ -33,8 +34,13 @@ npm run dev
 npm run build
 npm run check:seo
 npm run check:prerender
+npm run qa:release
 ```
 
 The production build compiles the Vite client and then pre-renders every public route from the central route configuration. Each route receives its own static `index.html` with page content and metadata, then hydrates as the same React application in the browser.
+
+`npm run qa:browser` runs the Playwright browser suite at desktop, tablet, and mobile viewports. `npm run qa:release` runs lint, build, SEO/prerender, regression checks, internal-link validation, accessibility, and browser QA.
+
+Research drafts are never uploaded. JSON import validates a versioned local backup and requires an explicit merge or replace decision before changing the current record.
 
 The site uses React, Vite, React Router, and React Helmet Async. Vercel serves the generated route directories directly.

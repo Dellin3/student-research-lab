@@ -175,6 +175,10 @@
   color: #e0b865;
 }
 
+.research-map-section .home-meta {
+  color: #e0b865;
+}
+
 .research-map-section .section-heading h2 {
   color: white;
 }
@@ -881,6 +885,10 @@
   padding-block: clamp(76px, 9vw, 116px);
   background: var(--home-navy);
   color: white;
+}
+
+.outputs-principles .home-kicker {
+  color: #e0b865;
 }
 
 .outputs-principles-layout {

@@ -1,14 +1,16 @@
+import { Link } from 'react-router-dom'
+import SourceTriage from '../components/literature/SourceTriage.jsx'
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
 import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 const METHOD = [
-  ['Orient', 'Use a textbook chapter, review article, or university guide to learn the field’s vocabulary.'],
-  ['Trace', 'Follow important claims to the original paper instead of relying on a summary or snippet.'],
-  ['Map', 'Group sources by question, method, dataset, finding, disagreement, and citation relationship.'],
-  ['Verify', 'Open every AI-suggested reference. Confirm its title, authors, venue, year, and claimed result.'],
-  ['Extract', 'Note the methods experts repeatedly use and why they choose them.'],
-  ['Question', 'Collect limitations, conflicting results, untested assumptions, and future-work proposals.'],
+  ['Search', 'Use a review, textbook, or university guide to learn vocabulary and build precise search terms.'],
+  ['Triage', 'Ask what a source could contribute before reading every section.'],
+  ['Read original', 'Follow important claims to the original paper, dataset, report, or source document.'],
+  ['Extract', 'Separate the method and evidence from the author’s interpretation.'],
+  ['Compare', 'Group sources by question, method, result, disagreement, and limitation.'],
+  ['Record questions', 'Keep unresolved terms, conflicting results, assumptions, and useful next searches.'],
 ]
 
 export default function AiLiteraturePage() {
@@ -34,6 +36,12 @@ export default function AiLiteraturePage() {
             <div><h3>Before saving a claim</h3><ul><li>Open the publication</li><li>Locate the relevant passage</li><li>Check context and limits</li><li>Save the real citation</li></ul></div>
           </div>
         </section>
+        <SourceTriage />
+        <aside className="callout">
+          <div><p className="eyebrow">Keep the trail</p><h2>A source is not automatically evidence.</h2></div>
+          <p>The Source Log records what prior work contributes. Use the separate Evidence Log for observations, calculations, or findings that bear directly on your investigation.</p>
+          <Link className="button primary" to="/worksheet">Open Source and Evidence Logs</Link>
+        </aside>
       </main>
     </>
   )

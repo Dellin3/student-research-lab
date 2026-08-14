@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
 
@@ -5,7 +6,7 @@ export default function OutreachPage() {
   return (
     <>
       <RouteSeo path="/outreach" />
-      <PageIntro eyebrow="Mentorship" title="Outreach" description="Look for someone whose recent work overlaps your specific question, method, or dataset—not simply the most famous person in a broad field." />
+      <PageIntro eyebrow="Research feedback" title="Outreach" description="Ask a well-matched person for specific feedback on a question, method, source, or result—not ownership of an entire project." />
       <main id="main-content" className="page-content">
         <section className="three-column">
           <h2 className="sr-only">Preparing for mentor outreach</h2>
@@ -25,6 +26,11 @@ export default function OutreachPage() {
           <div><p className="eyebrow">After feedback</p><h2>Close the loop</h2></div>
           <div className="prose"><ol><li>Restate the feedback in your own words.</li><li>Separate corrections from optional directions.</li><li>Choose one revision or test.</li><li>Send thanks and, if useful, a later concise update.</li></ol></div>
         </section>
+        <aside className="callout">
+          <div><p className="eyebrow">Prepare before writing</p><h2>Bring a focused mentor brief.</h2></div>
+          <p>Summarize your current direction, question, first attempt, most important evidence, limitation, and one concrete request for feedback. Edit it before copying; nothing is sent by this site.</p>
+          <Link className="button primary" to="/worksheet#mentor-brief">Create mentor brief in Research Record</Link>
+        </aside>
       </main>
     </>
   )

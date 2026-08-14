@@ -7,6 +7,7 @@ import BuildProjectPage from './pages/BuildProjectPage.jsx'
 import CaseStudiesPage from './pages/CaseStudiesPage.jsx'
 import FindDirectionPage from './pages/FindDirectionPage.jsx'
 import LearnHubPage from './pages/LearnHubPage.jsx'
+import InvestigationPlannerPage from './pages/InvestigationPlannerPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import OutreachPage from './pages/OutreachPage.jsx'
 import ResearchRecordPage from './pages/ResearchRecordPage.jsx'
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/find-a-direction" element={<FindDirectionPage />} />
         <Route path="/research-workflow" element={<WorkflowPage />} />
         <Route path="/research-question-builder" element={<ResearchQuestionBuilderPage />} />
+        <Route path="/investigation-planner" element={<InvestigationPlannerPage />} />
         <Route path="/ai-literature" element={<AiLiteraturePage />} />
         <Route path="/build-a-project" element={<BuildProjectPage />} />
         <Route path="/outreach" element={<OutreachPage />} />

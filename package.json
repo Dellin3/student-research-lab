@@ -14,11 +14,18 @@
     "check:research-record": "node scripts/check-research-record.mjs",
     "check:content-boundary": "node scripts/check-content-boundary.mjs",
     "check:topic-narrowing": "node scripts/check-topic-narrowing.mjs",
+    "check:investigation-planner": "node scripts/check-investigation-planner.mjs",
+    "check:internal-links": "node scripts/check-internal-links.mjs",
     "check:master-sprint-r1": "npm run check:question-builder && npm run check:question-grammar && npm run check:research-record && npm run check:content-boundary",
     "check:master-sprint-r2": "npm run check:master-sprint-r1 && npm run check:topic-narrowing",
-    "qa:browser": "playwright test",
+    "check:master-sprint-r3": "npm run check:master-sprint-r2 && npm run check:investigation-planner && npm run check:internal-links",
+    "qa:browser": "npm run qa:accessibility && npm run qa:r1 && npm run qa:r2 && npm run qa:r3 && npm run qa:health",
     "qa:r1": "playwright test tests/e2e/r1.spec.js",
     "qa:r2": "playwright test tests/e2e/r2.spec.js",
+    "qa:r3": "playwright test tests/e2e/r3.spec.js",
+    "qa:accessibility": "playwright test tests/e2e/accessibility.spec.js",
+    "qa:health": "playwright test tests/e2e/release-health.spec.js",
+    "qa:release": "npm run lint && npm run build && npm run check:seo && npm run check:prerender && npm run check:master-sprint-r3 && npm run qa:browser",
     "lint": "eslint .",
     "prerender": "node scripts/prerender.mjs",
     "preview": "vite preview"
@@ -30,6 +37,7 @@
     "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.62.1",
     "@types/react": "^19.2.14",

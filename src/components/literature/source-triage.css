@@ -1,0 +1,48 @@
+.source-triage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-block: 1px solid var(--line);
+}
+
+.source-triage h2 {
+  margin-block: 0.5rem 1rem;
+}
+
+.source-triage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.source-triage label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+
+.source-triage textarea {
+  width: 100%;
+  min-width: 0;
+  resize: vertical;
+}
+
+.source-triage-check {
+  grid-template-columns: auto 1fr !important;
+  align-items: center;
+  margin-block: 1rem;
+}
+
+@media (max-width: 760px) {
+  .source-triage,
+  .source-triage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .source-triage {
+    display: none;
+  }
+}

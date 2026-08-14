@@ -4,14 +4,14 @@ import RouteSeo from '../components/layout/RouteSeo.jsx'
 import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 export default function WorkflowPage() {
-  const cycle = ['Question', 'Source', 'Model', 'Test', 'Failure', 'Revision', 'New Question']
+  const cycle = ['Interest', 'Direction', 'Literature', 'Question', 'Investigation', 'Evidence', 'Revision', 'Communication']
   return (
     <>
       <RouteSeo path="/research-workflow" />
       <PageIntro eyebrow="How research moves" title="Research is iterative" description="Each source, test, and failure can change the question. That change is progress when you can explain why it happened." />
       <main id="main-content" className="page-content">
         <section className="cycle-section">
-          <div className="cycle-copy"><p className="eyebrow">The working loop</p><h2>Return with better information</h2><p>A loop is not repetition if each pass sharpens an assumption, method, measurement, or question.</p></div>
+          <div className="cycle-copy"><p className="eyebrow">The working path</p><h2>Move forward, then return with better information</h2><p>Each stage has a useful next place: <Link to="/topic-narrowing">narrow a direction</Link>, <Link to="/ai-literature">map sources</Link>, <Link to="/research-question-builder">form a question</Link>, and <Link to="/investigation-planner">plan an investigation</Link>. Evidence may send you backward.</p></div>
           <ol className="cycle">{cycle.map((item, index) => <li key={item}><span>{index + 1}</span>{item}</li>)}</ol>
         </section>
         <section>

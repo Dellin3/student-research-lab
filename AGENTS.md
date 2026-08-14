@@ -8,6 +8,8 @@
 - Avoid card soup, generic glassmorphism, excess gradients/shadows/paper layers, particles, spectacle WebGL, custom cursors, scroll hijacking, constant parallax, fake metrics/testimonials/claims, and fake scientific certainty.
 - Never automatically certify novelty, truth, ethics, publishability, or feasibility from deterministic form fields.
 - Student drafts stay local. Never send draft text to analytics, APIs, or external services.
+- Preserve the complete journey: Interest → Direction → Question → Investigation → Sources / Evidence → Revision → Communication.
+- Keep `research-starter-worksheet` backward-compatible. Imports require validation and an explicit merge or replace choice; exports remain local.
 - Preserve keyboard use, visible focus, semantic HTML, contrast, non-color state cues, and responsive single-column clarity.
 - Prefer HTML, CSS, SVG, pure React, and existing dependencies. Add dependencies only for a demonstrated need.
 - Preserve crawlable prerender output, route metadata, canonical URLs, direct-route rendering, and hydration correctness.
