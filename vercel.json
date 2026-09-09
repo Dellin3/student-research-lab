@@ -1,18 +1,61 @@
 {
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/start-here", "destination": "/start-here/index.html" },
-    { "source": "/learn", "destination": "/learn/index.html" },
-    { "source": "/tools", "destination": "/tools/index.html" },
-    { "source": "/topic-narrowing", "destination": "/topic-narrowing/index.html" },
-    { "source": "/find-a-direction", "destination": "/find-a-direction/index.html" },
-    { "source": "/research-workflow", "destination": "/research-workflow/index.html" },
-    { "source": "/research-question-builder", "destination": "/research-question-builder/index.html" },
-    { "source": "/investigation-planner", "destination": "/investigation-planner/index.html" },
-    { "source": "/ai-literature", "destination": "/ai-literature/index.html" },
-    { "source": "/build-a-project", "destination": "/build-a-project/index.html" },
-    { "source": "/outreach", "destination": "/outreach/index.html" },
-    { "source": "/worksheet", "destination": "/worksheet/index.html" },
-    { "source": "/case-studies", "destination": "/case-studies/index.html" }
+    {
+      "source": "/start-here",
+      "destination": "/start-here/index.html"
+    },
+    {
+      "source": "/learn",
+      "destination": "/learn/index.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/tools/index.html"
+    },
+    {
+      "source": "/resources",
+      "destination": "/resources/index.html"
+    },
+    {
+      "source": "/topic-narrowing",
+      "destination": "/topic-narrowing/index.html"
+    },
+    {
+      "source": "/find-a-direction",
+      "destination": "/find-a-direction/index.html"
+    },
+    {
+      "source": "/research-workflow",
+      "destination": "/research-workflow/index.html"
+    },
+    {
+      "source": "/research-question-builder",
+      "destination": "/research-question-builder/index.html"
+    },
+    {
+      "source": "/investigation-planner",
+      "destination": "/investigation-planner/index.html"
+    },
+    {
+      "source": "/ai-literature",
+      "destination": "/ai-literature/index.html"
+    },
+    {
+      "source": "/build-a-project",
+      "destination": "/build-a-project/index.html"
+    },
+    {
+      "source": "/outreach",
+      "destination": "/outreach/index.html"
+    },
+    {
+      "source": "/worksheet",
+      "destination": "/worksheet/index.html"
+    },
+    {
+      "source": "/case-studies",
+      "destination": "/case-studies/index.html"
+    }
   ]
 }

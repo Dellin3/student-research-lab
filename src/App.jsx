@@ -16,7 +16,9 @@ import StartHerePage from './pages/StartHerePage.jsx'
 import TopicNarrowingPage from './pages/TopicNarrowingPage.jsx'
 import ToolsHubPage from './pages/ToolsHubPage.jsx'
 import WorkflowPage from './pages/WorkflowPage.jsx'
+import ResourcesPage from './pages/ResourcesPage.jsx'
 import './App.css'
+import './styles/core.css'
 
 export default function App() {
   return (
@@ -28,6 +30,7 @@ export default function App() {
         <Route path="/start-here" element={<StartHerePage />} />
         <Route path="/learn" element={<LearnHubPage />} />
         <Route path="/tools" element={<ToolsHubPage />} />
+        <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/topic-narrowing" element={<TopicNarrowingPage />} />
         <Route path="/find-a-direction" element={<FindDirectionPage />} />
         <Route path="/research-workflow" element={<WorkflowPage />} />

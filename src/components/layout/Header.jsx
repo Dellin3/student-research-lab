@@ -9,8 +9,14 @@ export default function Header() {
   const open = menu.open && menu.path === location.pathname
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [location.pathname])
+    const target = location.hash ? document.getElementById(location.hash.slice(1)) : null
+    if (target) {
+      if (target.tagName === 'DETAILS') target.open = true
+      target.scrollIntoView({ block: 'start', behavior: 'instant' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24)
@@ -24,7 +30,7 @@ export default function Header() {
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Research Starter Lab home">
           <span className="brand-mark" aria-hidden="true">RSL</span>
-          <span><strong>Research Starter Lab</strong><small>Curiosity into careful inquiry</small></span>
+          <span><strong>Research Starter Lab</strong></span>
         </Link>
         <button
           className="menu-button"

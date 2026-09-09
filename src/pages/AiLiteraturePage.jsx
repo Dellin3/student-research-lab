@@ -2,46 +2,24 @@ import { Link } from 'react-router-dom'
 import SourceTriage from '../components/literature/SourceTriage.jsx'
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
-import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 const METHOD = [
-  ['Search', 'Use a review, textbook, or university guide to learn vocabulary and build precise search terms.'],
-  ['Triage', 'Ask what a source could contribute before reading every section.'],
-  ['Read original', 'Follow important claims to the original paper, dataset, report, or source document.'],
-  ['Extract', 'Separate the method and evidence from the author’s interpretation.'],
-  ['Compare', 'Group sources by question, method, result, disagreement, and limitation.'],
-  ['Record questions', 'Keep unresolved terms, conflicting results, assumptions, and useful next searches.'],
+  ['Find a foothold', 'Start with an overview or textbook to learn the vocabulary. Use those terms to find original papers.'],
+  ['Read for the question and method', 'Identify what was asked, what was measured or argued, and which assumptions matter. Inspect the figures and evidence.'],
+  ['Check the claim at its source', 'Follow important claims to the original work. Record the citation, relevant passage, and limitation.'],
+  ['Write down what remains unclear', 'Compare sources. Keep disagreements, unknown terms, and one next search instead of collecting links without a purpose.'],
 ]
 
 export default function AiLiteraturePage() {
   return (
     <>
       <RouteSeo path="/ai-literature" />
-      <PageIntro eyebrow="Sources and tools" title="AI & literature" description="A literature review maps how experts define a problem, produce evidence, disagree, and identify what remains unknown." />
-      <main id="main-content" className="page-content">
-        <section><SectionHeading eyebrow="A reliable method" title="Search outward, verify inward" /><ol className="method-list">{METHOD.map(([title, text], index) => <li key={title}><span>{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol></section>
-        <section className="two-column-cards">
-          <article><p className="eyebrow">Primary sources</p><h2>Evidence from the original work</h2><p>Papers, datasets, reports, observations, interviews, experiments, and source documents present original evidence or analysis.</p></article>
-          <article><p className="eyebrow">Secondary sources</p><h2>Interpretation and orientation</h2><p>Reviews, textbooks, news, and explainers provide context. Use them to navigate, then verify key claims at their source.</p></article>
-        </section>
-        <section className="split-section">
-          <div><p className="eyebrow">Literature map</p><h2>Give every source a role</h2></div>
-          <div className="prose"><p>Save the full citation when you first open a source. Record:</p><ul><li>The problem and why it matters</li><li>The data, model, experiment, or argument</li><li>The result and supporting evidence</li><li>Assumptions and limitations</li><li>How it connects to earlier and later work</li></ul></div>
-        </section>
-        <section>
-          <SectionHeading eyebrow="AI verification protocol" title="Never cite what you have not opened" />
-          <div className="warning-panel">
-            <div><h3>Use AI for</h3><ul><li>Search vocabulary</li><li>Explaining unfamiliar terms</li><li>Comparing your own notes</li><li>Generating counterarguments</li></ul></div>
-            <div><h3>Do not use AI as</h3><ul><li>A bibliographic database</li><li>Proof a claim is true</li><li>A substitute for methods</li><li>An author you imitate</li></ul></div>
-            <div><h3>Before saving a claim</h3><ul><li>Open the publication</li><li>Locate the relevant passage</li><li>Check context and limits</li><li>Save the real citation</li></ul></div>
-          </div>
-        </section>
-        <SourceTriage />
-        <aside className="callout">
-          <div><p className="eyebrow">Keep the trail</p><h2>A source is not automatically evidence.</h2></div>
-          <p>The Source Log records what prior work contributes. Use the separate Evidence Log for observations, calculations, or findings that bear directly on your investigation.</p>
-          <Link className="button primary" to="/worksheet">Open Source and Evidence Logs</Link>
-        </aside>
+      <PageIntro eyebrow="Literature" title="Read to find the next question." description="Keep the source, the evidence, and the uncertainty together." />
+      <main id="main-content" className="page-content guide-reading">
+        <ol className="checklist">{METHOD.map(([title,text],index)=><li key={title}><span>0{index+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+        <section className="guide-example"><h2>Using artificial intelligence (AI)</h2><p>Use it to explore vocabulary, explain unfamiliar terms, or challenge your notes. Open the original source and check the relevant passage before relying on a claim or citation.</p></section>
+        <details className="guide-exercise"><summary>Practice deciding what a source contributes</summary><SourceTriage /></details>
+        <div className="button-row"><Link className="button primary" to="/resources">Find research sources ↗</Link><Link className="text-link" to="/worksheet">Keep source notes</Link></div>
       </main>
     </>
   )

@@ -6,7 +6,7 @@ export default function OutreachPage() {
   return (
     <>
       <RouteSeo path="/outreach" />
-      <PageIntro eyebrow="Research feedback" title="Outreach" description="Ask a well-matched person for specific feedback on a question, method, source, or result—not ownership of an entire project." />
+      <PageIntro eyebrow="Research feedback" title="Ask a focused question." description="Show a relevant mentor what you have tried and where you need help." />
       <main id="main-content" className="page-content">
         <section className="three-column">
           <h2 className="sr-only">Preparing for mentor outreach</h2>
@@ -18,19 +18,8 @@ export default function OutreachPage() {
           <div><p className="eyebrow">A concise structure</p><h2>Write a short, specific email</h2><p>Personalize every message. A few thoughtful emails to well-matched people are more useful than many generic emails.</p></div>
           <div className="email-card"><p className="email-subject">Subject: Student question about [specific topic]</p><p>Dear Professor [Name],</p><p>I am a high school student studying [specific problem]. I read your work on [paper or method], especially [specific detail].</p><p>I have tried [small model, analysis, or reading] and am unsure about [focused question]. Would you be willing to offer a brief suggestion or point me toward a useful source?</p><p>I have included a one-page summary for context. Thank you for considering my question.</p><p>Best,<br />[Your name]</p></div>
         </section>
-        <section className="two-column-cards">
-          <article><p className="eyebrow">Follow-up</p><h2>One reminder is appropriate</h2><p>Wait about one week, reply in the same thread, and keep it to two or three sentences. Then move on.</p></article>
-          <article><p className="eyebrow">No reply or rejection</p><h2>Revise the match, not your worth</h2><p>Recheck the fit, improve your evidence of preparation, and contact another suitable person.</p></article>
-        </section>
-        <section className="split-section">
-          <div><p className="eyebrow">After feedback</p><h2>Close the loop</h2></div>
-          <div className="prose"><ol><li>Restate the feedback in your own words.</li><li>Separate corrections from optional directions.</li><li>Choose one revision or test.</li><li>Send thanks and, if useful, a later concise update.</li></ol></div>
-        </section>
-        <aside className="callout">
-          <div><p className="eyebrow">Prepare before writing</p><h2>Bring a focused mentor brief.</h2></div>
-          <p>Summarize your current direction, question, first attempt, most important evidence, limitation, and one concrete request for feedback. Edit it before copying; nothing is sent by this site.</p>
-          <Link className="button primary" to="/worksheet#mentor-brief">Create mentor brief in Research Record</Link>
-        </aside>
+        <p className="hub-footnote">If there is no reply, a brief follow-up after about a week is reasonable. When feedback arrives, record what changed and why.</p>
+        <Link className="button primary" to="/worksheet#mentor-brief">Prepare a mentor brief ↗</Link>
       </main>
     </>
   )
