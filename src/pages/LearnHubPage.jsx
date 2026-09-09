@@ -1,40 +1,16 @@
 import { Link } from 'react-router-dom'
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
-import SectionHeading from '../components/layout/SectionHeading.jsx'
-
 const GUIDES = [
-  ['/find-a-direction', 'Find a direction', 'Learn how a broad interest becomes a bounded phenomenon, structure, or relationship. Then try Topic Narrowing Lab.'],
-  ['/research-workflow', 'Research workflow', 'Use evidence, failure, and revision as a repeatable working cycle.'],
-  ['/ai-literature', 'AI & literature', 'Search for sources, trace claims, map disagreements, and verify AI suggestions.'],
-  ['/build-a-project', 'Build a project', 'Design a smallest investigation with transparent assumptions and inspectable evidence.'],
-  ['/outreach', 'Outreach', 'Prepare specific, respectful requests for feedback from well-matched mentors.'],
+  ['/find-a-direction', 'Choose a research direction', 'Turn an interest into one object, one lens, and a boundary.'],
+  ['/ai-literature', 'Find and read papers', 'Trace claims to their sources and identify the next useful question.'],
+  ['/build-a-project', 'Design your first investigation', 'Choose evidence, check assumptions, and start small.'],
+  ['/research-workflow', 'Make sense of a result', 'Use evidence and failed attempts to revise your question.'],
+  ['/outreach', 'Get useful feedback', 'Find a relevant mentor and write a specific request.'],
 ]
-
 export default function LearnHubPage() {
-  return (
-    <>
-      <RouteSeo path="/learn" />
-      <PageIntro eyebrow="Learning hub" title="Learn how research takes shape" description="Read the guides in order or enter where your project is stuck. Each one connects an idea to a concrete action and a record you can keep." />
-      <main id="main-content" className="page-content hub-page">
-        <section>
-          <SectionHeading eyebrow="A calm path through uncertainty" title="Choose the guide that matches your next decision" description="Research rarely proceeds in a straight line. Return to a guide whenever new evidence changes what you need to understand." />
-          <div className="hub-list">
-            {GUIDES.map(([path, title, description], index) => (
-              <article className="hub-item" key={path}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div><h2>{title}</h2><p>{description}</p></div>
-                <Link className="text-link" to={path}>Read guide <span aria-hidden="true">→</span></Link>
-              </article>
-            ))}
-          </div>
-        </section>
-        <aside className="callout">
-          <div><p className="eyebrow">Start</p><h2>New to research?</h2></div>
-          <p>Begin with the whole pathway and a first-day checklist before choosing a guide. If you already have an interest, <Link to="/topic-narrowing">narrow a direction</Link>.</p>
-          <Link className="button primary" to="/start-here">Start here</Link>
-        </aside>
-      </main>
-    </>
-  )
+  return <><RouteSeo path="/learn" /><PageIntro eyebrow="Research guides" title="A little guidance. Then try it." description="Start with the decision you need to make." />
+    <main id="main-content" className="page-content compact-hub"><div className="core-guide-list">{GUIDES.map(([path,title,description],i)=><Link to={path} key={path}><span className="tool-number">0{i+1}</span><div><h2>{title}</h2><p>{description}</p></div><span aria-hidden="true">↗</span></Link>)}</div>
+      <p className="hub-footnote">New to research? <Link to="/start-here">Try the first-day checklist.</Link> <Link to="/case-studies">See a worked example.</Link></p>
+    </main></>
 }

@@ -44,3 +44,11 @@ The production build compiles the Vite client and then pre-renders every public 
 Research drafts are never uploaded. JSON import validates a versioned local backup and requires an explicit merge or replace decision before changing the current record.
 
 The site uses React, Vite, React Router, and React Helmet Async. Vercel serves the generated route directories directly.
+
+## Core research hub
+
+The homepage routes students into direction, question, and investigation tools. Guides, tools, and resources are the three main navigation items; the existing deep URLs and local Research Record remain available.
+
+Add verified resource entries in `src/data/resources.js`. Each entry supplies its title, category, purpose, official URL, and source. Entries immediately appear in the resource search and type selector. Check dates and eligibility at the original program page rather than copying perishable application claims.
+
+The site can be linked from a school's resources page using the existing public origin. It does not claim school affiliation. Research notes remain in the visitor's browser; do not change the existing origin when deploying an update intended to retain those notes.

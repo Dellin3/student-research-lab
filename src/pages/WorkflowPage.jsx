@@ -1,37 +1,15 @@
 import { Link } from 'react-router-dom'
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
-import SectionHeading from '../components/layout/SectionHeading.jsx'
-
 export default function WorkflowPage() {
-  const cycle = ['Interest', 'Direction', 'Literature', 'Question', 'Investigation', 'Evidence', 'Revision', 'Communication']
-  return (
-    <>
-      <RouteSeo path="/research-workflow" />
-      <PageIntro eyebrow="How research moves" title="Research is iterative" description="Each source, test, and failure can change the question. That change is progress when you can explain why it happened." />
-      <main id="main-content" className="page-content">
-        <section className="cycle-section">
-          <div className="cycle-copy"><p className="eyebrow">The working path</p><h2>Move forward, then return with better information</h2><p>Each stage has a useful next place: <Link to="/topic-narrowing">narrow a direction</Link>, <Link to="/ai-literature">map sources</Link>, <Link to="/research-question-builder">form a question</Link>, and <Link to="/investigation-planner">plan an investigation</Link>. Evidence may send you backward.</p></div>
-          <ol className="cycle">{cycle.map((item, index) => <li key={item}><span>{index + 1}</span>{item}</li>)}</ol>
-        </section>
-        <section>
-          <SectionHeading eyebrow="When something fails" title="Treat failure as a diagnostic" />
-          <div className="three-column">
-            <article><h3>Model failure</h3><p>Ask which assumption is doing too much work. Remove complexity, check units, and test a known case.</p></article>
-            <article><h3>Data failure</h3><p>Inspect collection methods, missing values, definitions, and scale. The data may answer a nearby question better.</p></article>
-            <article><h3>Question failure</h3><p>If evidence cannot distinguish possible answers, revise the question so a result could change your conclusion.</p></article>
-          </div>
-        </section>
-        <section className="split-section">
-          <div><p className="eyebrow">Save</p><h2>Record decisions, not only results</h2></div>
-          <div className="prose"><p>For each substantial change, record the date, expectation, outcome, and next revision.</p><ul><li>What prompted the change</li><li>Which assumption, method, or question changed</li><li>What would challenge the new direction</li><li>The smallest next test</li></ul></div>
-        </section>
-        <aside className="callout">
-          <div><p className="eyebrow">Continue</p><h2>Version your thinking.</h2></div>
-          <p>Keep question v1, v2, and v3. Their differences show how evidence improved the project. You can also <Link to="/research-question-builder">build a draft question</Link>.</p>
-          <Link className="button primary" to="/worksheet">Update Research Record</Link>
-        </aside>
-      </main>
-    </>
-  )
+  return <><RouteSeo path="/research-workflow" /><PageIntro eyebrow="Evidence & revision" title="Let the result change the question." description="Compare what you expected with what happened. Then choose one thing to revise." />
+    <main id="main-content" className="page-content guide-reading">
+      <ol className="checklist">
+        <li><span>01</span><div><h3>The model failed</h3><p>Check units and a known case. Simplify the model, then identify which assumption the failure challenges.</p></div></li>
+        <li><span>02</span><div><h3>The data do not fit</h3><p>Inspect collection methods, definitions, missing values, and scale. Decide whether the data can answer your question at all.</p></div></li>
+        <li><span>03</span><div><h3>The question does not distinguish answers</h3><p>Name evidence that would change your conclusion. If there is none, revise the wording or choose a different comparison.</p></div></li>
+      </ol>
+      <section className="guide-example"><h2>Keep the reason for the change.</h2><p>Record the date, the old expectation, the evidence, and your revision. Change one element at a time, then plan the smallest next test.</p></section>
+      <Link className="button primary" to="/worksheet">Record the revision ↗</Link>
+    </main></>
 }

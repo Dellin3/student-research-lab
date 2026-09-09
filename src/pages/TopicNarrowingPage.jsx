@@ -55,101 +55,13 @@ export default function TopicNarrowingPage() {
       <section className="page-intro">
         <div className="narrow">
           <p className="eyebrow">Interactive research tool</p>
-          <h1>Turn an Interest into a Research Direction</h1>
-          <p className="lead">
-            Use this lab to move from a broad interest to one or more bounded research directions.
-            It is a reasoning scaffold, not an AI topic generator and not a second question builder.
-          </p>
+          <h1>Find a direction.</h1>
+          <p className="lead">Choose an object, a way of looking, and one boundary.</p>
         </div>
       </section>
       <main id="main-content" className="page-content tn-page">
         <TopicNarrowingLab />
-
-        <section className="tn-learn" aria-labelledby="tn-levels-title">
-          <div className="section-heading">
-            <p className="eyebrow">Three different things</p>
-            <h2 id="tn-levels-title">Interest vs topic vs research direction</h2>
-            <p>Mixing these up is the usual reason a project stays too large to start.</p>
-          </div>
-          <div className="tn-learn-grid">
-            <article>
-              <h3>Interest</h3>
-              <p>“Graph theory” or “urban heat” names what keeps pulling you back. It is not yet work you can inspect.</p>
-            </article>
-            <article>
-              <h3>Direction</h3>
-              <p>A direction names an object, a way of looking, and a boundary. Example: extremal behavior of triangle-free graphs under a fixed degree constraint.</p>
-            </article>
-            <article>
-              <h3>Question</h3>
-              <p>A question is a later formulation you can test, compute, or prove. Form that in the <Link to="/research-question-builder">Question Builder</Link>.</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="tn-learn split-section">
-          <div>
-            <h2>Why broad topics fail</h2>
-          </div>
-          <div className="prose">
-            <p>
-              A broad topic has no object you can point to, no lens that would reveal something, and no
-              boundary that would make a first attempt possible. It invites reading forever and testing never.
-            </p>
-            <p>
-              Narrowing is not the same as making the idea less important. It is choosing one inspectable slice.
-            </p>
-          </div>
-        </section>
-
-        <section className="tn-learn">
-          <div className="section-heading">
-            <h2>Five useful ways to narrow a topic</h2>
-          </div>
-          <div className="tn-learn-grid">
-            <article><h3>Name an object</h3><p>Replace the field with a structure, dataset, population, signal, or behavior.</p></article>
-            <article><h3>Choose a lens</h3><p>Decide whether you are classifying, measuring, comparing, proving, or looking for a failure mode.</p></article>
-            <article><h3>Add a boundary</h3><p>One dataset, theorem family, species, time window, model, or place is usually enough to start.</p></article>
-            <article><h3>Keep the rest visible</h3><p>Write down what you are not studying yet so the project does not quietly expand.</p></article>
-            <article><h3>Stop before the question</h3><p>A direction can be honest before it is testable. The question is the next reasoning step.</p></article>
-          </div>
-        </section>
-
-        <section className="tn-learn">
-          <div className="section-heading">
-            <h2>How narrowing differs by discipline</h2>
-            <p>Mathematics often narrows by structure, family, and conditions. Empirical fields often narrow by measurement, comparison, and setting. Computer science often narrows by representation, benchmark, or failure mode.</p>
-          </div>
-        </section>
-
-        <section className="tn-learn split-section">
-          <div>
-            <h2>When a topic is narrow enough</h2>
-          </div>
-          <div className="prose">
-            <p>
-              It is narrow enough when you can name the object, the lens, and one boundary, and explain why
-              that combination is smaller than the original interest. If you cannot yet say what you would
-              inspect first, stay here. If you can, continue to a question.
-            </p>
-          </div>
-        </section>
-
-        <section className="tn-learn split-section">
-          <div>
-            <h2>How to move from direction to question</h2>
-          </div>
-          <div className="prose">
-            <p>
-              A direction says what you will look at. A question says what could come out differently.
-              Carry the object and boundary into the <Link to="/research-question-builder">Question Builder</Link>.
-              Do not treat the direction sentence as a finished research question.
-            </p>
-            <p>
-              For the concepts behind this lab, read <Link to="/find-a-direction">Find a direction</Link>.
-            </p>
-          </div>
-        </section>
+        <aside className="tool-guidance"><p>A direction is ready when you can name what you would inspect first.</p><Link to="/find-a-direction">How to narrow a topic ↗</Link></aside>
       </main>
     </>
   )

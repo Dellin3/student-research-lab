@@ -124,7 +124,7 @@ export default function ResearchRecordPage() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setRecord(readResearchRecord(window.localStorage))
-      setNote('Loaded and migrated local record')
+      setNote('Your local record is ready')
     }, 0)
     return () => window.clearTimeout(timer)
   }, [])
@@ -247,8 +247,8 @@ export default function ResearchRecordPage() {
       <main id="main-content" className="worksheet-content">
         <p className="privacy-note">Your entries stay in this browser and are not sent to a server.</p>
         <form className="worksheet-form" onSubmit={(event) => event.preventDefault()}>
-          {GROUPS.map(([group, legend, fields]) => (
-            <details className="worksheet-section" key={group} open={['startingPoint', 'question', 'investigation'].includes(group)}>
+          {[GROUPS[1], GROUPS[5], GROUPS[0], GROUPS[3], GROUPS[2], GROUPS[4]].map(([group, legend, fields]) => (
+            <details className="worksheet-section" key={group} open={group === 'question'}>
               <summary><h2>{legend}</h2></summary>
               <fieldset>
                 <legend className="sr-only">{legend}</legend>
@@ -256,7 +256,7 @@ export default function ResearchRecordPage() {
                   <label className="worksheet-field" key={field}>
                     <span className="field-copy"><strong>{label}</strong><small>{prompt}</small></span>
                     <textarea
-                      rows="4"
+                      rows="3"
                       value={record[group][field]}
                       onChange={(event) => update(group, field, event.target.value)}
                       placeholder="Write here…"
@@ -268,7 +268,7 @@ export default function ResearchRecordPage() {
           ))}
           <LogSection
             title="Source log"
-            description="Describe what each source contributes and what remains uncertain. URLs stay plain form data; this page does not fetch or verify them."
+            description="Keep the citation, useful contribution, and limitation of each source."
             entries={record.sourceLog}
             fields={SOURCE_FIELDS}
             onAdd={() => addLogEntry('sourceLog', createSourceLogEntry)}
@@ -320,7 +320,7 @@ export default function ResearchRecordPage() {
             onRemove={(id) => removeLogEntry('revisionHistory', id)}
           />
         </form>
-        <details className="worksheet-section">
+        <details className="worksheet-section" id="mentor-brief">
           <summary><h2>Mentor brief</h2></summary>
           <p>Generate a snapshot from the current on-screen record, then edit it locally before copying. The brief is not saved or sent anywhere.</p>
           <div className="worksheet-actions">

@@ -1,9 +1,9 @@
 :root {
   color-scheme: light;
 
-  --color-paper: #f7f3e9;
-  --color-paper-deep: #eee8dc;
-  --color-paper-raised: #fffdf7;
+  --color-paper: #f7f9fc;
+  --color-paper-deep: #eef2f7;
+  --color-paper-raised: #ffffff;
   --color-ink: #182a43;
   --color-ink-soft: #596575;
   --color-navy: #14263e;
@@ -19,7 +19,7 @@
   --text: #3d4656;
   --text-muted: var(--color-ink-soft);
   --surface-base: var(--color-paper);
-  --surface-subtle: #f3efe6;
+  --surface-subtle: #f1f4f8;
   --surface-raised: var(--color-paper-raised);
   --surface-inverse: var(--color-navy);
   --border-subtle: var(--color-line);
@@ -55,7 +55,7 @@
   --ease-standard: cubic-bezier(0.22, 0.68, 0.2, 1);
 
   --font-sans: "Source Sans 3", "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-serif: "Times New Roman", Times, Georgia, serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", ui-monospace, monospace;
   --step--1: 0.78rem;
   --step-0: 1rem;
