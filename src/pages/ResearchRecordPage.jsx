@@ -119,47 +119,53 @@ export default function ResearchRecordPage() {
   const [note, setNote] = useState('')
   const [mentorBrief, setMentorBrief] = useState('')
   const [importMode, setImportMode] = useState('')
+  const [pendingImport, setPendingImport] = useState(false)
   const fileInput = useRef(null)
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setRecord(readResearchRecord(window.localStorage))
-      setNote('Your local record is ready')
+      setNote('Changes save automatically on this device')
     }, 0)
     return () => window.clearTimeout(timer)
   }, [])
 
+  function saveEdit(next) {
+    setRecord(next)
+    if (pendingImport) {
+      setNote('Imported draft: review it, then press Save to keep it')
+      return
+    }
+    try {
+      saveResearchRecord(next, window.localStorage)
+      setNote('Saved on this device')
+    } catch {
+      setNote('Could not save. Keep this page open and download a backup.')
+    }
+  }
+
   function update(group, field, value) {
-    setRecord((current) => ({
-      ...current,
-      [group]: { ...current[group], [field]: value },
-    }))
-    setNote('Unsaved changes')
+    saveEdit({ ...record, [group]: { ...record[group], [field]: value } })
   }
 
   function updateLog(log, id, field, value) {
-    setRecord((current) => ({
-      ...current,
-      [log]: current[log].map((entry) => entry.id === id ? { ...entry, [field]: value } : entry),
-    }))
-    setNote('Unsaved changes')
+    saveEdit({ ...record, [log]: record[log].map(entry => entry.id === id ? { ...entry, [field]: value } : entry) })
   }
 
   function addLogEntry(log, factory) {
-    setRecord((current) => ({ ...current, [log]: [...current[log], factory()] }))
-    setNote('Unsaved changes')
+    saveEdit({ ...record, [log]: [...record[log], factory()] })
   }
 
   function removeLogEntry(log, id) {
-    if (!window.confirm('Remove this entry? Save afterward to persist the change.')) return
-    setRecord((current) => ({ ...current, [log]: current[log].filter((entry) => entry.id !== id) }))
-    setNote('Unsaved changes')
+    if (!window.confirm('Remove this entry from your notes?')) return
+    saveEdit({ ...record, [log]: record[log].filter(entry => entry.id !== id) })
   }
 
   function save() {
     try {
       setRecord(saveResearchRecord(record, window.localStorage))
-      setNote('Saved locally in this browser')
+      setPendingImport(false)
+      setNote('Saved on this device')
     } catch {
       setNote('Could not save. Your current record is still open and unchanged.')
     }
@@ -168,6 +174,7 @@ export default function ResearchRecordPage() {
   function clear() {
     if (!window.confirm('Clear the entire Research Record from this browser? This cannot be undone.')) return
     setRecord(clearResearchRecord(window.localStorage))
+    setPendingImport(false)
     setNote('Research Record cleared')
   }
 
@@ -198,8 +205,8 @@ export default function ResearchRecordPage() {
       return
     }
     const action = importMode === 'replace'
-      ? 'Replace the current on-screen record with this file? Nothing is saved until you press Save.'
-      : 'Merge this file into the current on-screen record? Matching imported fields take precedence. Nothing is saved until you press Save.'
+      ? 'Replace the current on-screen record with this file? Nothing is saved until you press Save imported draft.'
+      : 'Merge this file into the current on-screen record? Matching imported fields take precedence. Nothing is saved until you press Save imported draft.'
     if (!window.confirm(action)) {
       setNote('Import cancelled; current record unchanged.')
       return
@@ -208,7 +215,8 @@ export default function ResearchRecordPage() {
       const json = await file.text()
       const imported = importResearchRecord(record, json, importMode)
       setRecord(imported)
-      setNote(`Import ${importMode} complete. Review it, then Save to persist locally.`)
+      setPendingImport(true)
+      setNote(`Import ${importMode} complete. Review it, then Save imported draft to keep it.`)
     } catch (error) {
       setNote(`Import failed: ${error instanceof Error ? error.message : 'unknown error'} Current record unchanged.`)
     }
@@ -231,28 +239,34 @@ export default function ResearchRecordPage() {
     <>
       <RouteSeo path="/worksheet" />
       <PageIntro
-        eyebrow="Local working document"
-        title="Research Record"
-        description="Keep the question, evidence, revisions, and next action together as your work changes."
+        eyebrow="Your research notebook"
+        title="Keep your next step in sight."
+        description="A question, a source, and one next action. Add more detail when you need it."
       >
         <div className="worksheet-actions">
-          <button className="button primary" type="button" onClick={save}>Save</button>
-          <button className="button secondary" type="button" onClick={() => window.print()}>Print</button>
-          <button className="button secondary" type="button" onClick={() => exportFile('json')}>Export JSON</button>
-          <button className="button secondary" type="button" onClick={() => exportFile('markdown')}>Export Markdown</button>
-          <button className="text-button" type="button" onClick={clear}>Clear</button>
+          <button className="button primary" type="button" onClick={save}>{pendingImport ? 'Save imported draft' : 'Save now'}</button>
+          <button className="button secondary" type="button" onClick={() => exportFile('json')}>Download a backup</button>
         </div>
-        <p aria-live="polite">{note}</p>
+        <p className="worksheet-status" aria-live="polite" data-unsaved={pendingImport}>{note}</p>
       </PageIntro>
       <main id="main-content" className="worksheet-content">
-        <p className="privacy-note">Your entries stay in this browser and are not sent to a server.</p>
+        <p className="privacy-note">Your notes stay in this browser on this device. Download a backup to move them elsewhere or keep another copy.</p>
         <form className="worksheet-form" onSubmit={(event) => event.preventDefault()}>
+          <fieldset className="notebook-basics">
+            <legend className="sr-only">My research notes</legend>
+            {[
+              ['question', 'current', 'My question', 'What do you want to understand?'],
+              ['literature', 'sources', 'Useful sources', 'Keep a title, link, and a sentence about why it helps.'],
+              ['next', 'action', 'My next step', 'One small thing you can do next.'],
+            ].map(([group, field, label, prompt]) => <label className="worksheet-field" key={field}><span className="field-copy"><strong>{label}</strong><small>{prompt}</small></span><textarea rows="3" value={record[group][field]} onChange={event => update(group, field, event.target.value)} placeholder="Write here…" /></label>)}
+          </fieldset>
+          <details className="worksheet-section notebook-extra"><summary><h2>More detail <span>(optional)</span></h2></summary>
           {[GROUPS[1], GROUPS[5], GROUPS[0], GROUPS[3], GROUPS[2], GROUPS[4]].map(([group, legend, fields]) => (
-            <details className="worksheet-section" key={group} open={group === 'question'}>
+            <details className="worksheet-section" key={group}>
               <summary><h2>{legend}</h2></summary>
               <fieldset>
                 <legend className="sr-only">{legend}</legend>
-                {fields.map(([field, label, prompt]) => (
+                {fields.filter(([field]) => !['question.current', 'literature.sources', 'next.action'].includes(`${group}.${field}`)).map(([field, label, prompt]) => (
                   <label className="worksheet-field" key={field}>
                     <span className="field-copy"><strong>{label}</strong><small>{prompt}</small></span>
                     <textarea
@@ -319,6 +333,7 @@ export default function ResearchRecordPage() {
             onUpdate={(id, field, value) => updateLog('revisionHistory', id, field, value)}
             onRemove={(id) => removeLogEntry('revisionHistory', id)}
           />
+          </details>
         </form>
         <details className="worksheet-section" id="mentor-brief">
           <summary><h2>Mentor brief</h2></summary>
@@ -335,7 +350,7 @@ export default function ResearchRecordPage() {
           </label>
         </details>
         <details className="worksheet-section">
-          <summary><h2>Import a Research Record</h2></summary>
+          <summary><h2>Import a backup</h2></summary>
           <p>JSON only, up to {Math.round(MAX_RESEARCH_RECORD_IMPORT_BYTES / 1024)} KB. Import changes the on-screen draft only; press Save after reviewing it.</p>
           <fieldset>
             <legend>Choose how to import</legend>
@@ -360,8 +375,10 @@ export default function ResearchRecordPage() {
           </button>
         </details>
         <div className="worksheet-bottom-actions">
-          <button className="button primary" type="button" onClick={save}>Save</button>
+          <button className="button primary" type="button" onClick={save}>{pendingImport ? 'Save imported draft' : 'Save now'}</button>
           <button className="button secondary" type="button" onClick={() => window.print()}>Print</button>
+          <button className="button secondary" type="button" onClick={() => exportFile('markdown')}>Export text</button>
+          <button className="text-button" type="button" onClick={clear}>Clear my notes</button>
         </div>
       </main>
     </>

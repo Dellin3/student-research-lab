@@ -46,7 +46,7 @@ export default function InvestigationPlannerPage() {
       <nav className="ip-breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/tools">Tools</Link></li>
+          <li><Link to="/start-here">Start research</Link></li>
           <li aria-current="page">Investigation Planner</li>
         </ol>
       </nav>

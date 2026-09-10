@@ -127,6 +127,7 @@ export default function TopicNarrowingLab() {
   }
 
   function applyExample(example) {
+    if (Object.values(state).some(Boolean) && !window.confirm('Load this worked example in place of your current direction draft?')) return
     setState({ ...EMPTY_NARROWING_STATE, ...example.state })
     setStageIndex(4)
     setSaveNote(`Loaded ${example.label} worked example`)
@@ -169,30 +170,8 @@ export default function TopicNarrowingLab() {
   return (
     <div className="tn-lab">
       <div className="tn-toolbar">
-        <div className="tn-field-row" role="group" aria-label="Discipline">
-          <span className="tn-toolbar-label">Discipline</span>
-          <div className="tn-chip-row">
-            <button
-              type="button"
-              className={`tn-chip${!state.discipline ? ' is-selected' : ''}`}
-              aria-pressed={!state.discipline}
-              onClick={() => update('discipline', '')}
-            >
-              Not chosen yet
-            </button>
-            {NARROWING_DISCIPLINES.map((discipline) => (
-              <button
-                key={discipline}
-                type="button"
-                className={`tn-chip${state.discipline === discipline ? ' is-selected' : ''}`}
-                aria-pressed={state.discipline === discipline}
-                onClick={() => update('discipline', discipline)}
-              >
-                {discipline}
-              </button>
-            ))}
-          </div>
-        </div>
+        <label className="tool-subject">Subject <span>(choose now or later)</span><select value={state.discipline} onChange={event => update('discipline', event.target.value)}><option value="">Not chosen yet</option>{NARROWING_DISCIPLINES.map(discipline => <option key={discipline}>{discipline}</option>)}</select></label>
+        <details className="tool-options"><summary>See worked examples</summary>
         <div className="tn-field-row" role="group" aria-label="Worked examples">
           <span className="tn-toolbar-label">Worked examples</span>
           <div className="tn-chip-row">
@@ -209,6 +188,7 @@ export default function TopicNarrowingLab() {
             ))}
           </div>
         </div>
+        </details>
       </div>
 
       <ol className="tn-progress" aria-label="Topic narrowing stages">

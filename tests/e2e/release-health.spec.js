@@ -3,6 +3,11 @@ import { capture, expectHealthyLayout } from './helpers.js'
 
 const routes = [
   ['/', 'home'],
+  ['/start-here', 'start-research'],
+  ['/start-here?example=humanities&step=try', 'shared-beginner-step'],
+  ['/resources', 'programs'],
+  ['/resources?view=mentors', 'mentors'],
+  ['/resources?view=sources&q=data', 'filtered-sources'],
   ['/learn', 'learn'],
   ['/tools', 'tools'],
   ['/topic-narrowing', 'topic-narrowing'],

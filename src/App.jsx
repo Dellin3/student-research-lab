@@ -19,6 +19,7 @@ import WorkflowPage from './pages/WorkflowPage.jsx'
 import ResourcesPage from './pages/ResourcesPage.jsx'
 import './App.css'
 import './styles/core.css'
+import './styles/research-hub.css'
 
 export default function App() {
   return (

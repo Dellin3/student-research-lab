@@ -10,6 +10,8 @@ async function resetStorage(page) {
 
 async function loadExample(page, name) {
   await page.goto('/research-question-builder')
+  await page.locator('.tool-options > summary').click()
+  page.once('dialog', dialog => dialog.accept())
   await page.locator('.qb-example-chip').filter({ hasText: name }).click()
 }
 
@@ -34,23 +36,14 @@ test.describe('R1 product acceptance', () => {
     })
   }
 
-  test('homepage field examples keep a readable desktop measure', async ({ page }, testInfo) => {
+  test('homepage offers two clear paths and a readable worked example', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop')
     await page.goto('/')
-    const widths = await page.locator('.field-mode').evaluateAll((items) =>
-      items.map((item) => item.getBoundingClientRect().width),
-    )
-    expect(widths).toHaveLength(5)
+    const widths = await page.locator('.home-path').evaluateAll(items => items.map(item => item.getBoundingClientRect().width))
+    expect(widths).toHaveLength(2)
     expect(Math.min(...widths)).toBeGreaterThan(300)
-    const textWidths = await page.locator('.field-mode > p, .worked-example p, .real-example p').evaluateAll((items) =>
-      items.map((item) => {
-        const width = item.getBoundingClientRect().width
-        const fontSize = Number.parseFloat(getComputedStyle(item).fontSize)
-        return { width, ch: width / fontSize }
-      }),
-    )
-    expect(Math.min(...textWidths.map((item) => item.ch))).toBeGreaterThan(18)
-    await expect(page.getByText('REAL PROJECT EXAMPLE')).toHaveCount(1)
+    await expect(page.locator('.field-switch button')).toHaveCount(3)
+    await expect(page.locator('.home-example-body .worked-label')).toHaveCount(1)
   })
 
   test('Research Record uses the desktop workspace width intentionally', async ({ page }, testInfo) => {
@@ -68,12 +61,13 @@ test.describe('R1 product acceptance', () => {
 
   test('Examples preserve labels, breadth, and readable details', async ({ page }, testInfo) => {
     await page.goto('/case-studies')
-    await expect(page.locator('.worked-example-heading .example-label')).toHaveCount(5)
+    await expect(page.locator('.worked-examples .example-label')).toHaveCount(5)
     await expect(page.locator('.real-project-example .example-label')).toHaveCount(1)
     for (const discipline of ['Mathematics', 'Computer Science', 'Environmental Science · Biology', 'Social Science', 'Physics']) {
       await expect(page.getByText(discipline, { exact: true })).toBeVisible()
     }
     if (testInfo.project.name === 'desktop') {
+      for (const summary of await page.locator('.worked-example > summary').all()) await summary.click()
       const widths = await page.locator('.worked-example li p').evaluateAll((items) =>
         items.map((item) => item.getBoundingClientRect().width),
       )
@@ -93,11 +87,12 @@ test.describe('R1 product acceptance', () => {
 
   test('Builder examples select their natural Discipline Lens', async ({ page }, testInfo) => {
     await loadExample(page, 'Saturn Rings')
-    await expect(page.locator('.qb-field-presets button[aria-pressed="true"]')).toHaveText('Physics')
+    await expect(page.locator('.tool-subject select')).toHaveValue('Physics')
     await capture(page, 'r1', testInfo.project.name, 'builder-saturn')
 
+    page.once('dialog', dialog => dialog.accept())
     await page.getByRole('button', { name: /Mathematics \/ Counting/ }).click()
-    await expect(page.locator('.qb-field-presets button[aria-pressed="true"]')).toHaveText('Mathematics')
+    await expect(page.locator('.tool-subject select')).toHaveValue('Mathematics')
     await expect(page.locator('.qb-live-question')).toContainText(/recurrence|closed form|conditions/i)
     await expect(page.locator('.qb-logic .sr-only')).toContainText('Object / structure')
     await expect(page.locator('.qb-logic .sr-only')).toContainText('Assumptions / conditions')
@@ -191,6 +186,6 @@ test.describe('R1 product acceptance', () => {
     })))
     await page.reload()
     await expect(page.getByLabel('Interest')).toHaveValue('legacy interest')
-    await expect(page.getByLabel('Current question')).toHaveValue('legacy question')
+    await expect(page.getByLabel('My question')).toHaveValue('legacy question')
   })
 })

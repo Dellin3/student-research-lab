@@ -45,10 +45,18 @@ Research drafts are never uploaded. JSON import validates a versioned local back
 
 The site uses React, Vite, React Router, and React Helmet Async. Vercel serves the generated route directories directly.
 
-## Core research hub
+## Two core paths
 
-The homepage routes students into direction, question, and investigation tools. Guides, tools, and resources are the three main navigation items; the existing deep URLs and local Research Record remain available.
+The two primary entries are **Start research** (`/start-here`) and **Mentors & programs** (`/resources`). The homepage gives each a direct action. The existing deep URLs remain available as supporting guides and tools.
 
-Add verified resource entries in `src/data/resources.js`. Each entry supplies its title, category, purpose, official URL, and source. Entries immediately appear in the resource search and type selector. Check dates and eligibility at the original program page rather than copying perishable application claims.
+The beginner page teaches four steps through one continuing worked example. Students can switch between environment, mathematics, and humanities. Step and example selections are encoded in the URL so they can be shared. `src/data/researchSteps.js` owns this content.
 
-The site can be linked from a school's resources page using the existing public origin. It does not claim school affiliation. Research notes remain in the visitor's browser; do not change the existing origin when deploying an update intended to retain those notes.
+The resource page has three views: research programs, finding a mentor, and papers/data. Search and format filters are reflected in the URL. `src/data/resources.js` owns the program summaries, official faculty-directory links, and source tools. To add a program, supply `id`, `title`, `organization`, `fullName`, `subject`, `format`, `location`, `cost` (empty if unverified), `audience`, `description`, `note`, and `href`. Supported format filters are `Remote`, `In person`, and `Varies by project`. Recheck source facts and update `RESOURCE_CHECKED_DATE` when reviewing the catalog. Do not imply applications are open without a current check.
+
+Notes show question, sources, and next action first. Ordinary edits save immediately on the same device. Existing detailed fields, logs, JSON backups, explicit merge/replace imports, Markdown export, and mentor briefs remain available. Imported records stay staged until the student explicitly saves them.
+
+The warm palette is defined in `src/styles/tokens.css`; the two core paths are styled in `src/styles/research-hub.css` and `src/components/home/home.css`. Motion responds to navigation, example choices, and pointer/focus states; reduced-motion preferences disable it.
+
+`node scripts/check-core-paths.mjs` checks all beginner example/step combinations and resource search/view combinations using server rendering. Existing data regression checks cover research drafts and backward compatibility. Live browser QA must be run separately; passing these scripts does not certify the visual layout.
+
+The site can be linked from a school's resources page using the existing public origin. It does not claim school affiliation. A real school directory or approved teacher contacts can replace the general school-teacher guidance when supplied. No school system integration or site update has been performed. Keep the existing origin for a production update intended to retain students' browser notes; a preview URL has separate browser storage.

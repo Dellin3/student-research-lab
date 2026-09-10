@@ -19,7 +19,7 @@ export default function AiLiteraturePage() {
         <ol className="checklist">{METHOD.map(([title,text],index)=><li key={title}><span>0{index+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
         <section className="guide-example"><h2>Using artificial intelligence (AI)</h2><p>Use it to explore vocabulary, explain unfamiliar terms, or challenge your notes. Open the original source and check the relevant passage before relying on a claim or citation.</p></section>
         <details className="guide-exercise"><summary>Practice deciding what a source contributes</summary><SourceTriage /></details>
-        <div className="button-row"><Link className="button primary" to="/resources">Find research sources ↗</Link><Link className="text-link" to="/worksheet">Keep source notes</Link></div>
+        <div className="button-row"><Link className="button primary" to="/resources?view=sources">Find research sources ↗</Link><Link className="text-link" to="/worksheet">Keep source notes</Link></div>
       </main>
     </>
   )

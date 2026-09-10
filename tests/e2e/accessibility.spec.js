@@ -3,6 +3,9 @@ import { expect, test } from '@playwright/test'
 
 const routes = [
   '/',
+  '/start-here',
+  '/resources',
+  '/resources?view=mentors',
   '/topic-narrowing',
   '/research-question-builder',
   '/investigation-planner',

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { capture, expectHealthyLayout } from './helpers.js'
+import { capture, expectHealthyLayout, openRecordDetail } from './helpers.js'
 
 async function resetStorage(page) {
   await page.goto('/')
@@ -12,7 +12,7 @@ async function openStage(page, name) {
 
 async function completePath(page, { discipline, interest, object, lens, boundary }) {
   await page.goto('/topic-narrowing')
-  await page.getByRole('button', { name: discipline, exact: true }).click()
+  await page.locator('.tool-subject select').selectOption(discipline)
   await page.getByRole('textbox', { name: 'Interest' }).fill(interest)
   await openStage(page, 'Object')
   await page.getByRole('textbox', { name: 'Object / phenomenon' }).fill(object)
@@ -33,10 +33,10 @@ test.describe('R2 Topic Narrowing Lab', () => {
     })
   }
 
-  test('homepage interest state leads to Topic Narrowing Lab', async ({ page }) => {
+  test('homepage beginner path leads to topic narrowing', async ({ page }) => {
     await page.goto('/')
-    await page.getByLabel('I have an interest, but no direction').check()
-    await expect(page.getByRole('link', { name: 'Narrow a direction' })).toHaveAttribute('href', '/topic-narrowing')
+    await page.locator('.path-start').click()
+    await expect(page.getByRole('link', { name: /Help me narrow an interest/ })).toHaveAttribute('href', '/topic-narrowing')
   })
 
   test('empty state coaches without criticizing', async ({ page }, testInfo) => {
@@ -126,8 +126,8 @@ test.describe('R2 Topic Narrowing Lab', () => {
     })
     await page.getByRole('button', { name: 'Continue to Question Builder' }).click()
     await expect(page).toHaveURL(/research-question-builder/)
-    await expect(page.getByText(/transferred from Topic Narrowing Lab/i)).toBeVisible()
-    await expect(page.locator('.qb-field-presets button[aria-pressed="true"]')).toHaveText('Mathematics')
+    await expect(page.getByText(/Direction transferred/i)).toBeVisible()
+    await expect(page.locator('.tool-subject select')).toHaveValue('Mathematics')
     await page.locator('.qb-progress-step').filter({ hasText: 'Interest' }).click()
     await expect(page.getByLabel('Broad interest')).toHaveValue('combinatorics')
     await expect(page.locator('.qb-status-label')).not.toHaveText('STRUCTURALLY COMPLETE')
@@ -136,8 +136,9 @@ test.describe('R2 Topic Narrowing Lab', () => {
   test('existing Research Record is not silently overwritten', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/worksheet')
+    await openRecordDetail(page, 'Starting point')
     await page.getByLabel('Interest').fill('keep this interest')
-    await page.getByRole('button', { name: 'Save' }).first().click()
+    await page.getByRole('button', { name: 'Save now' }).first().click()
     await completePath(page, {
       discipline: 'Physics',
       interest: 'fluid behavior',
@@ -154,16 +155,16 @@ test.describe('R2 Topic Narrowing Lab', () => {
 
   test('Tools hub presents the working sequence', async ({ page }) => {
     await page.goto('/tools')
-    const titles = await page.locator('.tool-sequence h2').allTextContents()
-    expect(titles[0]).toMatch(/Topic Narrowing/)
-    expect(titles[1]).toMatch(/Question Builder/)
-    expect(titles[2]).toMatch(/Investigation Planner/)
+    const titles = await page.locator('.core-tool-list h2, .record-entry h2').allTextContents()
+    expect(titles[0]).toMatch(/Find a direction/)
+    expect(titles[1]).toMatch(/Shape a question/)
+    expect(titles[2]).toMatch(/Plan the first test/)
     expect(titles[3]).toMatch(/Research Record/)
   })
 
   test('Find a Direction invites the lab without duplicating it', async ({ page }) => {
     await page.goto('/find-a-direction')
-    await expect(page.getByRole('link', { name: 'Try Topic Narrowing Lab' })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Narrow my direction/ })).toBeVisible()
     await expect(page.locator('.tn-lab')).toHaveCount(0)
   })
 })

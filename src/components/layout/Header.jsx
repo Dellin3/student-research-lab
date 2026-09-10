@@ -29,7 +29,7 @@ export default function Header() {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Research Starter Lab home">
-          <span className="brand-mark" aria-hidden="true">RSL</span>
+          <span className="brand-mark" aria-hidden="true">r<span>↗</span></span>
           <span><strong>Research Starter Lab</strong></span>
         </Link>
         <button
@@ -42,7 +42,7 @@ export default function Header() {
         >
           <i /><i /><i />
         </button>
-        <nav id="primary-navigation" className={open ? 'primary-nav is-open' : 'primary-nav'} aria-label="Primary navigation">
+        <nav id="primary-navigation" className={open ? 'primary-nav is-open' : 'primary-nav'} aria-label="Primary navigation" onClick={() => setMenu({ open: false, path: location.pathname })} onKeyDown={event => { if (event.key === 'Escape') setMenu({ open: false, path: location.pathname }) }}>
           {NAVIGATION_ROUTES.map((route) => (
             <NavLink
               key={route.path}
@@ -52,6 +52,7 @@ export default function Header() {
               {route.navigationLabel}
             </NavLink>
           ))}
+          <NavLink className="nav-notes" to="/worksheet">My notes <span aria-hidden="true">↗</span></NavLink>
         </nav>
       </div>
     </header>

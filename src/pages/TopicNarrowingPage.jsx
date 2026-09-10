@@ -48,7 +48,7 @@ export default function TopicNarrowingPage() {
       <nav className="tn-breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/tools">Tools</Link></li>
+          <li><Link to="/start-here">Start research</Link></li>
           <li aria-current="page">Topic Narrowing Lab</li>
         </ol>
       </nav>

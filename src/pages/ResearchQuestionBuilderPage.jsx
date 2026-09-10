@@ -73,6 +73,7 @@ export default function ResearchQuestionBuilderPage() {
       <nav className="qb-breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/start-here">Start research</Link></li>
           <li aria-current="page">Research Question Builder</li>
         </ol>
       </nav>

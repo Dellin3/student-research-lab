@@ -3,15 +3,15 @@ export const PUBLIC_ROUTES = [
     path: '/',
     title: 'How to Start Research in High School | Research Starter Lab',
     description:
-      'Find a research direction, shape a question, plan a first investigation, and explore useful resources for student research.',
+      'Learn how to start research in high school and find mentors, research programs, papers, and data for your next step.',
     sitemap: true,
   },
   {
     path: '/start-here',
-    title: 'Start Here | Research Starter Lab',
+    title: 'Start Research | Research Starter Lab',
     description:
-      'Understand the student research journey and complete a concrete first-day checklist.',
-    navigationLabel: 'START',
+      'Start your first research project with four practical steps and worked examples in environmental science, mathematics, and humanities.',
+    navigationLabel: 'Start research',
     sitemap: true,
   },
   {
@@ -32,9 +32,9 @@ export const PUBLIC_ROUTES = [
   },
   {
     path: '/resources',
-    title: 'Research Resources | Research Starter Lab',
-    description: 'Find official tools, papers, public datasets, and research opportunities for student projects.',
-    navigationLabel: 'Resources',
+    title: 'Find Mentors & Research Programs | Research Starter Lab',
+    description: 'Find student research programs, official researcher directories, papers, and public datasets. Explore MIT PRIMES, remote mathematics research, and more.',
+    navigationLabel: 'Mentors & programs',
     sitemap: true,
   },
   {
@@ -117,7 +117,7 @@ export const ROUTES_BY_PATH = Object.fromEntries(
   PUBLIC_ROUTES.map((route) => [route.path, route]),
 )
 
-const NAVIGATION_PATHS = ['/learn', '/tools', '/resources']
+const NAVIGATION_PATHS = ['/start-here', '/resources']
 
 export const NAVIGATION_ROUTES = NAVIGATION_PATHS.map(
   (path) => ROUTES_BY_PATH[path],
