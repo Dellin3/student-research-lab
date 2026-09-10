@@ -1,4 +1,6 @@
+import { useRef } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
+import useSurfaceMotion from './hooks/useSurfaceMotion.js'
 import HomePage from './components/home/HomePage.jsx'
 import Footer from './components/layout/Footer.jsx'
 import Header from './components/layout/Header.jsx'
@@ -21,11 +23,14 @@ import './App.css'
 import './styles/core.css'
 import './styles/research-hub.css'
 import './styles/interiors.css'
+import './styles/depth.css'
 
 export default function App() {
   const { pathname } = useLocation()
+  const shellRef = useRef(null)
+  useSurfaceMotion(shellRef, pathname)
   return (
-    <div className={`site-shell${pathname === '/' ? '' : ' is-interior'}`} data-page={pathname.slice(1) || 'home'}>
+    <div ref={shellRef} className={`site-shell${pathname === '/' ? '' : ' is-interior'}`} data-page={pathname.slice(1) || 'home'}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <Routes>
