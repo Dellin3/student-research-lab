@@ -55,7 +55,7 @@ export default function TopicNarrowingPage() {
       <section className="page-intro">
         <div className="narrow">
           <p className="eyebrow">Interactive research tool</p>
-          <h1>Find a direction.</h1>
+          <h1>Find <em>a direction.</em></h1>
           <p className="lead">Choose an object, a way of looking, and one boundary.</p>
         </div>
       </section>

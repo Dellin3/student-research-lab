@@ -9,7 +9,7 @@ const GUIDES = [
   ['/outreach', 'Get useful feedback', 'Find a relevant mentor and write a specific request.'],
 ]
 export default function LearnHubPage() {
-  return <><RouteSeo path="/learn" /><PageIntro eyebrow="Research guides" title="A little guidance. Then try it." description="Start with the decision you need to make." />
+  return <><RouteSeo path="/learn" /><PageIntro eyebrow="Research guides" title={<>A little guidance. <em>Then try it.</em></>} description="Start with the decision you need to make." />
     <main id="main-content" className="page-content compact-hub"><div className="core-guide-list">{GUIDES.map(([path,title,description],i)=><Link to={path} key={path}><span className="tool-number">0{i+1}</span><div><h2>{title}</h2><p>{description}</p></div><span aria-hidden="true">↗</span></Link>)}</div>
       <p className="hub-footnote">New to research? <Link to="/start-here">Try the first-day checklist.</Link> <Link to="/case-studies">See a worked example.</Link></p>
     </main></>

@@ -18,7 +18,7 @@ export default function OutreachPage() {
   }
   return <>
     <RouteSeo path="/outreach" />
-    <PageIntro eyebrow="Finding guidance" title="Start a useful conversation." description="You do not need a finished project to ask for advice. A specific interest and a small question are enough to start." />
+    <PageIntro eyebrow="Finding guidance" title={<>Start a useful <em>conversation.</em></>} description="You do not need a finished project to ask for advice. A specific interest and a small question are enough to start." />
     <main id="main-content" className="page-content">
       <section className="three-column"><h2 className="sr-only">Before you reach out</h2>
         <article><span className="card-number">01</span><h3>Choose a relevant person</h3><p>Start with a subject teacher. For a researcher, read their profile and check whether their interests match yours.</p></article>

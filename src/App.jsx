@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import HomePage from './components/home/HomePage.jsx'
 import Footer from './components/layout/Footer.jsx'
 import Header from './components/layout/Header.jsx'
@@ -20,10 +20,12 @@ import ResourcesPage from './pages/ResourcesPage.jsx'
 import './App.css'
 import './styles/core.css'
 import './styles/research-hub.css'
+import './styles/interiors.css'
 
 export default function App() {
+  const { pathname } = useLocation()
   return (
-    <div className="site-shell">
+    <div className={`site-shell${pathname === '/' ? '' : ' is-interior'}`} data-page={pathname.slice(1) || 'home'}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header />
       <Routes>

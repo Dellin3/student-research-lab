@@ -54,7 +54,7 @@ export default function InvestigationPlannerPage() {
       <section className="page-intro">
         <div className="narrow">
           <p className="eyebrow">Interactive research tool</p>
-          <h1>Plan the first test.</h1>
+          <h1>Plan <em>the first test.</em></h1>
           <p className="lead">Choose evidence, a comparison, and one action you can take next.</p>
         </div>
       </section>

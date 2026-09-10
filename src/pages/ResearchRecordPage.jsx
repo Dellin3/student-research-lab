@@ -240,7 +240,7 @@ export default function ResearchRecordPage() {
       <RouteSeo path="/worksheet" />
       <PageIntro
         eyebrow="Your research notebook"
-        title="Keep your next step in sight."
+        title={<>Keep your next step <em>in sight.</em></>}
         description="A question, a source, and one next action. Add more detail when you need it."
       >
         <div className="worksheet-actions">
@@ -258,7 +258,7 @@ export default function ResearchRecordPage() {
               ['question', 'current', 'My question', 'What do you want to understand?'],
               ['literature', 'sources', 'Useful sources', 'Keep a title, link, and a sentence about why it helps.'],
               ['next', 'action', 'My next step', 'One small thing you can do next.'],
-            ].map(([group, field, label, prompt]) => <label className="worksheet-field" key={field}><span className="field-copy"><strong>{label}</strong><small>{prompt}</small></span><textarea rows="3" value={record[group][field]} onChange={event => update(group, field, event.target.value)} placeholder="Write here…" /></label>)}
+            ].map(([group, field, label, prompt], index) => <label className="worksheet-field" key={field}><span className="field-copy"><span className="notebook-number" aria-hidden="true">0{index + 1}</span><strong>{label}</strong><small>{prompt}</small></span><textarea rows="3" value={record[group][field]} onChange={event => update(group, field, event.target.value)} placeholder="Write here…" /></label>)}
           </fieldset>
           <details className="worksheet-section notebook-extra"><summary><h2>More detail <span>(optional)</span></h2></summary>
           {[GROUPS[1], GROUPS[5], GROUPS[0], GROUPS[3], GROUPS[2], GROUPS[4]].map(([group, legend, fields]) => (

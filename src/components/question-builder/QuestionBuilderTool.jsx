@@ -36,11 +36,13 @@ function DiagnosticBar({ score }) {
 }
 
 async function copyText(text) {
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+  try {
+    if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) return false
     await navigator.clipboard.writeText(text)
     return true
+  } catch {
+    return false
   }
-  return false
 }
 
 function humanReviewItems(field) {
@@ -67,6 +69,7 @@ export default function QuestionBuilderTool() {
   const [worksheetChoice, setWorksheetChoice] = useState(null)
   const saveTimer = useRef(null)
   const lastAnnounced = useRef('')
+  const liveQuestion = useRef(null)
 
   const generated = useMemo(() => generateQuestions(state), [state])
   const preset = getFieldPreset(state.field)
@@ -203,22 +206,28 @@ export default function QuestionBuilderTool() {
   }
 
   function openResearchRecordFlow() {
+    if (isEmptyDraft) return
     const stored = readResearchRecord(window.localStorage)
     const incoming = generated.primary?.incomplete ? '' : generated.primary?.text || ''
     if (builderImportNeedsConfirmation(stored, state, incoming)) {
       setWorksheetChoice('choose')
       return
     }
-    writeBuilderDraft('keep')
+    writeBuilderDraft('replace')
   }
 
   function writeBuilderDraft(mode) {
+    if (mode === 'keep') {
+      setCopyNote('Existing Research Record kept unchanged.')
+      setWorksheetChoice(null)
+      return
+    }
     try {
       const stored = readResearchRecord(window.localStorage)
       const question = generated.primary?.incomplete ? '' : generated.primary?.text || ''
       const next = importBuilderDraft(stored, state, question, mode)
       saveResearchRecord(next, window.localStorage)
-      setCopyNote(mode === 'replace' ? 'Builder draft replaced the current record question' : 'Builder draft added to Research Record')
+      setCopyNote('Research Record updated with this draft.')
     } catch {
       setCopyNote('Could not update Research Record')
     }
@@ -553,7 +562,14 @@ export default function QuestionBuilderTool() {
           <button
             type="button"
             className="button primary"
-            onClick={() => setStageIndex((value) => Math.min(STAGES.length - 1, value + 1))}
+            onClick={() => {
+              if (stageIndex < STAGES.length - 1) {
+                setStageIndex((value) => value + 1)
+              } else {
+                liveQuestion.current?.scrollIntoView({ block: 'center', behavior: 'instant' })
+                liveQuestion.current?.focus({ preventScroll: true })
+              }
+            }}
           >
             {stageIndex === STAGES.length - 1 ? 'Review draft' : 'Next'}
           </button>
@@ -566,6 +582,8 @@ export default function QuestionBuilderTool() {
             <p className="qb-status-label">{generated.statusLabel}</p>
             <p
               className="qb-live-question"
+              ref={liveQuestion}
+              tabIndex={-1}
               aria-live="polite"
               aria-atomic="true"
             >
@@ -659,7 +677,7 @@ export default function QuestionBuilderTool() {
             <div className="qb-preview-actions">
               <button type="button" className="button secondary" onClick={handleCopyQuestion}>Copy Question</button>
               <button type="button" className="button secondary" onClick={handleCopyRecord}>Copy Research Record</button>
-              <button type="button" className="button primary" onClick={openResearchRecordFlow}>Add to Research Record</button>
+              <button type="button" className="button primary" disabled={isEmptyDraft} onClick={openResearchRecordFlow}>Add to Research Record</button>
               <Link className="button secondary" to="/investigation-planner" onClick={persistForPlanner}>Continue to Investigation Planner</Link>
               <Link className="qb-text-link" to="/worksheet">Open current record page</Link>
             </div>

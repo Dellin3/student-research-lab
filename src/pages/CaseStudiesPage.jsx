@@ -35,7 +35,7 @@ export default function CaseStudiesPage() {
   return (
     <>
       <RouteSeo path="/case-studies" />
-      <PageIntro eyebrow="Research in practice" title="See how a question takes shape." description="Choose a field. These worked examples illustrate research decisions; they are not completed studies." />
+      <PageIntro eyebrow="Research in practice" title={<>See how a question <em>takes shape.</em></>} description="Choose a field. These worked examples illustrate research decisions; they are not completed studies." />
       <main id="main-content" className="page-content case-page">
         <section>
           <div className="worked-examples">

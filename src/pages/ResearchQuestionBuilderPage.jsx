@@ -81,7 +81,7 @@ export default function ResearchQuestionBuilderPage() {
       <section className="page-intro qb-intro">
         <div className="narrow">
           <p className="eyebrow">Interactive research tool</p>
-          <h1>Shape your question.</h1>
+          <h1>Shape <em>your question.</em></h1>
           <p className="lead">Name what you will compare, measure, compute, or prove.</p>
         </div>
       </section>

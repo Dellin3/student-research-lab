@@ -55,7 +55,7 @@ The resource page has three views: research programs, finding a mentor, and pape
 
 Notes show question, sources, and next action first. Ordinary edits save immediately on the same device. Existing detailed fields, logs, JSON backups, explicit merge/replace imports, Markdown export, and mentor briefs remain available. Imported records stay staged until the student explicitly saves them.
 
-The warm palette is defined in `src/styles/tokens.css`; the two core paths are styled in `src/styles/research-hub.css` and `src/components/home/home.css`. Motion responds to navigation, example choices, and pointer/focus states; reduced-motion preferences disable it.
+The warm palette is defined in `src/styles/tokens.css`. The homepage remains in `src/components/home/home.css`; the interior visual system is scoped to `.is-interior` in `src/styles/interiors.css`, after `src/styles/research-hub.css`. Interior pages use an espresso surround, cream reading/writing surfaces, and pine examples, summaries, or resource facts. Shared interior rules do not apply to the homepage. Motion responds to navigation, example choices, and pointer/focus states; reduced-motion preferences disable it.
 
 `node scripts/check-core-paths.mjs` checks all beginner example/step combinations and resource search/view combinations using server rendering. Existing data regression checks cover research drafts and backward compatibility. Live browser QA must be run separately; passing these scripts does not certify the visual layout.
 

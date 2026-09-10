@@ -8,9 +8,9 @@ const STEPS = [
   ['Record the limit', 'State what the result cannot show. Keep the method, inputs, and settings so someone else can inspect the attempt.'],
 ]
 export default function BuildProjectPage() {
-  return <><RouteSeo path="/build-a-project" /><PageIntro eyebrow="Design an investigation" title="Start small enough to learn." description="Choose a first attempt that can expose a weak assumption, a missing measurement, or a useful result." />
-    <main id="main-content" className="page-content guide-reading"><ol className="checklist">{STEPS.map(([title,text],i)=><li key={title}><span>0{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
-      <section className="guide-example"><p className="eyebrow">Match the check to the work</p><p>A proof may need a boundary case. A computation needs a baseline. An experiment may need a control. An observational study needs to consider confounding factors.</p></section>
+  return <><RouteSeo path="/build-a-project" /><PageIntro eyebrow="Design an investigation" title={<>Start small <em>enough to learn.</em></>} description="Choose a first attempt that can expose a weak assumption, a missing measurement, or a useful result." />
+    <main id="main-content" className="page-content guide-reading"><div className="guide-layout"><ol className="checklist">{STEPS.map(([title,text],i)=><li key={title}><span>0{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+      <section className="guide-example"><p className="eyebrow">Match the check to the work</p><h2>Different methods. Different checks.</h2><p>A proof may need a boundary case. A computation needs a baseline. An experiment may need a control. An observational study needs to consider confounding factors.</p></section></div>
       <Link className="button primary" to="/investigation-planner">Plan my first test ↗</Link>
     </main></>
 }
