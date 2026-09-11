@@ -3,6 +3,8 @@ export const PUBLIC_ROUTES = [
   { path: '/start-here', title: 'How to Start Your Own Research | Research Starter Lab', description: 'Four practical steps to begin a small research project, with a worked example and direct links to papers and data.', navigationLabel: 'Start on your own', sitemap: true },
   { path: '/resources', title: 'High-School Research Programs & Resources | Research Starter Lab', description: 'Find research programs with international, U.S. school, and citizenship requirements, plus direct links to papers, data, and researcher directories.', navigationLabel: 'Find a program', sitemap: true },
   { path: '/worksheet', title: 'Download Previous Notes | Research Starter Lab', description: 'Download research notes and tool drafts previously saved in this browser.', sitemap: false, prerender: true, noindex: true },
+  { path: '/account', title: 'Sign In | Research Starter Lab', description: 'Sign in to save and continue your research.', sitemap: false, prerender: true, noindex: true },
+  { path: '/my-research', title: 'My Research | Research Starter Lab', description: 'Your research question, progress, sources, and next step.', sitemap: false, prerender: true, noindex: true },
 ]
 export const LEGACY_REDIRECTS = {
   '/learn': '/start-here', '/tools': '/start-here', '/topic-narrowing': '/start-here',

@@ -7,7 +7,7 @@
 - Motion is allowed only to explain a relationship, reflect state, respond to input, or orient the user. Support reduced motion.
 - Avoid card soup, generic glassmorphism, excess gradients/shadows/paper layers, particles, spectacle WebGL, custom cursors, scroll hijacking, constant parallax, fake metrics/testimonials/claims, and fake scientific certainty.
 - Never automatically certify novelty, truth, ethics, publishability, or feasibility from deterministic form fields.
-- Student drafts stay local. Never send draft text to analytics, APIs, or external services.
+- Public guides and the directory remain usable without an account. The user has authorized optional authenticated cloud progress: only text entered in My research is saved to that student's Supabase account. Never send research text to analytics. Existing legacy browser notes remain local and are not uploaded automatically.
 - Preserve the complete journey: Interest → Direction → Question → Investigation → Sources / Evidence → Revision → Communication.
 - Keep `research-starter-worksheet` backward-compatible. Imports require validation and an explicit merge or replace choice; exports remain local.
 - Preserve keyboard use, visible focus, semantic HTML, contrast, non-color state cues, and responsive single-column clarity.

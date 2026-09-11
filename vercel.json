@@ -69,6 +69,50 @@
     {
       "source": "/worksheet",
       "destination": "/worksheet/index.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/account/index.html"
+    },
+    {
+      "source": "/my-research",
+      "destination": "/my-research/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/account",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/my-research",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
     }
   ]
 }

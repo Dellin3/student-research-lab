@@ -1,5 +1,7 @@
 # Research Starter Lab
 
+Optional student accounts add one **My research** page for a question, progress, sources, and next step. Supabase provides authentication and a private per-user cloud record. Public guides and the 15-program directory still require no account. See [account setup and release gate](docs/accounts-setup.md): public email signup/recovery stays closed until a custom mail sender and callback URLs are configured and tested.
+
 Two student goals: start a small research project independently, or find a suitable research program.
 
 - `/`: two main entry points and direct resource links.

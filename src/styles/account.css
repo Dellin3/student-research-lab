@@ -1,0 +1,66 @@
+.account-page,.my-research-page { width:min(1120px,calc(100% - 4rem)); margin:0 auto; padding:2.5rem 0 4rem; color:#e0e8f7; }
+.account-page { width:min(600px,calc(100% - 2rem)); min-height:70vh; }
+.account-card,.research-signed-out { background:#17283f; border:1px solid #799dce66; border-radius:18px; padding:2rem; box-shadow:var(--surface-edge),var(--surface-depth); }
+.site-shell .account-card h1,.site-shell .research-title h1 { font-family:var(--font-serif); font-size:clamp(2.25rem,4vw,3.6rem); font-weight:400; line-height:1.1; color:#f2f5ff; margin:.7rem 0 1rem; }
+.site-shell .research-title h1 em { color:#abc1ff; }
+.site-shell :is(.account-page,.my-research-page) p { color:#c7d3e8; font-size:1rem; line-height:1.65; }
+.site-shell :is(.account-page,.my-research-page) .eyebrow { color:#a6c9e6; font-size:.875rem; }
+.account-form { display:grid; gap:1.1rem; margin-top:1.6rem; }
+.account-form label { display:grid; gap:.5rem; color:#e0e8f7; font-size:1rem; }
+.account-form input,.research-note-field textarea { width:100%; min-width:0; box-sizing:border-box; background:#101e31; border:1px solid #8dade077; color:#f2f5ff; border-radius:8px; padding:.8rem .9rem; font:inherit; font-size:1rem; line-height:1.65; }
+.account-form input { min-height:48px; }
+.account-form .button { width:100%; margin-top:.3rem; justify-content:center; }
+.site-shell :is(.account-page,.my-research-page) .button.primary { background:#b8a7ff; color:#10172a; border:1px solid #d1c6ff; min-height:44px; box-shadow:0 7px 18px -10px #b8a7ff99; }
+.site-shell :is(.account-page,.my-research-page) .button.secondary { background:#243c58; color:#e5eeff; border:1px solid #85a5d480; min-height:44px; }
+.site-shell :is(.account-page,.my-research-page) :is(button,input,textarea):disabled { opacity:.6; cursor:not-allowed; }
+.account-options { display:flex; flex-wrap:wrap; gap:.35rem 1rem; margin-top:1rem; }
+.account-options button,.plain-action { background:none; border:0; color:#9be8f3; text-decoration:underline; text-underline-offset:.25em; cursor:pointer; font:inherit; font-size:.9375rem; padding:.5rem 0; }
+.account-browse { display:block; margin-top:1.8rem; color:#9be8f3; font-size:.9375rem; text-underline-offset:.25em; }
+.account-privacy { margin-top:1.4rem; padding-top:1rem; border-top:1px solid #8dade040; }
+.account-privacy summary { font-size:.875rem; color:#b8c7de; cursor:pointer; }
+.site-shell .account-privacy p { font-size:.875rem; }
+.account-message,.research-alert { padding:1rem; border:1px solid #89c9d470; background:#153744; border-radius:10px; overflow-wrap:anywhere; }
+.site-shell .account-message.is-error,.research-alert { color:#ffe1c4; background:#3b2d35; border-color:#dba77c70; }
+.research-alert p { margin:0 0 .75rem; }
+.research-title { margin-bottom:1.8rem; }
+.research-title > p:last-child { margin-bottom:0; }
+.research-account-line { display:flex; align-items:center; justify-content:space-between; gap:1rem; color:#b8c7de; border-bottom:1px solid #8dade040; padding-bottom:.6rem; }
+.research-account-line > span { overflow-wrap:anywhere; font-size:.9375rem; }
+.research-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 0; }
+.research-toolbar > div { display:flex; align-items:center; gap:1.3rem; flex-shrink:0; }
+.site-shell .research-toolbar .save-state { margin:0; color:#c7d3e8; font-size:.9375rem; }
+.site-shell .save-state.is-saved { color:#a1e4d9; }
+.site-shell .save-state:is(.is-error,.is-conflict) { color:#ffd0a6; }
+.save-state > span { display:block; font-size:.875rem; color:#b8c7de; }
+.research-notes-form { background:#203552; border:1px solid #8dade066; border-radius:16px; box-shadow:var(--surface-edge),var(--surface-depth); overflow:hidden; }
+.research-notes-form fieldset { border:0; margin:0; min-width:0; padding:0 1.7rem; }
+.research-note-field { display:grid; grid-template-columns:.65fr 1.5fr; gap:2rem; padding:1.7rem 0; }
+.research-note-field + .research-note-field { border-top:1px solid #8dade040; }
+.research-note-field strong { display:block; font-family:var(--font-serif); font-size:1.55rem; line-height:1.3; color:#f2f5ff; font-weight:400; margin-bottom:.6rem; }
+.field-hint { display:block; color:#c7d3e8; font-size:.9375rem; line-height:1.55; }
+.research-note-field textarea { resize:vertical; min-height:110px; }
+.research-bottom { display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; margin-top:1.2rem; }
+.site-shell .research-bottom p { font-size:.875rem; margin:0; max-width:43rem; }
+.research-bottom button { flex-shrink:0; }
+.research-conflict,.recovered-drafts { padding:1.3rem; margin-bottom:1.25rem; background:#243248; border:1px solid #9cacda70; border-radius:12px; }
+.research-conflict h2 { font-family:var(--font-serif); font-size:1.7rem; color:#f2f5ff; margin:0; }
+.research-conflict summary,.recovered-drafts summary { color:#dce6ff; font-size:1rem; cursor:pointer; padding:.4rem 0; }
+.research-conflict dt { font-weight:650; color:#abdbea; margin-top:1rem; }
+.research-conflict dd { margin:.4rem 0 0; white-space:pre-wrap; overflow-wrap:anywhere; color:#e0e8f7; font-size:1rem; max-height:18rem; overflow:auto; }
+.conflict-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1rem; }
+.recovered-drafts > div { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1.25rem; border-top:1px solid #8dade040; }
+.site-shell .primary-nav .account-nav { border:1px solid #8dade080; border-radius:8px; padding:.5rem .8rem; color:#c8e6f7; }
+.site-shell :is(.account-page,.my-research-page) :is(a,button,input,textarea,summary):focus-visible { outline:3px solid #9be8f3; outline-offset:4px; }
+@media(max-width:700px) {
+  .my-research-page { width:calc(100% - 2rem); padding-top:1.5rem; }
+  .account-card,.research-signed-out { padding:1.5rem; }
+  .research-note-field { grid-template-columns:1fr; gap:.8rem; padding:1.25rem 0; }
+  .research-notes-form fieldset { padding:0 1rem; }
+  .research-toolbar,.research-bottom { align-items:flex-start; flex-direction:column; gap:.8rem; }
+  .research-toolbar > div { width:100%; justify-content:space-between; }
+  .research-bottom { gap:.3rem; }
+}
+@media print {
+  .research-toolbar,.research-account-line,.research-bottom,.research-alert,.recovered-drafts,.research-conflict { display:none; }
+  .research-notes-form,.research-note-field textarea { box-shadow:none; background:white; color:black; }
+}

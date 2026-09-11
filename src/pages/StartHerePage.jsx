@@ -11,6 +11,6 @@ export default function StartHerePage() {
       <li><span className="starter-number" aria-hidden="true">04</span><div><h2>Write down what changed.</h2><p>In your own notebook or document, keep the question, sources, method, result, one limitation, and one next step. Share a short summary with a teacher and ask one specific question.</p><a className="resource-direct" href="https://www.zotero.org/support/quick_start_guide" target="_blank" rel="noopener noreferrer">Organize references with Zotero ↗</a></div></li>
     </ol>
     <section className="starter-example" id="example" aria-labelledby="example-title"><div><p className="eyebrow">Worked example</p><h2 id="example-title">From city heat<br />to one courtyard.</h2></div><dl><div><dt>Question</dt><dd>Are shaded surfaces cooler than sunny surfaces in the same courtyard?</dd></div><div><dt>First attempt</dt><dd>With permission, compare the same surface material in shade and sun at similar times. Record the weather and repeat the observations.</dd></div><div><dt>What to keep</dt><dd>Your measurements, method, and other explanations—such as weather or material differences. Decide what you would check next.</dd></div></dl></section>
-    <div className="starter-next"><p>Prefer to work within a research program?</p><Link className="button primary" to="/resources">Find a program ↗</Link></div>
+    <div className="starter-next"><Link className="resource-direct" to="/my-research">Keep my research progress →</Link><Link className="button primary" to="/resources">Find a program ↗</Link></div>
   </main></>
 }

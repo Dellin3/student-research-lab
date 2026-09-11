@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { NAVIGATION_ROUTES } from '../../config/routes.js'
+import { useAccount } from '../../account/AccountContext.js'
 
 export default function Header() {
+  const account = useAccount()
   const [menu, setMenu] = useState({ open: false, path: '' })
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
@@ -54,6 +56,7 @@ export default function Header() {
               {route.navigationLabel}
             </NavLink>
           ))}
+          <NavLink className="account-nav" to={account.status === 'signed-in' ? '/my-research' : '/account'}>{account.status === 'signed-in' ? 'My research' : 'Sign in'}</NavLink>
         </nav>
       </div>
     </header>
