@@ -7,7 +7,7 @@ import { absoluteUrl } from '../src/config/site.js'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = join(root, 'dist')
 const staleOrigin = ['https://student-research-lab', '.vercel.app'].join('')
-const routes = PUBLIC_ROUTES.filter((route) => route.sitemap)
+const routes = PUBLIC_ROUTES.filter((route) => route.sitemap || route.prerender)
 const errors = []
 
 function outputPath(pathname) {
@@ -120,9 +120,9 @@ for (const route of routes) {
   }
   if (
     robotsTags.length !== 1 ||
-    attribute(robotsTags[0], 'content') !== 'index, follow'
+    attribute(robotsTags[0], 'content') !== `${route.noindex ? 'noindex' : 'index'}, follow`
   ) {
-    errors.push(`${label}: expected one index, follow robots tag.`)
+    errors.push(`${label}: robots tag does not match the route indexing policy.`)
   }
   if (
     openGraphUrls.length !== 1 ||

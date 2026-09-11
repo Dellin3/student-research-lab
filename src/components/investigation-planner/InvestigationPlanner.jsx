@@ -47,6 +47,7 @@ function Field({ id, label, value, onChange, help, placeholder, rows = 4 }) {
 
 export default function InvestigationPlanner() {
   const baseId = useId()
+  const summaryElement = useRef(null)
   const saveTimer = useRef(null)
   const [draft, setDraft] = useState({ ...EMPTY_PLANNER_DRAFT })
   const [stepIndex, setStepIndex] = useState(0)
@@ -332,7 +333,14 @@ export default function InvestigationPlanner() {
             <button
               type="button"
               className="button primary"
-              onClick={() => setStepIndex((index) => Math.min(PLANNER_STEPS.length - 1, index + 1))}
+              onClick={() => {
+                if (stepIndex < PLANNER_STEPS.length - 1) setStepIndex(stepIndex + 1)
+                else if (summaryElement.current) {
+                  summaryElement.current.open = true
+                  summaryElement.current.scrollIntoView({ block: 'center', behavior: 'instant' })
+                  summaryElement.current.querySelector('summary')?.focus({ preventScroll: true })
+                }
+              }}
             >
               {stepIndex === PLANNER_STEPS.length - 1 ? 'Review plan' : 'Next step'}
             </button>
@@ -358,7 +366,7 @@ export default function InvestigationPlanner() {
               ))}
             </ol>
 
-            <details className="ip-summary" open={status.count >= 4}>
+            <details className="ip-summary" ref={summaryElement} open={status.count >= 4}>
               <summary>First plan summary</summary>
               <dl>
                 {summary.map(([label, value]) => (
@@ -374,7 +382,7 @@ export default function InvestigationPlanner() {
               <button type="button" className="button primary" onClick={requestRecordSave}>
                 Save to Research Record
               </button>
-              <Link className="button secondary" to="/ai-literature">Continue to AI Literature</Link>
+              <Link className="button secondary" to="/ai-literature">Find and read papers</Link>
               <Link className="ip-record-link" to="/worksheet">Open Research Record</Link>
             </div>
 

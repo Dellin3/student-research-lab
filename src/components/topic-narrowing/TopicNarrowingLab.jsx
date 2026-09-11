@@ -41,7 +41,7 @@ function StructureDiagram({ states }) {
       <ol className="tn-logic-list">
         {nodes.map(([label, status], index) => (
           <li key={label} className={nodeClass(status)}>
-            {index > 0 && <span className="tn-logic-arrow" aria-hidden="true">→</span>}
+            <span className="tn-logic-arrow" aria-hidden="true">{index > 0 ? '→' : '·'}</span>
             <span className="tn-node-label">{label}</span>
             <span className="tn-node-state">{status}</span>
           </li>
@@ -127,6 +127,7 @@ export default function TopicNarrowingLab() {
   }
 
   function applyExample(example) {
+    if (Object.values(state).some(Boolean) && !window.confirm('Load this worked example in place of your current direction draft?')) return
     setState({ ...EMPTY_NARROWING_STATE, ...example.state })
     setStageIndex(4)
     setSaveNote(`Loaded ${example.label} worked example`)
@@ -135,6 +136,11 @@ export default function TopicNarrowingLab() {
 
   function writeRecord(mode) {
     if (!chosen) return
+    if (mode === 'keep') {
+      setSaveNote('Existing Research Record kept unchanged.')
+      setRecordChoice(null)
+      return
+    }
     try {
       const stored = readResearchRecord(window.localStorage)
       const next = importNarrowingDraft(stored, {
@@ -143,7 +149,7 @@ export default function TopicNarrowingLab() {
         lensLabel: chosen.lensLabel,
       }, chosen.text, mode)
       saveResearchRecord(next, window.localStorage)
-      setSaveNote(mode === 'replace' ? 'Direction replaced the existing Research Record starting point' : 'Direction saved to Research Record')
+      setSaveNote('Direction saved to Research Record.')
     } catch {
       setSaveNote('Could not update Research Record')
     }
@@ -157,7 +163,7 @@ export default function TopicNarrowingLab() {
       setRecordChoice('choose')
       return
     }
-    writeRecord('keep')
+    writeRecord('replace')
   }
 
   function continueToBuilder() {
@@ -169,30 +175,8 @@ export default function TopicNarrowingLab() {
   return (
     <div className="tn-lab">
       <div className="tn-toolbar">
-        <div className="tn-field-row" role="group" aria-label="Discipline">
-          <span className="tn-toolbar-label">Discipline</span>
-          <div className="tn-chip-row">
-            <button
-              type="button"
-              className={`tn-chip${!state.discipline ? ' is-selected' : ''}`}
-              aria-pressed={!state.discipline}
-              onClick={() => update('discipline', '')}
-            >
-              Not chosen yet
-            </button>
-            {NARROWING_DISCIPLINES.map((discipline) => (
-              <button
-                key={discipline}
-                type="button"
-                className={`tn-chip${state.discipline === discipline ? ' is-selected' : ''}`}
-                aria-pressed={state.discipline === discipline}
-                onClick={() => update('discipline', discipline)}
-              >
-                {discipline}
-              </button>
-            ))}
-          </div>
-        </div>
+        <label className="tool-subject">Subject <span>(choose now or later)</span><select value={state.discipline} onChange={event => update('discipline', event.target.value)}><option value="">Not chosen yet</option>{NARROWING_DISCIPLINES.map(discipline => <option key={discipline}>{discipline}</option>)}</select></label>
+        <details className="tool-options"><summary>See worked examples</summary>
         <div className="tn-field-row" role="group" aria-label="Worked examples">
           <span className="tn-toolbar-label">Worked examples</span>
           <div className="tn-chip-row">
@@ -209,6 +193,7 @@ export default function TopicNarrowingLab() {
             ))}
           </div>
         </div>
+        </details>
       </div>
 
       <ol className="tn-progress" aria-label="Topic narrowing stages">
@@ -338,6 +323,9 @@ export default function TopicNarrowingLab() {
             {stageIndex < NARROWING_STAGES.length - 1 && (
               <button type="button" className="button primary" onClick={() => setStageIndex((value) => value + 1)}>Next</button>
             )}
+            {stageIndex === NARROWING_STAGES.length - 1 && (
+              <button type="button" className="button primary" disabled={!chosen} onClick={continueToBuilder}>Continue to Question Builder ↗</button>
+            )}
           </div>
         </div>
 
@@ -360,9 +348,6 @@ export default function TopicNarrowingLab() {
           <div className="tn-preview-actions">
             <button type="button" className="button secondary" disabled={!chosen} onClick={saveToRecord}>
               Save direction to Research Record
-            </button>
-            <button type="button" className="button primary" disabled={!chosen} onClick={continueToBuilder}>
-              Continue to Question Builder
             </button>
             <Link className="tn-text-link" to="/worksheet">Open Research Record</Link>
           </div>

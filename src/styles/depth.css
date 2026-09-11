@@ -1,0 +1,226 @@
+/* Quiet material depth. All lighting stays within the blue and cyan floating surfaces on near-black space
+   palette; physical movement is reserved for navigation and state changes. */
+@media screen {
+  .site-shell {
+    --ease-material: cubic-bezier(.2, .75, .2, 1);
+    --surface-edge: inset 0 1px 0 #c8d8ff59, inset 0 -1px 0 #00000066;
+    --surface-depth: 0 8px 16px -8px #000000b3, 0 30px 56px -16px #000000cc, 0 0 36px -18px #668aff52;
+    --interior-shadow: var(--surface-edge), var(--surface-depth);
+  }
+
+  /* Static distant light sets the stage; all movement belongs to the controls. */
+  .site-shell,
+  .site-shell.is-interior {
+    background-color: #04060b;
+    background-image: linear-gradient(to bottom, #04060b00 50%, #04060b 100%), url('/images/deep-space.webp');
+    background-position: top center, top right;
+    background-size: 100% 980px, auto 980px;
+    background-repeat: no-repeat;
+  }
+  .site-shell .home-opening {
+    background: transparent;
+    box-shadow: none;
+  }
+  .site-shell .home-heading h1,
+  .is-interior :is(.page-intro, .hub-heading) h1 {
+    text-shadow: 0 2px 1px #00000026, 0 12px 30px #00000014;
+  }
+  .site-shell .site-header {
+    transition: box-shadow 350ms var(--ease-material), border-color 350ms;
+  }
+  .site-shell .site-header.is-scrolled {
+    box-shadow: 0 12px 30px #00000080, inset 0 -1px 0 #a0b9ed26;
+  }
+  .site-shell .brand-mark {
+    background: linear-gradient(145deg, #668aff26, transparent 70%), #0c1525;
+    box-shadow: var(--surface-edge), 0 3px 6px #0000002e;
+  }
+
+  /* These are the product's two primary destinations, not decorative objects. */
+  .site-shell .home-path,
+  .site-shell .home-path:hover {
+    --lift: 0px;
+    border-radius: 16px;
+    border-bottom-color: #101c32b3;
+    transform-style: preserve-3d;
+    transform: perspective(1200px) translateY(var(--lift)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    box-shadow: inset 0 1px 0 #c8d8ff73, inset 1px 0 0 #b3d9ff26,
+      0 2px 0 #101c32, 0 24px 48px -12px #000000cc, 0 0 44px -18px #7286ff66;
+    transition: transform 550ms var(--ease-material), box-shadow 400ms var(--ease-material), border-color 300ms;
+  }
+  .site-shell .path-start,
+  .site-shell .path-start:hover {
+    background: linear-gradient(135deg, #3a5384 0%, #2b4069 48%, #233452 100%);
+  }
+  .site-shell .path-start .path-kicker { color: #e0e8f7; }
+  .site-shell .path-find,
+  .site-shell .path-find:hover {
+    background: linear-gradient(135deg, #245c70 0%, #20495f 48%, #193849 100%);
+  }
+  .site-shell .home-path::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(ellipse at var(--light-x, 30%) var(--light-y, 0%), #cfe7ff05, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 450ms var(--ease-material);
+  }
+  .site-shell .home-path:focus-visible::before { opacity: 1; }
+  .site-shell .home-path h2 { transform: translateZ(14px); }
+  .site-shell .home-path .path-top { transform: translateZ(8px); }
+  .site-shell .home-path .path-action { transform: translateZ(10px); }
+  .site-shell .path-arrow {
+    border-color: #b3d9ff59;
+    background: linear-gradient(145deg, #c9dfff0d, #0000001a);
+    box-shadow: inset 0 1px 0 #c9dfff19, 0 3px 5px #0000001f;
+    transition: transform 400ms var(--ease-material), box-shadow 300ms;
+  }
+  .site-shell .home-path:hover .path-arrow { transform: none; }
+  .site-shell .home-path:hover .path-action span { transform: none; }
+
+  /* Work surfaces have a lit upper edge; examples occupy a separate cyan plane. */
+  .site-shell .home-example-body,
+  .is-interior :is(.begin-step-copy, .mentor-directory-list, .mentor-next,
+    .checklist, .core-guide-list, .core-tool-list, .tn-workspace, .qb-workspace,
+    .ip-main, .email-card, .three-column, .notebook-basics,
+    .worksheet-section, .worked-example.example-disclosure, .guide-exercise) {
+    background-image: linear-gradient(135deg, #c9dfff05, transparent 65%);
+    box-shadow: var(--surface-edge), var(--surface-depth);
+  }
+  .site-shell .home-example-body { border-radius: 12px; border-top-width: 1px; }
+  .is-interior :is(.begin-example, .guide-example, .tn-preview, .qb-preview-sticky,
+    .ip-live-inner, .email-section > div:first-child, .record-entry,
+    .real-project-example, .mentor-first) {
+    background-image: linear-gradient(145deg, #a9dff105, transparent 65%);
+    box-shadow: inset 0 1px 0 #b1e7ff59, inset 0 -1px 0 #020a1259, var(--surface-depth);
+  }
+  .is-interior .program-list { box-shadow: var(--surface-edge), var(--surface-depth); border: 1px solid #8dade036; }
+  .is-interior .program-row { transition: background-color 240ms, box-shadow 240ms; }
+  .is-interior .program-row:first-child { box-shadow: inset 0 1px 0 #c9dfff19; }
+  .is-interior .program-facts { box-shadow: inset 1px 0 0 #ace4f014; }
+  .is-interior .mentor-first blockquote { box-shadow: var(--surface-edge), 0 8px 18px -8px #020a1240; }
+  .site-shell .home-example-body .example-focused {
+    border-left: 2px solid #9be8f373;
+    padding-left: 1.15rem;
+    margin: .35rem 0 1.45rem;
+  }
+  .site-shell .home-example-body .example-focused h3 { margin-bottom: 0; }
+
+  /* Fields feel recessed; focus brings the active writing area forward. */
+  .is-interior :is(.tn-textarea, .qb-input, .qb-textarea, .qb-select,
+    .qb-fallback textarea, .ip-field textarea, .worksheet-field textarea,
+    .worksheet-field input:not([type=checkbox]), .worksheet-field select,
+    .source-triage textarea, .finder-search input, .finder-format select,
+    .tool-subject select, .example-select select) {
+    box-shadow: inset 0 2px 5px #00000026, 0 1px 0 #b7d4ff0b;
+    transition: border-color 220ms, box-shadow 220ms, background-color 220ms;
+  }
+  .is-interior :is(input, textarea, select):focus-visible {
+    box-shadow: inset 0 1px 3px #00000021, 0 0 0 5px #9be8f310;
+  }
+  .is-interior .notebook-basics .worksheet-field { transition: background-color 250ms; }
+  .is-interior .notebook-basics .worksheet-field:focus-within { background-color: #a9d8ff06; }
+  .is-interior :is(.example-takeaway, .qb-worksheet-choice) { box-shadow: inset 0 2px 6px #020a1226; }
+
+  /* Raised selection, recessed rail, and a definite press response. */
+  .is-interior :is(.begin-steps, .resource-tabs, .finder-controls, .tn-toolbar, .qb-tool-toolbar, .ip-toolbar) {
+    box-shadow: inset 0 1px 4px #0000002b, 0 1px 0 #b5d1ff0d;
+  }
+  .is-interior :is(.begin-steps button, .resource-tabs a) {
+    transition: background-color 250ms, box-shadow 250ms, color 250ms;
+  }
+  .is-interior .begin-steps button[aria-current=step],
+  .is-interior .resource-tabs a[aria-current=page] {
+    background-image: linear-gradient(160deg, #b8dfff0b, transparent);
+    box-shadow: inset 0 1px 0 #b5dbff33, inset 0 -2px 0 #9be8f373, 0 3px 8px #03091626;
+  }
+  .site-shell .field-switch button { transition: background-color 240ms, border-color 240ms, box-shadow 240ms, transform 220ms; }
+  .site-shell .field-switch button[aria-pressed=true] {
+    box-shadow: inset 0 1px 0 #b8d5ff26, 0 2px 4px #0000002b;
+  }
+  .site-shell .button,
+  .is-interior :is(.tn-preview, .qb-preview-sticky, .ip-live-inner) .button {
+    box-shadow: inset 0 1px 0 #c8d8ff1f, 0 2px 2px #02060f26, 0 5px 10px -4px #02060f30;
+    transition: background-color 220ms, border-color 220ms, transform 300ms var(--ease-material), box-shadow 300ms;
+  }
+  .site-shell .button:disabled { box-shadow: none; }
+  .site-shell .button.primary,
+  .is-interior :is(.tn-preview, .qb-preview-sticky, .ip-live-inner) .button.primary {
+    background: #b8a7ff;
+    color: #101625;
+    border-color: #d2c7ff;
+    box-shadow: inset 0 1px 0 #ffffff40, 0 7px 18px -7px #8d75ff66;
+  }
+  .site-shell .button.primary:hover:not(:disabled),
+  .is-interior :is(.tn-preview, .qb-preview-sticky, .ip-live-inner) .button.primary:hover:not(:disabled) {
+    background: #c6b8ff;
+    color: #101625;
+  }
+  .site-shell .button.primary:disabled { box-shadow: none; }
+  .site-shell :is(.button, .field-switch button):active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: inset 0 2px 4px #0000002b;
+  }
+  .is-interior :is(.core-guide-list > a, .core-tool-list > li, .record-entry) {
+    transition: background-color 250ms, box-shadow 250ms;
+  }
+  .is-interior .core-guide-list > a:focus-visible,
+  .is-interior .core-tool-list > li:focus-within {
+    background-color: #9be8f309;
+  }
+  .is-interior .program-row:focus-within { background-color: #3d5777; box-shadow: inset 3px 0 0 #9fb7ff99; }
+}
+
+@media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-shell .home-path:hover,
+  .site-shell .home-path:focus-visible {
+    --lift: -9px;
+    box-shadow: inset 0 1px 0 #d8e5ff99, inset 1px 0 0 #b3d9ff40,
+      0 2px 0 #101c32, 0 36px 60px -12px #000000dd, 0 0 52px -14px #7286ff73;
+  }
+  .site-shell .home-path[data-tracking] { transition-duration: 160ms, 400ms, 300ms; }
+  .site-shell .home-path:hover::before { opacity: 1; }
+  .site-shell .home-path:hover .path-arrow { transform: translate3d(2px, -2px, 8px); }
+  .site-shell .home-path:hover .path-action span { transform: translateX(4px); }
+  .site-shell .button:hover:not(:disabled) { transform: translateY(-2px); }
+}
+@media screen and (hover: hover) and (pointer: fine) {
+  .is-interior .program-row:has(a:hover) { background-color: #3d5777; box-shadow: inset 3px 0 0 #9fb7ff99; }
+  .is-interior .core-guide-list > a:hover,
+  .is-interior .core-tool-list > li:has(a:hover) { background-color: #9be8f309; }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .site-shell :is(.home-example-body, .begin-step-copy, .example-step-detail,
+    .email-card, .mentor-content, .catalog-section) { animation: material-arrives 420ms var(--ease-material); }
+  .is-interior :is(.tn-fieldset, .qb-fieldset, .ip-fieldset) { animation: state-arrives 300ms var(--ease-material); }
+  .is-interior details[open] > :not(summary) { animation: state-arrives 300ms var(--ease-material); }
+  .site-shell .path-start:focus-visible { --lift: -3px; }
+  .site-shell .path-find:focus-visible { --lift: -3px; }
+  .site-shell .home-path:active {
+    --lift: 1px;
+    box-shadow: inset 0 1px 0 #c8d8ff26, 0 1px 0 #101c32, 0 7px 16px -7px #0000004d;
+    transition-duration: 120ms;
+  }
+}
+@keyframes material-arrives {
+  from { opacity: .6; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes state-arrives {
+  from { opacity: .65; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell .home-path,
+  .site-shell .home-path *,
+  .site-shell .button,
+  .site-shell .field-switch button { transform: none !important; }
+  .site-shell .home-path::before { display: none; }
+}
+@media print {
+  .site-shell .home-path,
+  .site-shell .home-path * { transform: none !important; }
+}

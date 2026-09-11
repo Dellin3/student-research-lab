@@ -1,46 +1,26 @@
 # Research Starter Lab
 
-A practical pathway from curiosity to a real student research project.
+Two student goals: start a small research project independently, or find a suitable research program.
 
-Research Starter Lab is an independent educational website for high school students. It guides students through choosing a direction, reviewing literature, using AI responsibly, forming questions, building toy models, finding public data, contacting mentors, revising work, and producing a meaningful final output.
+- `/`: two main entry points and direct resource links.
+- `/start-here`: four steps and one worked example.
+- `/resources`: 15 programs, eligibility/format/search filters, papers/data links, and two researcher directories.
+- `/worksheet`: unindexed recovery of previously saved browser notes; no new notebook workflow.
 
-## Pages
+The former guides and multi-step tools redirect to the relevant main page. Their source and data utilities are retained for compatibility; they are not imported by the active application.
 
-- Home
-- Start Here
-- Learn hub
-- Tools hub
-- Find a Direction
-- Research Workflow
-- AI & Literature
-- Build a Project
-- Outreach
-- Investigation Planner
-- Research Record (served at `/worksheet`)
-- Case Studies
+## Run
 
-The core journey is Interest → Direction → Question → Investigation → Sources / Evidence → Revision → Communication. The Research Record is interactive, printable, and saved only in the student's browser. It supports structured plans, source and evidence logs, revision history, a local mentor brief, JSON backup/import, and Markdown export.
+Use `npm ci`, then `npm run dev`. `npm run build` creates the client and prerenders the three public pages plus note recovery. `npm run qa:release` checks the current three-page experience, source links, metadata, redirects, and saved-data compatibility. Historical tool-specific scripts are retained for their data utilities and are not current product acceptance gates.
 
-## Development
+## Update programs
 
-```bash
-npm install
-npm run dev
-```
+Edit `src/data/resources.js`. Each program must include an official program URL, eligibility-source URL, exact citizenship/school/residence conditions, and a source-cycle label. Preserve distinctions between research internships, directed research courses, and open collaborations. Recheck official eligibility before updating `RESOURCE_CHECKED_DATE`; never infer a new application cycle from older requirements.
 
-## Production build
+## Saved work
 
-```bash
-npm run build
-npm run check:seo
-npm run check:prerender
-npm run qa:release
-```
+No old browser-storage keys are deleted or modified by this version. Note recovery exports exact raw values from all five previous record/draft keys. Storage remains specific to the original browser and website origin. The recovery footer link is shown only when previous data exists.
 
-The production build compiles the Vite client and then pre-renders every public route from the central route configuration. Each route receives its own static `index.html` with page content and metadata, then hydrates as the same React application in the browser.
+## Deployment
 
-`npm run qa:browser` runs the Playwright browser suite at desktop, tablet, and mobile viewports. `npm run qa:release` runs lint, build, SEO/prerender, regression checks, internal-link validation, accessibility, and browser QA.
-
-Research drafts are never uploaded. JSON import validates a versioned local backup and requires an explicit merge or replace decision before changing the current record.
-
-The site uses React, Vite, React Router, and React Helmet Async. Vercel serves the generated route directories directly.
+Vercel publishes the existing preview branch through its GitHub integration. Production origin remains https://student-research-lab-theta.vercel.app. `vercel.json` contains explicit redirects for old routes and rewrites for prerendered pages.

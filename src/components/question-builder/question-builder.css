@@ -72,7 +72,7 @@
 .qb-toolbar-label {
   display: block;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--qb-muted);
@@ -124,7 +124,7 @@
 }
 
 .qb-example-badge {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--qb-gold);
@@ -213,7 +213,7 @@
 
 .qb-progress-num {
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
 }
 
@@ -252,7 +252,7 @@
 .qb-stage-kicker {
   margin: 0;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--qb-gold);
@@ -363,7 +363,7 @@
 .qb-warnings-title {
   margin: 0 0 0.4rem;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--qb-warn);
@@ -398,7 +398,7 @@
 .qb-logic-caption {
   margin: 0;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--qb-muted);
@@ -444,7 +444,7 @@
 
 .qb-candidates li span {
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--qb-sage);
@@ -766,7 +766,7 @@
 .qb-label-tag {
   margin: 0;
   font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--qb-gold);
@@ -808,11 +808,11 @@
   }
 
   .qb-progress-label {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
   }
 
   .qb-progress-num {
-    font-size: 0.6rem;
+    font-size: 0.75rem;
   }
 
   .qb-grid-2,

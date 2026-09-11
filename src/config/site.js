@@ -1,9 +1,9 @@
 export const SITE = {
   name: 'Research Starter Lab',
   origin: 'https://student-research-lab-theta.vercel.app',
-  defaultTitle: 'Research Starter Lab | A Student Research Pathway',
+  defaultTitle: 'Research Starter Lab | Start Research & Find Programs',
   defaultDescription:
-    'A practical pathway that helps high school students move from curiosity to literature, questions, models, data, mentorship, revision, and a meaningful research output.',
+    'Learn how to start a small research project and find research programs, papers, data, and people to ask.',
 }
 
 export function absoluteUrl(path = '/') {
