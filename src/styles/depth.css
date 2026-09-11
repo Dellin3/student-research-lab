@@ -1,35 +1,35 @@
-/* Quiet material depth. All lighting stays within the softened walnut/pine
+/* Quiet material depth. All lighting stays within the daylit walnut/pine
    palette; physical movement is reserved for navigation and state changes. */
 @media screen {
   .site-shell {
     --ease-material: cubic-bezier(.2, .75, .2, 1);
-    --surface-edge: inset 0 1px 0 #ebcfac19, inset 0 -1px 0 #160f1533;
-    --surface-depth: 0 2px 3px #170f1524, 0 14px 28px -12px #170f1573;
+    --surface-edge: inset 0 1px 0 #ebcfac19, inset 0 -1px 0 #493a2e26;
+    --surface-depth: 0 2px 3px #493a2e1a, 0 14px 28px -12px #3d30254d;
     --interior-shadow: var(--surface-edge), var(--surface-depth);
   }
 
   /* A stable light direction ties the stage and working surfaces together. */
   .site-shell .home-opening {
-    background: radial-gradient(ellipse at 18% 20%, #8c664629, transparent 64%),
-      radial-gradient(ellipse at 95% 55%, #466b491c, transparent 55%), #342b25;
+    background: radial-gradient(ellipse at 18% 20%, #c59d7721, transparent 64%),
+      radial-gradient(ellipse at 95% 55%, #7c94672b, transparent 55%), #665447;
     box-shadow: inset 0 -1px 0 #c9a37f12;
   }
   .site-shell.is-interior {
-    background: radial-gradient(ellipse 1100px 650px at 16% 0, #80603f24, transparent), #342b25;
+    background: radial-gradient(ellipse 1100px 650px at 16% 0, #bea0811a, transparent), #665447;
   }
   .site-shell .home-heading h1,
   .is-interior :is(.page-intro, .hub-heading) h1 {
-    text-shadow: 0 2px 1px #20171433, 0 12px 30px #170f151f;
+    text-shadow: 0 2px 1px #493a2e26, 0 12px 30px #493a2e14;
   }
   .site-shell .site-header {
     transition: box-shadow 350ms var(--ease-material), border-color 350ms;
   }
   .site-shell .site-header.is-scrolled {
-    box-shadow: 0 8px 24px #18110e40, inset 0 -1px 0 #d6b08b12;
+    box-shadow: 0 8px 24px #493a2e2b, inset 0 -1px 0 #d6b08b12;
   }
   .site-shell .brand-mark {
-    background: linear-gradient(145deg, #66503e33, transparent 70%), #342b25;
-    box-shadow: var(--surface-edge), 0 3px 6px #170f1540;
+    background: linear-gradient(145deg, #bfa07e26, transparent 70%), #665447;
+    box-shadow: var(--surface-edge), 0 3px 6px #493a2e2e;
   }
 
   /* These are the product's two primary destinations, not decorative objects. */
@@ -37,21 +37,21 @@
   .site-shell .home-path:hover {
     --lift: 0px;
     border-radius: 16px;
-    border-bottom-color: #201910b3;
+    border-bottom-color: #574537b3;
     transform-style: preserve-3d;
     transform: perspective(1200px) translateY(var(--lift)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
     box-shadow: inset 0 1px 0 #efcca638, inset 1px 0 0 #efd0a912,
-      0 3px 0 #241d18, 0 5px 3px #170f1533, 0 18px 34px -12px #170f1599;
+      0 3px 0 #574537, 0 5px 3px #493a2e26, 0 18px 34px -12px #3d302559;
     transition: transform 550ms var(--ease-material), box-shadow 400ms var(--ease-material), border-color 300ms;
   }
   .site-shell .path-start,
   .site-shell .path-start:hover {
-    background: linear-gradient(135deg, #6d543f 0%, #66503e 48%, #574437 100%);
+    background: linear-gradient(135deg, #796351 0%, #76604f 48%, #705b4b 100%);
   }
-  .site-shell .path-start .path-kicker { color: #f0dfc3; }
+  .site-shell .path-start .path-kicker { color: #fff6e8; }
   .site-shell .path-find,
   .site-shell .path-find:hover {
-    background: linear-gradient(135deg, #365144 0%, #2f4b40 48%, #293f37 100%);
+    background: linear-gradient(135deg, #4d6d58 0%, #496b56 48%, #456350 100%);
   }
   .site-shell .home-path::before {
     content: '';
@@ -69,8 +69,8 @@
   .site-shell .home-path .path-action { transform: translateZ(10px); }
   .site-shell .path-arrow {
     border-color: #d7c3a259;
-    background: linear-gradient(145deg, #e9d0ac0d, #1c171526);
-    box-shadow: inset 0 1px 0 #e9d0ac19, 0 3px 5px #15100e29;
+    background: linear-gradient(145deg, #e9d0ac0d, #493a2e1a);
+    box-shadow: inset 0 1px 0 #e9d0ac19, 0 3px 5px #493a2e1f;
     transition: transform 400ms var(--ease-material), box-shadow 300ms;
   }
   .site-shell .home-path:hover .path-arrow { transform: none; }
@@ -90,13 +90,13 @@
     .ip-live-inner, .email-section > div:first-child, .record-entry,
     .real-project-example, .mentor-first) {
     background-image: linear-gradient(145deg, #b8c99b0b, transparent 65%);
-    box-shadow: inset 0 1px 0 #d3dfb51c, inset 0 -1px 0 #132c263d, var(--surface-depth);
+    box-shadow: inset 0 1px 0 #d3dfb51c, inset 0 -1px 0 #344c3933, var(--surface-depth);
   }
   .is-interior .program-list { box-shadow: var(--surface-edge), var(--surface-depth); border: 1px solid #bca18336; }
   .is-interior .program-row { transition: background-color 240ms, box-shadow 240ms; }
   .is-interior .program-row:first-child { box-shadow: inset 0 1px 0 #e9cba419; }
   .is-interior .program-facts { box-shadow: inset 1px 0 0 #bbcc9c14; }
-  .is-interior .mentor-first blockquote { box-shadow: var(--surface-edge), 0 8px 18px -8px #101d1666; }
+  .is-interior .mentor-first blockquote { box-shadow: var(--surface-edge), 0 8px 18px -8px #344c3940; }
   .site-shell .home-example-body .example-focused {
     border-left: 2px solid #d8ad8073;
     padding-left: 1.15rem;
@@ -110,19 +110,19 @@
     .worksheet-field input:not([type=checkbox]), .worksheet-field select,
     .source-triage textarea, .finder-search input, .finder-format select,
     .tool-subject select, .example-select select) {
-    box-shadow: inset 0 2px 5px #1b140f29, 0 1px 0 #e8c39b0b;
+    box-shadow: inset 0 2px 5px #493a2e26, 0 1px 0 #e8c39b0b;
     transition: border-color 220ms, box-shadow 220ms, background-color 220ms;
   }
   .is-interior :is(input, textarea, select):focus-visible {
-    box-shadow: inset 0 1px 3px #1b140f26, 0 0 0 5px #d8ad8010;
+    box-shadow: inset 0 1px 3px #493a2e21, 0 0 0 5px #d8ad8010;
   }
   .is-interior .notebook-basics .worksheet-field { transition: background-color 250ms; }
   .is-interior .notebook-basics .worksheet-field:focus-within { background-color: #e4c49b06; }
-  .is-interior :is(.example-takeaway, .qb-worksheet-choice) { box-shadow: inset 0 2px 6px #17241b29; }
+  .is-interior :is(.example-takeaway, .qb-worksheet-choice) { box-shadow: inset 0 2px 6px #344c3926; }
 
   /* Raised selection, recessed rail, and a definite press response. */
   .is-interior :is(.begin-steps, .resource-tabs, .finder-controls, .tn-toolbar, .qb-tool-toolbar, .ip-toolbar) {
-    box-shadow: inset 0 1px 4px #17120f40, 0 1px 0 #d8b38c0d;
+    box-shadow: inset 0 1px 4px #493a2e2b, 0 1px 0 #d8b38c0d;
   }
   .is-interior :is(.begin-steps button, .resource-tabs a) {
     transition: background-color 250ms, box-shadow 250ms, color 250ms;
@@ -134,17 +134,17 @@
   }
   .site-shell .field-switch button { transition: background-color 240ms, border-color 240ms, box-shadow 240ms, transform 220ms; }
   .site-shell .field-switch button[aria-pressed=true] {
-    box-shadow: inset 0 1px 0 #e2c29926, 0 2px 4px #20160f40;
+    box-shadow: inset 0 1px 0 #e2c29926, 0 2px 4px #493a2e2b;
   }
   .site-shell .button,
   .is-interior :is(.tn-preview, .qb-preview-sticky, .ip-live-inner) .button {
-    box-shadow: inset 0 1px 0 #e8d4af1f, 0 2px 2px #16171129, 0 5px 10px -4px #16171140;
+    box-shadow: inset 0 1px 0 #e8d4af1f, 0 2px 2px #34433426, 0 5px 10px -4px #34433430;
     transition: background-color 220ms, border-color 220ms, transform 300ms var(--ease-material), box-shadow 300ms;
   }
   .site-shell .button:disabled { box-shadow: none; }
   .site-shell :is(.button, .field-switch button):active:not(:disabled) {
     transform: translateY(1px);
-    box-shadow: inset 0 2px 4px #17120f40;
+    box-shadow: inset 0 2px 4px #493a2e2b;
   }
   .is-interior :is(.core-guide-list > a, .core-tool-list > li, .record-entry) {
     transition: background-color 250ms, box-shadow 250ms;
@@ -153,7 +153,7 @@
   .is-interior .core-tool-list > li:focus-within {
     background-color: #d8ad8009;
   }
-  .is-interior .program-row:focus-within { background-color: #58473a; box-shadow: inset 3px 0 0 #c7a47d99; }
+  .is-interior .program-row:focus-within { background-color: #796351; box-shadow: inset 3px 0 0 #c7a47d99; }
 }
 
 @media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -161,7 +161,7 @@
   .site-shell .home-path:focus-visible {
     --lift: -6px;
     box-shadow: inset 0 1px 0 #efd3aa45, inset 1px 0 0 #efd0a91a,
-      0 4px 0 #241d18, 0 8px 8px #170f1526, 0 28px 40px -12px #170f1599;
+      0 4px 0 #574537, 0 8px 8px #493a2e1f, 0 28px 40px -12px #3d302559;
   }
   .site-shell .home-path[data-tracking] { transition-duration: 160ms, 400ms, 300ms; }
   .site-shell .home-path:hover::before { opacity: 1; }
@@ -170,7 +170,7 @@
   .site-shell .button:hover:not(:disabled) { transform: translateY(-2px); }
 }
 @media screen and (hover: hover) and (pointer: fine) {
-  .is-interior .program-row:has(a:hover) { background-color: #58473a; box-shadow: inset 3px 0 0 #c7a47d99; }
+  .is-interior .program-row:has(a:hover) { background-color: #796351; box-shadow: inset 3px 0 0 #c7a47d99; }
   .is-interior .core-guide-list > a:hover,
   .is-interior .core-tool-list > li:has(a:hover) { background-color: #d8ad8009; }
 }
@@ -184,7 +184,7 @@
   .site-shell .path-find:focus-visible { --lift: -3px; }
   .site-shell .home-path:active {
     --lift: 1px;
-    box-shadow: inset 0 1px 0 #efcca626, 0 1px 0 #241d18, 0 7px 16px -7px #170f1580;
+    box-shadow: inset 0 1px 0 #efcca626, 0 1px 0 #574537, 0 7px 16px -7px #3d30254d;
     transition-duration: 120ms;
   }
 }
