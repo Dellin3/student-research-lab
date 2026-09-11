@@ -7,16 +7,18 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const open = menu.open && menu.path === location.pathname
+  const legacyView = location.pathname === '/resources' ? new URLSearchParams(location.search).get('view') : null
 
   useEffect(() => {
-    const target = location.hash ? document.getElementById(location.hash.slice(1)) : null
+    const anchor = location.hash.slice(1) || (['sources', 'mentors'].includes(legacyView) ? legacyView : '')
+    const target = anchor ? document.getElementById(anchor) : null
     if (target) {
       if (target.tagName === 'DETAILS') target.open = true
       target.scrollIntoView({ block: 'start', behavior: 'instant' })
     } else {
       window.scrollTo({ top: 0, behavior: 'instant' })
     }
-  }, [location.pathname, location.hash])
+  }, [location.pathname, location.hash, legacyView])
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24)
@@ -52,7 +54,6 @@ export default function Header() {
               {route.navigationLabel}
             </NavLink>
           ))}
-          <NavLink className="nav-notes" to="/worksheet">My notes <span aria-hidden="true">↗</span></NavLink>
         </nav>
       </div>
     </header>

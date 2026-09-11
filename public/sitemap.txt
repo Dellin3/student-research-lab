@@ -1,15 +1,3 @@
 https://student-research-lab-theta.vercel.app/
 https://student-research-lab-theta.vercel.app/start-here
-https://student-research-lab-theta.vercel.app/learn
-https://student-research-lab-theta.vercel.app/tools
 https://student-research-lab-theta.vercel.app/resources
-https://student-research-lab-theta.vercel.app/topic-narrowing
-https://student-research-lab-theta.vercel.app/find-a-direction
-https://student-research-lab-theta.vercel.app/research-workflow
-https://student-research-lab-theta.vercel.app/research-question-builder
-https://student-research-lab-theta.vercel.app/investigation-planner
-https://student-research-lab-theta.vercel.app/ai-literature
-https://student-research-lab-theta.vercel.app/build-a-project
-https://student-research-lab-theta.vercel.app/outreach
-https://student-research-lab-theta.vercel.app/worksheet
-https://student-research-lab-theta.vercel.app/case-studies

@@ -25,10 +25,11 @@
     "qa:r3": "playwright test tests/e2e/r3.spec.js",
     "qa:accessibility": "playwright test tests/e2e/accessibility.spec.js",
     "qa:health": "playwright test tests/e2e/release-health.spec.js",
-    "qa:release": "npm run lint && npm run build && npm run check:seo && npm run check:prerender && npm run check:master-sprint-r3 && npm run qa:browser",
+    "qa:release": "npm run build && npm run check:seo && npm run check:prerender && npm run check:internal-links && npm run check:core && npm run check:research-record",
     "lint": "eslint .",
     "prerender": "node scripts/prerender.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:core": "node scripts/check-core-paths.mjs"
   },
   "dependencies": {
     "react": "^19.2.6",

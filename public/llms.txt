@@ -1,21 +1,10 @@
 # Research Starter Lab
 
-Research Starter Lab is a practical educational pathway that helps high school students move from curiosity to a real research project.
+Learn how to start a small research project and find research programs, papers, data, and people to ask.
 
-Main pages:
+Public pages:
 - Home: https://student-research-lab-theta.vercel.app/
-- Start Here: https://student-research-lab-theta.vercel.app/start-here
-- Learn: https://student-research-lab-theta.vercel.app/learn
-- Tools: https://student-research-lab-theta.vercel.app/tools
-- Topic Narrowing Lab: https://student-research-lab-theta.vercel.app/topic-narrowing
-- Find a Direction: https://student-research-lab-theta.vercel.app/find-a-direction
-- Research Workflow: https://student-research-lab-theta.vercel.app/research-workflow
-- Research Question Builder: https://student-research-lab-theta.vercel.app/research-question-builder
-- Investigation Planner: https://student-research-lab-theta.vercel.app/investigation-planner
-- AI & Literature: https://student-research-lab-theta.vercel.app/ai-literature
-- Build a Project: https://student-research-lab-theta.vercel.app/build-a-project
-- Outreach: https://student-research-lab-theta.vercel.app/outreach
-- Research Record: https://student-research-lab-theta.vercel.app/worksheet
-- Case Studies: https://student-research-lab-theta.vercel.app/case-studies
+- Start on your own: https://student-research-lab-theta.vercel.app/start-here
+- Find a program and resources: https://student-research-lab-theta.vercel.app/resources
 
-The site teaches source verification, responsible AI use, mode-aware investigation planning, iterative research, public data, mentor feedback, revision, and research communication. Student drafts in the Research Record remain local to the browser.
+Program eligibility summaries link to official sources and identify the cycle used. International nationality, U.S. residence, and citizenship requirements are distinct. This directory does not indicate that applications are currently open.

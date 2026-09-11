@@ -1,128 +1,16 @@
 export const PUBLIC_ROUTES = [
-  {
-    path: '/',
-    title: 'How to Start Research in High School | Research Starter Lab',
-    description:
-      'Learn how to start research in high school and find mentors, research programs, papers, and data for your next step.',
-    sitemap: true,
-  },
-  {
-    path: '/start-here',
-    title: 'Start Research | Research Starter Lab',
-    description:
-      'Start your first research project with four practical steps and worked examples in environmental science, mathematics, and humanities.',
-    navigationLabel: 'Start research',
-    sitemap: true,
-  },
-  {
-    path: '/learn',
-    title: 'Learn Student Research Skills | Research Starter Lab',
-    description:
-      'Learn how to narrow a topic, review literature, use AI responsibly, build an investigation, revise, and seek mentor feedback.',
-    navigationLabel: 'Guides',
-    sitemap: true,
-  },
-  {
-    path: '/tools',
-    title: 'Student Research Tools | Research Starter Lab',
-    description:
-      'Use free tools to narrow a research direction, shape a question, and keep a private, local Research Record.',
-    navigationLabel: 'Tools',
-    sitemap: true,
-  },
-  {
-    path: '/resources',
-    title: 'Find Mentors & Research Programs | Research Starter Lab',
-    description: 'Find student research programs, official researcher directories, papers, and public datasets. Explore MIT PRIMES, remote mathematics research, and more.',
-    navigationLabel: 'Mentors & programs',
-    sitemap: true,
-  },
-  {
-    path: '/topic-narrowing',
-    title: 'How to Narrow a Research Topic | Topic Narrowing Lab',
-    description:
-      'Turn a broad interest into a bounded research direction. Use this free Topic Narrowing Lab to choose an object, a discipline-specific lens, and one inspectable boundary before writing a question.',
-    sitemap: true,
-  },
-  {
-    path: '/find-a-direction',
-    title: 'Find a Direction | Research Starter Lab',
-    description:
-      'Narrow an interest into a concrete, researchable problem across many fields.',
-    sitemap: true,
-  },
-  {
-    path: '/research-workflow',
-    title: 'Research Workflow | Research Starter Lab',
-    description:
-      'Learn an iterative research workflow built around tests, failures, revisions, and new questions.',
-    sitemap: true,
-  },
-  {
-    path: '/research-question-builder',
-    title:
-      'Free Research Question Builder for High School Students | Research Starter Lab',
-    description:
-      'Use a free interactive research question builder to narrow a broad interest, identify variables and evidence, check project scope, and create a focused high school research question.',
-    sitemap: true,
-  },
-  {
-    path: '/investigation-planner',
-    title:
-      'Research Project Planner | Investigation Planner | Research Starter Lab',
-    description:
-      'Turn a research question into a small, workable investigation with mode-aware evidence, comparison, constraints, limitations, and a concrete first action.',
-    sitemap: true,
-  },
-  {
-    path: '/ai-literature',
-    title: 'AI & Literature | Research Starter Lab',
-    description:
-      'Search, map, verify, and cite research literature while using AI responsibly.',
-    sitemap: true,
-  },
-  {
-    path: '/build-a-project',
-    title: 'Build a Project | Research Starter Lab',
-    description:
-      'Formulate a question, build a toy model, analyze public data, validate results, and produce a final deliverable.',
-    sitemap: true,
-  },
-  {
-    path: '/outreach',
-    title: 'Outreach | Research Starter Lab',
-    description:
-      'Identify suitable mentors, write specific emails, follow up professionally, and use feedback well.',
-    sitemap: true,
-  },
-  {
-    path: '/worksheet',
-    title: 'Research Record | Research Starter Lab',
-    description:
-      'Keep a private, local Research Record of sources, questions, attempts, feedback, limitations, and next actions.',
-    navigationLabel: 'RESEARCH RECORD',
-    sitemap: true,
-  },
-  {
-    path: '/case-studies',
-    title: 'Case Studies | Research Starter Lab',
-    description:
-      'See how a student interest can develop into an evidence-based research project.',
-    navigationLabel: 'EXAMPLES',
-    sitemap: true,
-  },
+  { path: '/', title: 'Start Research & Find Research Programs | Research Starter Lab', description: 'A simple starting point for high-school research: learn how to begin independently and find research programs, papers, and data.', sitemap: true },
+  { path: '/start-here', title: 'How to Start Your Own Research | Research Starter Lab', description: 'Four practical steps to begin a small research project, with a worked example and direct links to papers and data.', navigationLabel: 'Start on your own', sitemap: true },
+  { path: '/resources', title: 'High-School Research Programs & Resources | Research Starter Lab', description: 'Find research programs with international, U.S. school, and citizenship requirements, plus direct links to papers, data, and researcher directories.', navigationLabel: 'Find a program', sitemap: true },
+  { path: '/worksheet', title: 'Download Previous Notes | Research Starter Lab', description: 'Download research notes and tool drafts previously saved in this browser.', sitemap: false, prerender: true, noindex: true },
 ]
-
-export const ROUTES_BY_PATH = Object.fromEntries(
-  PUBLIC_ROUTES.map((route) => [route.path, route]),
-)
-
-const NAVIGATION_PATHS = ['/start-here', '/resources']
-
-export const NAVIGATION_ROUTES = NAVIGATION_PATHS.map(
-  (path) => ROUTES_BY_PATH[path],
-)
-
-export function getRoute(path) {
-  return ROUTES_BY_PATH[path]
+export const LEGACY_REDIRECTS = {
+  '/learn': '/start-here', '/tools': '/start-here', '/topic-narrowing': '/start-here',
+  '/find-a-direction': '/start-here', '/research-workflow': '/start-here',
+  '/research-question-builder': '/start-here', '/investigation-planner': '/start-here',
+  '/ai-literature': '/resources#sources', '/build-a-project': '/start-here',
+  '/outreach': '/resources#mentors', '/case-studies': '/start-here#example',
 }
+export const ROUTES_BY_PATH = Object.fromEntries(PUBLIC_ROUTES.map(route => [route.path, route]))
+export const NAVIGATION_ROUTES = ['/start-here', '/resources'].map(path => ROUTES_BY_PATH[path])
+export function getRoute(path) { return ROUTES_BY_PATH[path] }
