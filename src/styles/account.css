@@ -6,6 +6,10 @@
 .site-shell :is(.account-page,.my-research-page) p { color:#c7d3e8; font-size:1rem; line-height:1.65; }
 .site-shell :is(.account-page,.my-research-page) .eyebrow { color:#a6c9e6; font-size:.875rem; }
 .account-form { display:grid; gap:1.1rem; margin-top:1.6rem; }
+.account-providers { margin-top:1.5rem; }
+.account-google { width:100%; justify-content:center; }
+.account-providers .field-hint { margin:.65rem 0; }
+.site-shell .account-providers .account-divider { border-top:1px solid #8dade040; margin:1.5rem 0 0; padding-top:1.1rem; font-size:.875rem; color:#b8c7de; }
 .account-form label { display:grid; gap:.5rem; color:#e0e8f7; font-size:1rem; }
 .account-form input,.research-note-field textarea { width:100%; min-width:0; box-sizing:border-box; background:#101e31; border:1px solid #8dade077; color:#f2f5ff; border-radius:8px; padding:.8rem .9rem; font:inherit; font-size:1rem; line-height:1.65; }
 .account-form input { min-height:48px; }
@@ -50,6 +54,8 @@
 .conflict-actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:1rem; }
 .recovered-drafts > div { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1.25rem; border-top:1px solid #8dade040; }
 .site-shell .primary-nav .account-nav { border:1px solid #8dade080; border-radius:8px; padding:.5rem .8rem; color:#c8e6f7; }
+.site-shell .primary-nav .account-nav::after { display:none; }
+.site-shell .primary-nav .account-nav[aria-current=page] { background:#13243b; border-color:#abc1ff; }
 .site-shell :is(.account-page,.my-research-page) :is(a,button,input,textarea,summary):focus-visible { outline:3px solid #9be8f3; outline-offset:4px; }
 @media(max-width:700px) {
   .my-research-page { width:calc(100% - 2rem); padding-top:1.5rem; }

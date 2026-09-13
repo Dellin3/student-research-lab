@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
 import { useAccount } from '../account/AccountContext.js'
-import { authMessage, emailDeliveryReady, updateRecoveryPassword } from '../lib/accountClient.js'
+import { authMessage, emailDeliveryReady, getSignInOptions, updateRecoveryPassword } from '../lib/accountClient.js'
 
 export default function AccountPage() {
   const account = useAccount()
@@ -15,14 +15,50 @@ export default function AccountPage() {
   const [repeat, setRepeat] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState({ text: '', error: false })
+  const [providers, setProviders] = useState({ status: 'loading', google: false })
+  const [providerAttempt, setProviderAttempt] = useState(0)
   const recovery = account.recovery && !account.error
   const emailReady = emailDeliveryReady()
+  const googleReady = providers.status === 'ready' && providers.google
   const signingIn = mode === 'sign-in' && !recovery
   const title = recovery ? 'Set a new password.' : mode === 'reset' ? 'Reset your password.' : mode === 'sign-up' ? 'Keep your research.' : 'Pick up where you left off.'
 
   useEffect(() => {
     if (account.status === 'signed-in' && !account.recovery && !resetRoute && !account.error) navigate('/my-research', { replace: true })
   }, [account.status, account.recovery, account.error, resetRoute, navigate])
+
+  useEffect(() => {
+    const restore = event => { if (event.persisted) setBusy(false) }
+    window.addEventListener('pageshow', restore)
+    return () => window.removeEventListener('pageshow', restore)
+  }, [])
+
+  useEffect(() => {
+    if (!account.client) return
+    const controller = new AbortController()
+    getSignInOptions({ signal: controller.signal }).then(options => {
+      if (!controller.signal.aborted) setProviders({ status: 'ready', ...options })
+    }).catch(() => {
+      if (!controller.signal.aborted) setProviders({ status: 'error', google: false })
+    })
+    return () => controller.abort()
+  }, [account.client, providerAttempt])
+
+  async function signInWithGoogle() {
+    if (!account.client || !googleReady || busy) return
+    setBusy(true)
+    setMessage({ text: '', error: false })
+    try {
+      const { error } = await account.client.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `${window.location.origin}/account`, queryParams: { prompt: 'select_account' } },
+      })
+      if (error) throw error
+    } catch {
+      setMessage({ text: 'Google sign-in could not open. Please try again.', error: true })
+      setBusy(false)
+    }
+  }
 
   function changeMode(next) { setMode(next); setPassword(''); setRepeat(''); setMessage({ text: '', error: false }) }
   async function submit(event) {
@@ -75,7 +111,13 @@ export default function AccountPage() {
         : <>
           {!recovery && <p>Save your question, progress, sources, and next step to your account.</p>}
           {recovery && <p>Set a new password for {account.session.user.email}.</p>}
-          {!emailReady && <p className="account-message" role="status">Existing accounts can sign in. New registration and email recovery will open when email delivery is ready.</p>}
+          {!recovery && !resetRoute && signingIn && <div className="account-providers">
+            {providers.status === 'loading' && <p className="field-hint" role="status">Checking sign-in options…</p>}
+            {providers.status === 'error' && <p className="account-message" role="status">We could not check whether Google sign-in is available. <button type="button" className="plain-action" disabled={busy} onClick={() => { setProviders({ status: 'loading', google: false }); setProviderAttempt(attempt => attempt + 1) }}>Try again</button></p>}
+            {googleReady && <><button type="button" className="button secondary account-google" disabled={busy} onClick={signInWithGoogle}>Continue with Google</button><p className="field-hint">New here? Your account is created when you first sign in with Google.</p><p className="account-divider">Or sign in with an existing email account</p></>}
+            {!googleReady && !emailReady && providers.status === 'ready' && <p className="account-message" role="status">New accounts are not open yet. You can use the research guide and program directory without signing in.</p>}
+            {!googleReady && !emailReady && <p className="account-divider">Already have an account? Sign in below.</p>}
+          </div>}
           {account.error && <p className="account-message is-error" role="alert">{account.error}</p>}
           {resetRoute && !recovery ? <><p>This reset link has not been verified.{emailReady ? ' Request a fresh link and open it in the browser where you requested it.' : ''}</p><Link className="resource-direct" to="/account" onClick={() => changeMode(emailReady ? 'reset' : 'sign-in')}>{emailReady ? 'Request a password reset' : 'Return to sign in'}</Link></> : <form onSubmit={submit} className="account-form">
             {!recovery && <label>Email<input type="email" name="email" autoComplete="email" required maxLength={254} value={email} onChange={event => setEmail(event.target.value)} disabled={busy} /></label>}

@@ -4,7 +4,27 @@ The account and progress implementation is connected to Supabase project `poosoe
 
 ## Current release gate
 
-**Existing accounts can sign in. Public email registration and password recovery remain closed until delivery is configured and verified.** `src/config/account.public.json` has `emailReady: false`. Do not change it just to expose buttons.
+**Google sign-in is implemented in the website but is not configured in the provider yet.** The live settings check on 2026-09-13 returned `external.google: false`. The account page checks `/auth/v1/settings` with the public publishable key and only offers Google when the backend reports it enabled. Network failures have a separate retry state. The existing PKCE initialization handles the callback; do not add a second code exchange.
+
+Existing email accounts can still sign in. Public email registration and password recovery remain closed until delivery is configured and verified. `src/config/account.public.json` has `emailReady: false`. Google sign-in is independent of this email gate. Do not change it just to expose buttons.
+
+## Google sign-in without buying a domain
+
+The project owner must complete the Google authorization configuration; the connected database tools cannot create Google OAuth credentials or write Supabase Authentication settings.
+
+1. Open https://console.cloud.google.com/auth/overview and select or create a `Research Starter Lab` project.
+2. Configure the consent audience as External and supply the owner's support/contact email. Request only `openid`, `userinfo.email`, and `userinfo.profile`.
+3. Create an OAuth client with application type **Web application**. Authorized JavaScript origin: `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app`.
+4. Add the Google authorized redirect URI: `https://poosoenwocirlebxwzla.supabase.co/auth/v1/callback`.
+5. In the Supabase Google provider settings, enter the Client ID and Client Secret and enable Google. Enter the secret directly in the dashboard, never in chat, the website, or Git.
+6. Set Supabase's Site URL to the preview origin above and allow `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app/account`. This website return URL is different from Google's Supabase callback URL in step 4.
+7. Reload the account page. Verify a complete Google sign-in, return to My research, save, sign out, and sign back in to restore. Also verify cancellation and the intended student audience. Provider-enabled status alone does not validate the credentials, audience, or redirects.
+
+The Google button becomes available on reload after the provider is enabled; no website rebuild or email sender is required. The complete Google round trip has not yet been tested because provider configuration is missing.
+
+Official guide: https://supabase.com/docs/guides/auth/social-login/auth-google
+
+## Optional email registration
 
 The Supabase connection exposes database/project tools, but does not expose Authentication configuration writes. The following settings need to be completed in the Supabase dashboard using the project owner's account:
 

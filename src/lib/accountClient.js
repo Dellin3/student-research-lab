@@ -36,6 +36,18 @@ export function getAccountClient() {
   return clientPromise
 }
 
+export async function getSignInOptions({ signal } = {}) {
+  const config = accountConfig()
+  if (!config) throw new Error('account_unavailable')
+  const response = await authFetch(`${config.url}/auth/v1/settings`, {
+    headers: { apikey: config.key }, cache: 'no-store', signal,
+  })
+  if (!response.ok) throw new Error('sign_in_options_unavailable')
+  const settings = await response.json()
+  if (typeof settings?.external?.google !== 'boolean') throw new Error('sign_in_options_unavailable')
+  return { google: settings.external.google === true }
+}
+
 export async function updateRecoveryPassword(client, expectedUserId, password) {
   const config = accountConfig()
   const { data, error } = await client.auth.getSession()

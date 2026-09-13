@@ -10,7 +10,10 @@ export default function AccountProvider({ children }) {
     let active = true, subscription, initializing = true, authEvents = 0
     const url = new URL(window.location.href)
     const hadCode = url.searchParams.has('code')
-    let callbackError = url.searchParams.has('error') || new URLSearchParams(url.hash.slice(1)).has('error') ? 'This email link could not be verified. Request a new one.' : ''
+    const callbackFailure = url.searchParams.get('mode') === 'recovery'
+      ? 'This reset link could not be verified. Request a new one and open it in the same browser.'
+      : 'Sign-in could not be completed. Please try again. If you used an email link, request a new one and open it in this browser.'
+    let callbackError = url.searchParams.has('error') || new URLSearchParams(url.hash.slice(1)).has('error') ? callbackFailure : ''
     const timeout = setTimeout(() => {
       if (active) setAccount(current => current.status === 'loading' ? { ...current, status: 'error', error: 'Sign-in is taking too long. Check your connection and reload.' } : current)
     }, 15000)
@@ -25,7 +28,7 @@ export default function AccountProvider({ children }) {
       })
       subscription = result.data.subscription
       const initialization = await client.auth.initialize()
-      if (initialization.error || (hadCode && new URL(window.location.href).searchParams.has('code'))) callbackError = 'This email link could not be verified. Request a new one and open it in the same browser.'
+      if (initialization.error || (hadCode && new URL(window.location.href).searchParams.has('code'))) callbackError = callbackFailure
       initializing = false
       const beforeSessionRead = authEvents
       const { data, error } = await client.auth.getSession()
