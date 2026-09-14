@@ -8,7 +8,9 @@ The account and progress implementation is connected to Supabase project `poosoe
 
 The production sign-in entry is `https://student-research-lab-theta.vercel.app/account`. Start a fresh sign-in there after deploying this release. A sign-in started on the preview origin cannot reuse its browser verifier on production. If Supabase returns to the same origin's Site URL root, the application waits for initialization and routes to `/account`, without forwarding the callback credentials. Successful sign-in then opens My research.
 
-Existing email accounts can still sign in. Public email registration and password recovery remain closed until delivery is configured and verified. `src/config/account.public.json` has `emailReady: false`. Google sign-in is independent of this email gate. Do not change it just to expose buttons.
+The public sign-in page offers **Continue with Google** only. It creates an account on first use and restores that account on later sign-ins. There is no email/password sign-in, email signup, reset-request, or resend-confirmation form. No existing accounts, provider settings, or saved research are changed by this UI simplification. The legacy `emailReady` configuration field no longer controls the UI.
+
+An already-verified password recovery session can still finish its original recovery flow. Merely adding `?mode=recovery` never exposes a password form; the authenticated recovery event and user identity checks are required.
 
 ## Google sign-in without buying a domain
 
@@ -26,9 +28,9 @@ The Google button becomes available on reload after the provider is enabled; no 
 
 Official guide: https://supabase.com/docs/guides/auth/social-login/auth-google
 
-## Optional email registration
+## Future email registration
 
-The Supabase connection exposes database/project tools, but does not expose Authentication configuration writes. The following settings need to be completed in the Supabase dashboard using the project owner's account:
+Email registration is not part of the current interface. If it is explicitly requested in the future, restore and verify the UI as well as configuring delivery. Changing a public flag alone will not enable it. The Supabase connection exposes database/project tools, but does not expose Authentication configuration writes. The following settings would need to be completed in the Supabase dashboard using the project owner's account:
 
 1. Configure a custom SMTP (Simple Mail Transfer Protocol) sender, for example Resend with a verified sending domain. Supabase's built-in email sender is limited to organization members and is unsuitable for public student registration.
 2. Set the Authentication Site URL to the production website address: `https://student-research-lab-theta.vercel.app`.
@@ -39,7 +41,7 @@ The Supabase connection exposes database/project tools, but does not expose Auth
    - `https://student-research-lab-theta.vercel.app/account?mode=recovery`
 4. Keep email confirmation enabled. Match the minimum password policy to the UI's 12-character minimum. Review the provider's rate limits for the actual student audience.
 5. With an explicitly authorized test inbox, verify delivery of signup confirmation and password-reset emails, successful callback handling, expired/reused links, and normal sign-in after resetting a password. The PKCE flow requires opening the email link in the browser where the request started.
-6. After these checks, set `emailReady: true` in the public configuration, verify a preview, and deploy the release. `VITE_ACCOUNT_EMAIL_READY=true` is an alternative deployment setting.
+6. Implement the requested email forms, verify the complete experience in a preview, and deploy the release. The removed `VITE_ACCOUNT_EMAIL_READY` flag is not an activation mechanism.
 
 Dashboard: https://supabase.com/dashboard/project/poosoenwocirlebxwzla/auth/providers
 
