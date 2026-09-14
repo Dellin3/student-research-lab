@@ -7,7 +7,7 @@ import { PUBLIC_ROUTES } from '../src/config/routes.js'
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = join(root, 'dist')
 const template = readFileSync(join(distDirectory, 'index.html'), 'utf8')
-const routes = PUBLIC_ROUTES.filter((route) => route.sitemap)
+const routes = PUBLIC_ROUTES.filter((route) => route.sitemap || route.prerender)
 
 function removeFallbackMetadata(html) {
   return html

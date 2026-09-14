@@ -9,6 +9,7 @@ export default function RouteSeo({ path }) {
       title={route.title}
       description={route.description}
       pathname={route.path}
+      noindex={route.noindex}
     />
   )
 }

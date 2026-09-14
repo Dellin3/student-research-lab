@@ -1,6 +1,5 @@
 import PageIntro from '../components/layout/PageIntro.jsx'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
-import SectionHeading from '../components/layout/SectionHeading.jsx'
 
 const WORKED_EXAMPLES = [
   {
@@ -36,16 +35,15 @@ export default function CaseStudiesPage() {
   return (
     <>
       <RouteSeo path="/case-studies" />
-      <PageIntro eyebrow="Research in practice" title="Case studies across disciplines" description="These examples make narrowing, evidence, and revision visible. Worked examples are teaching constructions, not accounts of real students or completed results." />
+      <PageIntro eyebrow="Research in practice" title={<>See how a question <em>takes shape.</em></>} description="Choose a field. These worked examples illustrate research decisions; they are not completed studies." />
       <main id="main-content" className="page-content case-page">
         <section>
-          <SectionHeading eyebrow="Transfer the decisions" title="Five worked examples, one research logic" description="Each sketch stops before claiming a result. Its purpose is to show a feasible first investigation and the limitation likely to shape revision." />
           <div className="worked-examples">
             {WORKED_EXAMPLES.map(({ discipline, title, steps }) => (
-              <article className="worked-example" key={discipline}>
-                <div className="worked-example-heading"><p className="example-label">WORKED EXAMPLE</p><p className="eyebrow">{discipline}</p><h2>{title}</h2></div>
+              <details className="worked-example example-disclosure" key={discipline}>
+                <summary><span className="eyebrow">{discipline}</span><h2>{title}</h2><span className="example-label">WORKED EXAMPLE</span></summary>
                 <ol>{steps.map((step, index) => <li key={STEP_LABELS[index]}><span>{STEP_LABELS[index]}</span><p>{step}</p></li>)}</ol>
-              </article>
+              </details>
             ))}
           </div>
         </section>

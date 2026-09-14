@@ -2,6 +2,8 @@ import { BUILDER_EXAMPLES, FIELD_PRESETS, RELATION_TYPES } from '../src/data/que
 import { evaluateDiagnostics } from '../src/utils/questionDiagnostics.js'
 import { buildResearchRecord, generateQuestions } from '../src/utils/questionGenerator.js'
 
+import { restoreQuestionDraft } from '../src/utils/questionDraft.js'
+
 const errors = []
 
 function assert(condition, message) {
@@ -199,6 +201,18 @@ for (const example of BUILDER_EXAMPLES) {
   assert(!/\s{2,}/.test(result.primary.text), 'MALFORMED: primary should not keep double spaces')
   assertNoBrokenSlots(result.primary.text, 'MALFORMED primary')
   assert(result.state.broadInterest === 'graph theory', 'MALFORMED: interest should be trimmed')
+}
+
+// A new confirmed direction must not inherit an unrelated investigation's evidence.
+{
+  const saved = { broadInterest: 'Saturn', outcome: 'ring structure', evidenceSource: 'Cassini data', stageIndex: 3 }
+  const incoming = { broadInterest: 'urban heat', field: 'Environmental Science', phenomenon: 'surface temperatures' }
+  const next = restoreQuestionDraft(saved, incoming)
+  assert(next.state.broadInterest === 'urban heat', 'HANDOFF: incoming direction missing')
+  assert(next.state.outcome === '' && next.state.evidenceSource === '', 'HANDOFF: stale evidence leaked into new direction')
+  assert(next.stageIndex === 1, 'HANDOFF: should continue at the question stage')
+  const kept = restoreQuestionDraft(saved, null)
+  assert(kept.state.evidenceSource === 'Cassini data' && kept.stageIndex === 3, 'RESTORE: previous draft should remain intact when transfer is declined')
 }
 
 if (errors.length > 0) {

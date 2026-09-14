@@ -1,16 +1,26 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { NAVIGATION_ROUTES } from '../../config/routes.js'
+import { useAccount } from '../../account/AccountContext.js'
 
 export default function Header() {
+  const account = useAccount()
   const [menu, setMenu] = useState({ open: false, path: '' })
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const open = menu.open && menu.path === location.pathname
+  const legacyView = location.pathname === '/resources' ? new URLSearchParams(location.search).get('view') : null
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [location.pathname])
+    const anchor = location.hash.slice(1) || (['sources', 'mentors'].includes(legacyView) ? legacyView : '')
+    const target = anchor ? document.getElementById(anchor) : null
+    if (target) {
+      if (target.tagName === 'DETAILS') target.open = true
+      target.scrollIntoView({ block: 'start', behavior: 'instant' })
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+  }, [location.pathname, location.hash, legacyView])
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 24)
@@ -23,8 +33,8 @@ export default function Header() {
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="header-inner">
         <Link className="brand" to="/" aria-label="Research Starter Lab home">
-          <span className="brand-mark" aria-hidden="true">RSL</span>
-          <span><strong>Research Starter Lab</strong><small>Curiosity into careful inquiry</small></span>
+          <span className="brand-mark" aria-hidden="true">r<span>↗</span></span>
+          <span><strong>Research Starter Lab</strong></span>
         </Link>
         <button
           className="menu-button"
@@ -36,7 +46,7 @@ export default function Header() {
         >
           <i /><i /><i />
         </button>
-        <nav id="primary-navigation" className={open ? 'primary-nav is-open' : 'primary-nav'} aria-label="Primary navigation">
+        <nav id="primary-navigation" className={open ? 'primary-nav is-open' : 'primary-nav'} aria-label="Primary navigation" onClick={() => setMenu({ open: false, path: location.pathname })} onKeyDown={event => { if (event.key === 'Escape') setMenu({ open: false, path: location.pathname }) }}>
           {NAVIGATION_ROUTES.map((route) => (
             <NavLink
               key={route.path}
@@ -46,6 +56,7 @@ export default function Header() {
               {route.navigationLabel}
             </NavLink>
           ))}
+          <NavLink className="account-nav" to={account.status === 'signed-in' ? '/my-research' : '/account'}>{account.status === 'signed-in' ? 'My research' : 'Sign in'}</NavLink>
         </nav>
       </div>
     </header>

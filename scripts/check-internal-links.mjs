@@ -1,11 +1,11 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { PUBLIC_ROUTES } from '../src/config/routes.js'
+import { PUBLIC_ROUTES, LEGACY_REDIRECTS } from '../src/config/routes.js'
 import { SITE } from '../src/config/site.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const routePaths = new Set(PUBLIC_ROUTES.map((route) => route.path))
+const routePaths = new Set([...PUBLIC_ROUTES.map((route) => route.path), ...Object.keys(LEGACY_REDIRECTS)])
 const errors = []
 
 function filesUnder(directory) {

@@ -99,7 +99,7 @@
   display: block;
   margin-bottom: 0.2rem;
   color: var(--ip-gold);
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
@@ -129,7 +129,7 @@
 .ip-tag {
   margin: 0 0 0.45rem;
   color: var(--ip-muted);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -213,7 +213,7 @@
   display: block;
   margin-bottom: 0.2rem;
   color: var(--ip-gold);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -349,7 +349,7 @@
 
 .ip-summary dt {
   color: var(--ip-muted);
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;

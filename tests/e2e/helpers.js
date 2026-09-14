@@ -87,3 +87,10 @@ export async function capture(page, release, projectName, name) {
     animations: 'disabled',
   })
 }
+
+export async function openRecordDetail(page, title) {
+  const optional = page.locator('.notebook-extra')
+  if (await optional.getAttribute('open') === null) await optional.locator(':scope > summary').click()
+  const section = page.locator('.notebook-extra details').filter({ has: page.getByRole('heading', { name: title, exact: true }) })
+  if (await section.getAttribute('open') === null) await section.locator(':scope > summary').click()
+}

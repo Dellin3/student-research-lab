@@ -22,6 +22,7 @@ import {
   saveResearchRecord,
 } from '../../utils/researchRecord.js'
 import LogicDiagram from './LogicDiagram.jsx'
+import { restoreQuestionDraft } from '../../utils/questionDraft.js'
 
 function DiagnosticBar({ score }) {
   const filled = Math.max(0, Math.min(2, score))
@@ -35,11 +36,13 @@ function DiagnosticBar({ score }) {
 }
 
 async function copyText(text) {
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+  try {
+    if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) return false
     await navigator.clipboard.writeText(text)
     return true
+  } catch {
+    return false
   }
-  return false
 }
 
 function humanReviewItems(field) {
@@ -66,6 +69,7 @@ export default function QuestionBuilderTool() {
   const [worksheetChoice, setWorksheetChoice] = useState(null)
   const saveTimer = useRef(null)
   const lastAnnounced = useRef('')
+  const liveQuestion = useRef(null)
 
   const generated = useMemo(() => generateQuestions(state), [state])
   const preset = getFieldPreset(state.field)
@@ -93,32 +97,16 @@ export default function QuestionBuilderTool() {
           }
         : null
 
-      if (saved && typeof saved === 'object') {
-        setState((current) => ({
-          ...current,
-          ...Object.fromEntries(
-            Object.keys(EMPTY_BUILDER_STATE).map((key) => [key, saved[key] ?? '']),
-          ),
-          ...(transferred || {}),
-        }))
-        if (
-          typeof saved.stageIndex === 'number'
-          && saved.stageIndex >= 0
-          && saved.stageIndex < STAGES.length
-          && !transferred
-        ) {
-          setStageIndex(saved.stageIndex)
-        } else if (transferred) {
-          setStageIndex(1)
-        }
-        setSaveNote(transferred
-          ? 'Direction transferred from Topic Narrowing Lab. The next step is still to form a question.'
-          : 'Saved locally')
-      } else if (transferred) {
-        setState((current) => ({ ...current, ...transferred }))
-        setStageIndex(1)
-        setSaveNote('Direction transferred from Topic Narrowing Lab. The next step is still to form a question.')
-      }
+      const hasSavedDraft = saved && Object.keys(EMPTY_BUILDER_STATE).some(key => Boolean(saved[key]))
+      const acceptTransfer = !transferred || !hasSavedDraft || window.confirm(
+        'Start a new question from this direction? This replaces your current Question Builder draft. Cancel to keep the saved draft.',
+      )
+      const restored = restoreQuestionDraft(saved, acceptTransfer ? transferred : null)
+      setState(restored.state)
+      setStageIndex(restored.stageIndex)
+      setSaveNote(transferred && acceptTransfer
+        ? 'Direction transferred. Add fresh evidence and a method for this question.'
+        : 'Saved locally')
       if (transferred) clearNarrowingHandoff()
       setHydrated(true)
     }, 0)
@@ -155,6 +143,7 @@ export default function QuestionBuilderTool() {
   }
 
   function applyExample(example) {
+    if (Object.values(state).some(Boolean) && !window.confirm('Load this worked example in place of your current question draft?')) return
     setState({ ...EMPTY_BUILDER_STATE, ...example.state })
     setStageIndex(4)
     setCopyNote(`Loaded ${example.label} example`)
@@ -169,6 +158,7 @@ export default function QuestionBuilderTool() {
   }
 
   function clearSavedDraft() {
+    if (Object.values(state).some(Boolean) && !window.confirm('Clear this question draft and start again?')) return
     try {
       window.localStorage.removeItem(STORAGE_KEY)
     } catch {
@@ -216,22 +206,28 @@ export default function QuestionBuilderTool() {
   }
 
   function openResearchRecordFlow() {
+    if (isEmptyDraft) return
     const stored = readResearchRecord(window.localStorage)
     const incoming = generated.primary?.incomplete ? '' : generated.primary?.text || ''
     if (builderImportNeedsConfirmation(stored, state, incoming)) {
       setWorksheetChoice('choose')
       return
     }
-    writeBuilderDraft('keep')
+    writeBuilderDraft('replace')
   }
 
   function writeBuilderDraft(mode) {
+    if (mode === 'keep') {
+      setCopyNote('Existing Research Record kept unchanged.')
+      setWorksheetChoice(null)
+      return
+    }
     try {
       const stored = readResearchRecord(window.localStorage)
       const question = generated.primary?.incomplete ? '' : generated.primary?.text || ''
       const next = importBuilderDraft(stored, state, question, mode)
       saveResearchRecord(next, window.localStorage)
-      setCopyNote(mode === 'replace' ? 'Builder draft replaced the current record question' : 'Builder draft added to Research Record')
+      setCopyNote('Research Record updated with this draft.')
     } catch {
       setCopyNote('Could not update Research Record')
     }
@@ -248,36 +244,8 @@ export default function QuestionBuilderTool() {
   return (
     <div className="qb-tool">
       <div className="qb-tool-toolbar">
-        <div className="qb-field-presets" role="group" aria-label="Optional discipline lenses">
-          <span className="qb-toolbar-label">Discipline Lens</span>
-          <div className="qb-chip-row">
-            <button
-              type="button"
-              className={`qb-chip${!state.field ? ' is-selected' : ''}`}
-              aria-pressed={!state.field}
-              onClick={() => updateField('field', '')}
-            >
-              None
-            </button>
-            {Object.keys(FIELD_PRESETS).map((field) => (
-              <button
-                key={field}
-                type="button"
-                className={`qb-chip${state.field === field ? ' is-selected' : ''}`}
-                aria-pressed={state.field === field}
-                onClick={() => updateField('field', field)}
-              >
-                {field}
-              </button>
-            ))}
-          </div>
-          <p className="qb-helper">
-            A discipline lens changes vocabulary, examples, and useful structures—not your saved
-            words. Loading an example chooses its natural lens; changing the lens later never
-            overwrites your draft.
-          </p>
-        </div>
-
+        <label className="tool-subject">Field <span>(optional)</span><select value={state.field} onChange={event => updateField('field', event.target.value)}><option value="">Choose later</option>{Object.keys(FIELD_PRESETS).map(field => <option key={field}>{field}</option>)}</select></label>
+        <details className="tool-options"><summary>See worked examples</summary>
         <div className="qb-example-row" role="group" aria-label="Educational examples">
           <span className="qb-toolbar-label">Examples</span>
           <div className="qb-chip-row">
@@ -295,12 +263,11 @@ export default function QuestionBuilderTool() {
           </div>
         </div>
 
+        </details>
         <div className="qb-utility-row">
           <p className="qb-save-note" aria-live="polite">{saveNote || 'Draft stays in this browser'}</p>
           <div className="qb-utility-actions">
-            <button type="button" className="qb-text-btn" onClick={clearAll}>Clear</button>
-            <button type="button" className="qb-text-btn" onClick={clearSavedDraft}>Clear Saved Draft</button>
-            <button type="button" className="qb-text-btn" onClick={() => { clearAll(); setCopyNote('Started over') }}>Start Over</button>
+            <button type="button" className="qb-text-btn" onClick={clearSavedDraft}>Start a new question</button>
           </div>
         </div>
         <p className="qb-privacy">
@@ -595,7 +562,14 @@ export default function QuestionBuilderTool() {
           <button
             type="button"
             className="button primary"
-            onClick={() => setStageIndex((value) => Math.min(STAGES.length - 1, value + 1))}
+            onClick={() => {
+              if (stageIndex < STAGES.length - 1) {
+                setStageIndex((value) => value + 1)
+              } else {
+                liveQuestion.current?.scrollIntoView({ block: 'center', behavior: 'instant' })
+                liveQuestion.current?.focus({ preventScroll: true })
+              }
+            }}
           >
             {stageIndex === STAGES.length - 1 ? 'Review draft' : 'Next'}
           </button>
@@ -608,6 +582,8 @@ export default function QuestionBuilderTool() {
             <p className="qb-status-label">{generated.statusLabel}</p>
             <p
               className="qb-live-question"
+              ref={liveQuestion}
+              tabIndex={-1}
               aria-live="polite"
               aria-atomic="true"
             >
@@ -701,7 +677,7 @@ export default function QuestionBuilderTool() {
             <div className="qb-preview-actions">
               <button type="button" className="button secondary" onClick={handleCopyQuestion}>Copy Question</button>
               <button type="button" className="button secondary" onClick={handleCopyRecord}>Copy Research Record</button>
-              <button type="button" className="button primary" onClick={openResearchRecordFlow}>Add to Research Record</button>
+              <button type="button" className="button primary" disabled={isEmptyDraft} onClick={openResearchRecordFlow}>Add to Research Record</button>
               <Link className="button secondary" to="/investigation-planner" onClick={persistForPlanner}>Continue to Investigation Planner</Link>
               <Link className="qb-text-link" to="/worksheet">Open current record page</Link>
             </div>

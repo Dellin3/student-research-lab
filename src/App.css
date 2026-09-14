@@ -54,7 +54,7 @@
   font-family: Georgia, serif; font-size: .75rem; letter-spacing: .08em;
 }
 .brand strong { display: block; font-family: Georgia, serif; font-size: 1.08rem; font-weight: 500; letter-spacing: .01em; }
-.brand small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: .68rem; letter-spacing: .11em; text-transform: uppercase; }
+.brand small { display: block; margin-top: 3px; color: var(--ink-soft); font-size: 0.75rem; letter-spacing: .11em; text-transform: uppercase; }
 .primary-nav { display: flex; align-items: center; justify-content: flex-end; gap: 4px 19px; }
 .primary-nav a {
   position: relative; padding: 31px 0 28px; color: var(--ink-soft);
@@ -67,7 +67,7 @@
 .menu-button i { display: block; width: 23px; height: 1px; margin: 5px auto; background: var(--ink); }
 
 .eyebrow {
-  margin: 0 0 15px; color: var(--gold); font-size: .73rem; font-weight: 750;
+  margin: 0 0 15px; color: var(--gold); font-size: 0.75rem; font-weight: 750;
   letter-spacing: .16em; line-height: 1.4; text-transform: uppercase;
 }
 h1, h2, h3, p { margin-top: 0; }
@@ -133,7 +133,7 @@ p, li { line-height: 1.72; }
 .text-link span { padding-left: 5px; color: var(--gold); }
 .hero-note { position: relative; padding: 48px 43px; background: var(--navy); color: var(--white); box-shadow: 18px 18px 0 var(--sage-pale); }
 .hero-note::before { content: ''; position: absolute; top: 17px; left: 17px; width: 42px; height: 42px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
-.hero-note .note-label { color: var(--gold-pale); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.hero-note .note-label { color: var(--gold-pale); font-size: 0.75rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 .hero-note blockquote { margin: 27px 0; font-family: Georgia, serif; font-size: 1.5rem; line-height: 1.5; }
 .hero-note .note-rule { width: 54px; height: 1px; margin: 30px 0 20px; background: var(--gold); }
 .hero-note > p:last-child { margin: 0; color: #c8d0d4; font-size: .82rem; letter-spacing: .07em; }
@@ -157,10 +157,10 @@ p, li { line-height: 1.72; }
 .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
 .guide-card { position: relative; min-height: 305px; padding: 40px 54px 38px 72px; border-bottom: 1px solid var(--line); }
 .guide-card:nth-child(odd) { border-right: 1px solid var(--line); }
-.guide-card .card-number { position: absolute; left: 20px; top: 43px; color: var(--gold); font-size: .68rem; letter-spacing: .1em; }
+.guide-card .card-number { position: absolute; left: 20px; top: 43px; color: var(--gold); font-size: 0.75rem; letter-spacing: .1em; }
 .guide-card h3 { font-size: 1.7rem; }
 .guide-card p { color: var(--ink-soft); }
-.guide-card a { display: inline-block; margin-top: 8px; color: var(--navy); font-size: .74rem; font-weight: 750; letter-spacing: .07em; text-decoration: none; text-transform: uppercase; }
+.guide-card a { display: inline-block; margin-top: 8px; color: var(--navy); font-size: 0.75rem; font-weight: 750; letter-spacing: .07em; text-decoration: none; text-transform: uppercase; }
 .guide-card a span { margin-left: 6px; color: var(--gold); }
 .closing-panel { padding: 105px max(40px, calc((100vw - 1120px) / 2)); background: var(--navy); color: var(--white); text-align: center; }
 .closing-panel .eyebrow, .cycle li:last-child span { color: var(--gold-pale); }
@@ -186,7 +186,7 @@ p, li { line-height: 1.72; }
 
 .checklist { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .checklist li { display: grid; grid-template-columns: 70px 1fr; gap: 22px; padding: 30px 0; border-bottom: 1px solid var(--line); }
-.checklist > li > span { color: var(--gold); font-size: .7rem; font-weight: 750; letter-spacing: .1em; }
+.checklist > li > span { color: var(--gold); font-size: 0.75rem; font-weight: 750; letter-spacing: .1em; }
 .checklist h3, .checklist p { margin-bottom: 6px; }
 .checklist p { max-width: 750px; color: var(--ink-soft); }
 .callout { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 45px; padding: 46px; background: var(--sage-pale); }
@@ -195,7 +195,7 @@ p, li { line-height: 1.72; }
 
 .example-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
 .example-card { min-height: 230px; padding: 34px 36px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.example-card > p { color: var(--sage); font-size: .7rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+.example-card > p { color: var(--sage); font-size: 0.75rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
 .example-card h3 { margin: 0; font-size: 1.35rem; line-height: 1.55; }
 .two-column-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 .two-column-cards > article { padding: 44px; border: 1px solid var(--line); background: var(--white); }
@@ -219,7 +219,7 @@ p, li { line-height: 1.72; }
 
 .method-list { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
 .method-list li { display: grid; grid-template-columns: 35px 1fr; gap: 10px; min-height: 230px; padding: 32px 28px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.method-list li > span { color: var(--gold); font-size: .7rem; font-weight: 750; }
+.method-list li > span { color: var(--gold); font-size: 0.75rem; font-weight: 750; }
 .method-list h3 { font-size: 1.6rem; }
 .method-list p { color: var(--ink-soft); }
 .warning-panel { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--navy); color: var(--white); }
@@ -229,7 +229,7 @@ p, li { line-height: 1.72; }
 
 .build-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
 .build-grid article { min-height: 245px; padding: 34px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.build-grid article > span { color: var(--gold); font-size: .67rem; font-weight: 750; }
+.build-grid article > span { color: var(--gold); font-size: 0.75rem; font-weight: 750; }
 .build-grid h3 { margin-top: 23px; font-size: 1.55rem; }
 .build-grid p { color: var(--ink-soft); }
 
@@ -257,7 +257,7 @@ p, li { line-height: 1.72; }
 .worksheet-form legend.sr-only { width: 1px; padding: 0; }
 .worksheet-form legend h2 { margin: 0; font-size: clamp(1.6rem, 2.5vw, 2.35rem); }
 .worksheet-field { display: grid; grid-template-columns: minmax(240px, 3fr) minmax(0, 8fr); gap: clamp(32px, 5vw, 76px); align-items: start; padding: 32px 0; border-bottom: 1px solid var(--line); }
-.field-number { padding-top: 9px; color: var(--gold); font-size: .7rem; font-weight: 750; }
+.field-number { padding-top: 9px; color: var(--gold); font-size: 0.75rem; font-weight: 750; }
 .field-copy { padding-top: 3px; }
 .field-copy strong { display: block; margin-bottom: 8px; font-family: Georgia, serif; font-size: 1.22rem; font-weight: 400; }
 .field-copy small { display: block; color: var(--ink-soft); line-height: 1.55; }
@@ -269,7 +269,7 @@ p, li { line-height: 1.72; }
 
 .case-card { display: grid; grid-template-columns: 230px 1fr; min-height: 440px; border: 1px solid var(--line); background: var(--white); }
 .case-index { display: flex; flex-direction: column; justify-content: space-between; padding: 40px; background: var(--navy); color: var(--white); }
-.case-index span { color: var(--gold-pale); font-size: .7rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
+.case-index span { color: var(--gold-pale); font-size: 0.75rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; }
 .case-index strong { font-family: Georgia, serif; font-size: 5rem; font-weight: 400; }
 .case-copy { padding: 65px 70px; }
 .case-copy h2 { font-size: 3.2rem; }
@@ -285,7 +285,7 @@ p, li { line-height: 1.72; }
   padding: 34px 0;
   border-bottom: 1px solid var(--line);
 }
-.hub-item > span { color: var(--gold); font-size: .7rem; font-weight: 750; letter-spacing: .1em; }
+.hub-item > span { color: var(--gold); font-size: 0.75rem; font-weight: 750; letter-spacing: .1em; }
 .hub-item h2 { margin-bottom: 7px; font-size: clamp(1.65rem, 3vw, 2.35rem); }
 .hub-item p { max-width: 720px; margin: 0; color: var(--ink-soft); }
 .tool-hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--line); }
@@ -322,14 +322,14 @@ p, li { line-height: 1.72; }
   padding: 5px 8px;
   border: 1px solid var(--sage);
   color: var(--sage);
-  font-size: .65rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: .12em;
 }
 .worked-examples > .worked-example ol { margin: 0; padding: 0; list-style: none; }
 .worked-examples > .worked-example li { display: grid; grid-template-columns: 180px 1fr; gap: 24px; padding: 15px 0; border-bottom: 1px solid var(--line); }
 .worked-examples > .worked-example li:last-child { border-bottom: 0; }
-.worked-examples > .worked-example li span { color: var(--sage); font-size: .68rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.worked-examples > .worked-example li span { color: var(--sage); font-size: 0.75rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 .worked-examples > .worked-example li p { margin: 0; color: var(--ink-soft); line-height: 1.55; }
 .real-project-example {
   display: grid;

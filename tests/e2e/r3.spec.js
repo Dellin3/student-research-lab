@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { capture, expectHealthyLayout } from './helpers.js'
+import { capture, expectHealthyLayout, openRecordDetail } from './helpers.js'
 
 async function resetStorage(page) {
   await page.goto('/')
@@ -84,6 +84,7 @@ test.describe('R3 Investigation Planner', () => {
   test('Question Builder draft transfers explicitly into planner', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/research-question-builder')
+    await page.locator('.tool-options > summary').click()
     await page.getByRole('button', { name: /Mathematics \/ Counting/ }).click()
     await page.getByRole('link', { name: 'Continue to Investigation Planner' }).click()
     await expect(page).toHaveURL(/investigation-planner/)
@@ -95,8 +96,8 @@ test.describe('R3 Investigation Planner', () => {
   test('planner saves to record, persists, and does not silently replace conflict', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/worksheet')
-    await page.getByLabel('Current question').fill('Keep this existing question')
-    await page.getByRole('button', { name: 'Save', exact: true }).first().click()
+    await page.getByLabel('My question').fill('Keep this existing question')
+    await page.getByRole('button', { name: 'Save now', exact: true }).first().click()
     await fillPlanner(page, 'Observational', { question: 'How is canopy associated with afternoon temperature?' })
     await page.getByRole('button', { name: 'Save to Research Record' }).click()
     await expect(page.getByText(/different current question/)).toBeVisible()
@@ -107,10 +108,10 @@ test.describe('R3 Investigation Planner', () => {
     await page.getByRole('button', { name: 'Save to Research Record' }).click()
     await page.getByRole('button', { name: 'Replace mapped record fields' }).click()
     await page.goto('/worksheet')
-    await expect(page.getByLabel('Current question')).toHaveValue(/canopy associated/)
+    await expect(page.getByLabel('My question')).toHaveValue(/canopy associated/)
     await expect(page.getByLabel('Smallest investigation')).not.toHaveValue('')
     await page.reload()
-    await expect(page.getByLabel('Current question')).toHaveValue(/canopy associated/)
+    await expect(page.getByLabel('My question')).toHaveValue(/canopy associated/)
   })
 })
 
@@ -118,39 +119,39 @@ test.describe('R3 Research Record', () => {
   test('source, evidence, and revision logs persist and remain distinct', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/worksheet')
-    await page.getByText('Source log', { exact: true }).click()
+    await openRecordDetail(page, 'Source log')
     await page.getByRole('button', { name: 'Add source' }).click()
     await page.getByLabel('Title').fill('<script>alert(1)</script>')
     await page.getByLabel('URL').fill('javascript:alert(1)')
     await page.getByLabel(/inspected the original source/i).check()
-    await page.getByText('Evidence log', { exact: true }).click()
+    await openRecordDetail(page, 'Evidence log')
     await page.getByRole('button', { name: 'Add evidence' }).click()
     await page.getByRole('textbox', { name: 'Finding', exact: true }).fill('The bounded calculation produced a counterexample.')
-    await page.locator('.worksheet-section').filter({ hasText: 'Evidence log' }).locator('select').selectOption('challenge')
-    await page.getByText('Revision history', { exact: true }).click()
+    await page.locator('.worksheet-section:not(.notebook-extra)').filter({ hasText: 'Evidence log' }).locator('select').selectOption('challenge')
+    await openRecordDetail(page, 'Revision history')
     await page.getByRole('button', { name: 'Add revision history' }).click()
     await page.getByRole('textbox', { name: 'What changed', exact: true }).fill('Question revised')
-    await page.getByRole('button', { name: 'Save', exact: true }).first().click()
+    await page.getByRole('button', { name: 'Save now', exact: true }).first().click()
     await page.reload()
-    await page.getByText('Source log', { exact: true }).click()
+    await openRecordDetail(page, 'Source log')
     await expect(page.getByLabel('Title')).toHaveValue('<script>alert(1)</script>')
     expect((await page.locator('script').allTextContents()).some((text) => text.includes('alert(1)'))).toBe(false)
-    await page.getByText('Evidence log', { exact: true }).click()
-    await expect(page.locator('.worksheet-section').filter({ hasText: 'Evidence log' }).locator('select')).toHaveValue('challenge')
+    await openRecordDetail(page, 'Evidence log')
+    await expect(page.locator('.worksheet-section:not(.notebook-extra)').filter({ hasText: 'Evidence log' }).locator('select')).toHaveValue('challenge')
   })
 
   test('exports versioned JSON and useful Markdown', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/worksheet')
-    await page.getByLabel('Current question').fill('What result should this investigation inspect?')
+    await page.getByLabel('My question').fill('What result should this investigation inspect?')
     const [jsonDownload] = await Promise.all([
       page.waitForEvent('download'),
-      page.getByRole('button', { name: 'Export JSON' }).click(),
+      page.getByRole('button', { name: 'Download a backup' }).click(),
     ])
     expect(jsonDownload.suggestedFilename()).toMatch(/research-record.*\.json/)
     const [markdownDownload] = await Promise.all([
       page.waitForEvent('download'),
-      page.getByRole('button', { name: 'Export Markdown' }).click(),
+      page.getByRole('button', { name: 'Export text' }).click(),
     ])
     expect(markdownDownload.suggestedFilename()).toMatch(/research-record.*\.md/)
   })
@@ -158,8 +159,8 @@ test.describe('R3 Research Record', () => {
   test('safe import rejects malformed data and requires an explicit mode and confirmation', async ({ page }) => {
     await resetStorage(page)
     await page.goto('/worksheet')
-    await page.getByLabel('Current question').fill('Preserve this question')
-    await page.getByText('Import a Research Record', { exact: true }).click()
+    await page.getByLabel('My question').fill('Preserve this question')
+    await page.getByText('Import a backup', { exact: true }).click()
     await page.locator('input[type=file]').setInputFiles({
       name: 'bad.json',
       mimeType: 'application/json',
@@ -174,18 +175,18 @@ test.describe('R3 Research Record', () => {
       buffer: Buffer.from('{"version":3,"wrong":true}'),
     })
     await expect(page.getByText(/Import failed/)).toBeVisible()
-    await expect(page.getByLabel('Current question')).toHaveValue('Preserve this question')
+    await expect(page.getByLabel('My question')).toHaveValue('Preserve this question')
   })
 
   test('mentor brief populates, remains editable, and copies locally', async ({ page, context }) => {
     await resetStorage(page)
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await page.goto('/worksheet')
-    await page.getByLabel('Current question').fill('Which comparison should I run first?')
+    await page.getByLabel('My question').fill('Which comparison should I run first?')
     await page.getByText('Mentor brief', { exact: true }).click()
     await page.getByRole('button', { name: 'Generate from current record' }).click()
     const brief = page.getByLabel('Editable mentor brief')
-    await expect(brief).toContainText('Which comparison should I run first?')
+    await expect(brief).toHaveValue(/Which comparison should I run first\?/)
     await brief.fill('Edited local mentor brief')
     await page.getByRole('button', { name: 'Copy brief' }).click()
     await expect(page.getByText('Mentor brief copied')).toBeVisible()

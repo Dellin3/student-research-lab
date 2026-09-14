@@ -21,7 +21,12 @@ const application = (
   </StrictMode>
 )
 
-if (rootElement.hasChildNodes()) {
+// Static exports contain the unfiltered page. A shared query URL must render its
+// selected view directly rather than hydrate against different static markup.
+const hasQueryView = ['/start-here', '/resources'].includes(window.location.pathname.replace(/\/+$/, ''))
+  && window.location.search.length > 1
+
+if (rootElement.hasChildNodes() && !hasQueryView) {
   hydrateRoot(rootElement, application)
 } else {
   createRoot(rootElement).render(application)
