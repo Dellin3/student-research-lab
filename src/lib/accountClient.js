@@ -1,6 +1,5 @@
 import publicConfig from '../config/account.public.json'
 let clientPromise
-export const emailDeliveryReady = () => import.meta.env.VITE_ACCOUNT_EMAIL_READY === 'true' || publicConfig.emailReady === true
 
 async function authFetch(input, init = {}) {
   const controller = new AbortController()

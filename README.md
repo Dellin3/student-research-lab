@@ -1,6 +1,6 @@
 # Research Starter Lab
 
-Optional student accounts add one **My research** page for a question, progress, sources, and next step. Supabase provides authentication and a private per-user cloud record. Public guides and the 15-program directory still require no account. See [account setup and release gate](docs/accounts-setup.md): public email signup/recovery stays closed until a custom mail sender and callback URLs are configured and tested.
+Optional student accounts add one **My research** page for a question, progress, sources, and next step. Supabase provides authentication and a private per-user cloud record. Public guides and the 15-program directory still require no account. The sign-in page uses **Continue with Google** for both new and returning students; it does not ask for a website password. See [account setup](docs/accounts-setup.md).
 
 Two student goals: start a small research project independently, or find a suitable research program.
 
@@ -25,4 +25,4 @@ No old browser-storage keys are deleted or modified by this version. Note recove
 
 ## Deployment
 
-Vercel publishes the existing preview branch through its GitHub integration. Production origin remains https://student-research-lab-theta.vercel.app. `vercel.json` contains explicit redirects for old routes and rewrites for prerendered pages.
+Vercel publishes `main` to https://student-research-lab-theta.vercel.app through its GitHub integration, with previews for feature branches. `vercel.json` contains explicit redirects for old routes and rewrites for prerendered pages.

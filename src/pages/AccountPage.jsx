@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import RouteSeo from '../components/layout/RouteSeo.jsx'
 import { useAccount } from '../account/AccountContext.js'
-import { authMessage, emailDeliveryReady, getSignInOptions, updateRecoveryPassword } from '../lib/accountClient.js'
+import { authMessage, getSignInOptions, updateRecoveryPassword } from '../lib/accountClient.js'
 
 export default function AccountPage() {
   const account = useAccount()
   const navigate = useNavigate()
   const location = useLocation()
   const resetRoute = new URLSearchParams(location.search).get('mode') === 'recovery'
-  const [mode, setMode] = useState('sign-in')
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeat, setRepeat] = useState('')
   const [busy, setBusy] = useState(false)
@@ -18,10 +16,8 @@ export default function AccountPage() {
   const [providers, setProviders] = useState({ status: 'loading', google: false })
   const [providerAttempt, setProviderAttempt] = useState(0)
   const recovery = account.recovery && !account.error
-  const emailReady = emailDeliveryReady()
   const googleReady = providers.status === 'ready' && providers.google
-  const signingIn = mode === 'sign-in' && !recovery
-  const title = recovery ? 'Set a new password.' : mode === 'reset' ? 'Reset your password.' : mode === 'sign-up' ? 'Keep your research.' : 'Pick up where you left off.'
+  const title = recovery ? 'Set a new password.' : 'Pick up where you left off.'
 
   useEffect(() => {
     if (account.status === 'signed-in' && !account.recovery && !resetRoute && !account.error) navigate('/my-research', { replace: true })
@@ -60,46 +56,17 @@ export default function AccountPage() {
     }
   }
 
-  function changeMode(next) { setMode(next); setPassword(''); setRepeat(''); setMessage({ text: '', error: false }) }
-  async function submit(event) {
+  // Only an already-verified legacy recovery link may show a password form.
+  async function submitRecovery(event) {
     event.preventDefault()
-    if (!account.client || busy) return
-    if (!emailReady && !recovery && mode !== 'sign-in') { setMessage({ text: 'Email registration and recovery are not open yet.', error: true }); return }
-    if ((recovery || mode === 'sign-up') && password !== repeat) { setMessage({ text: 'The passwords do not match.', error: true }); return }
+    if (!account.client || !recovery || !account.session || busy) return
+    if (password !== repeat) { setMessage({ text: 'The passwords do not match.', error: true }); return }
     setBusy(true)
     setMessage({ text: '', error: false })
-    const origin = window.location.origin
     try {
-      if (recovery) {
-        await updateRecoveryPassword(account.client, account.session.user.id, password)
-        setPassword(''); setRepeat(''); account.finishRecovery()
-        navigate('/my-research', { replace: true })
-      } else if (mode === 'reset') {
-        const { error } = await account.client.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${origin}/account?mode=recovery` })
-        if (error) throw error
-        setMessage({ text: 'If this email has an account, a reset link is on its way. Open it in this same browser.', error: false })
-      } else if (mode === 'sign-up') {
-        const { data, error } = await account.client.auth.signUp({ email: email.trim(), password, options: { emailRedirectTo: `${origin}/account` } })
-        if (error) throw error
-        setPassword(''); setRepeat('')
-        if (data.session) navigate('/my-research', { replace: true })
-        else setMessage({ text: 'Check your inbox to confirm your email. Open the link in this same browser, then sign in. If you already have an account, use Sign in below.', error: false })
-      } else {
-        const { error } = await account.client.auth.signInWithPassword({ email: email.trim(), password })
-        if (error) throw error
-        setPassword(''); navigate('/my-research', { replace: true })
-      }
-    } catch (error) { setMessage({ text: authMessage(error), error: true }) }
-    finally { setBusy(false) }
-  }
-  async function resend() {
-    if (!emailReady) return
-    if (!email.trim() || busy) { if (!email.trim()) setMessage({ text: 'Enter your email above first.', error: true }); return }
-    setBusy(true)
-    try {
-      const { error } = await account.client.auth.resend({ type: 'signup', email: email.trim(), options: { emailRedirectTo: `${window.location.origin}/account` } })
-      if (error) throw error
-      setMessage({ text: 'If confirmation is needed for this address, a new link is on its way. Open it in this same browser.', error: false })
+      await updateRecoveryPassword(account.client, account.session.user.id, password)
+      setPassword(''); setRepeat(''); account.finishRecovery()
+      navigate('/my-research', { replace: true })
     } catch (error) { setMessage({ text: authMessage(error), error: true }) }
     finally { setBusy(false) }
   }
@@ -111,22 +78,20 @@ export default function AccountPage() {
         : <>
           {!recovery && <p>Save your question, progress, sources, and next step to your account.</p>}
           {recovery && <p>Set a new password for {account.session.user.email}.</p>}
-          {!recovery && !resetRoute && signingIn && <div className="account-providers">
+          {!recovery && !resetRoute && <div className="account-providers">
             {providers.status === 'loading' && <p className="field-hint" role="status">Checking sign-in options…</p>}
             {providers.status === 'error' && <p className="account-message" role="status">We could not check whether Google sign-in is available. <button type="button" className="plain-action" disabled={busy} onClick={() => { setProviders({ status: 'loading', google: false }); setProviderAttempt(attempt => attempt + 1) }}>Try again</button></p>}
-            {googleReady && <><button type="button" className="button secondary account-google" disabled={busy} onClick={signInWithGoogle}>Continue with Google</button><p className="field-hint">New here? Your account is created when you first sign in with Google.</p><p className="account-divider">Or sign in with an existing email account</p></>}
-            {!googleReady && !emailReady && providers.status === 'ready' && <p className="account-message" role="status">New accounts are not open yet. You can use the research guide and program directory without signing in.</p>}
-            {!googleReady && !emailReady && <p className="account-divider">Already have an account? Sign in below.</p>}
+            {googleReady && <><button type="button" className="button primary account-google" disabled={busy} onClick={signInWithGoogle}>Continue with Google</button><p className="field-hint">Sign up or sign in with Google. No website password needed.</p></>}
+            {!googleReady && providers.status === 'ready' && <p className="account-message" role="status">Google sign-in is currently unavailable. You can still explore the research guide and program directory.</p>}
           </div>}
           {account.error && <p className="account-message is-error" role="alert">{account.error}</p>}
-          {resetRoute && !recovery ? <><p>This reset link has not been verified.{emailReady ? ' Request a fresh link and open it in the browser where you requested it.' : ''}</p><Link className="resource-direct" to="/account" onClick={() => changeMode(emailReady ? 'reset' : 'sign-in')}>{emailReady ? 'Request a password reset' : 'Return to sign in'}</Link></> : <form onSubmit={submit} className="account-form">
-            {!recovery && <label>Email<input type="email" name="email" autoComplete="email" required maxLength={254} value={email} onChange={event => setEmail(event.target.value)} disabled={busy} /></label>}
-            {(recovery || mode !== 'reset') && <label>{recovery ? 'New password' : 'Password'}<input type="password" name="password" autoComplete={signingIn ? 'current-password' : 'new-password'} minLength={signingIn ? 1 : 12} maxLength={128} required value={password} onChange={event => setPassword(event.target.value)} disabled={busy} />{!signingIn && <span className="field-hint">Use at least 12 characters.</span>}</label>}
-            {(recovery || mode === 'sign-up') && <label>Confirm password<input type="password" name="confirm-password" autoComplete="new-password" minLength={12} maxLength={128} required value={repeat} onChange={event => setRepeat(event.target.value)} disabled={busy} /></label>}
-            <button type="submit" className="button primary" disabled={busy}>{busy ? 'Please wait…' : recovery ? 'Update password' : mode === 'reset' ? 'Send reset link' : mode === 'sign-up' ? 'Create account' : 'Sign in'}</button>
+          {resetRoute && !recovery && <><p>This reset link has not been verified.</p><Link className="resource-direct" to="/account">Return to Google sign-in</Link></>}
+          {recovery && <form onSubmit={submitRecovery} className="account-form">
+            <label>New password<input type="password" name="password" autoComplete="new-password" minLength={12} maxLength={128} required value={password} onChange={event => setPassword(event.target.value)} disabled={busy} /><span className="field-hint">Use at least 12 characters.</span></label>
+            <label>Confirm password<input type="password" name="confirm-password" autoComplete="new-password" minLength={12} maxLength={128} required value={repeat} onChange={event => setRepeat(event.target.value)} disabled={busy} /></label>
+            <button type="submit" className="button primary" disabled={busy}>{busy ? 'Please wait…' : 'Update password'}</button>
           </form>}
           {message.text && <p className={`account-message${message.error ? ' is-error' : ''}`} role={message.error ? 'alert' : 'status'}>{message.text}</p>}
-          {emailReady && !recovery && !resetRoute && <div className="account-options">{mode === 'sign-in' ? <><button type="button" disabled={busy} onClick={() => changeMode('sign-up')}>Create an account</button><button type="button" disabled={busy} onClick={() => changeMode('reset')}>Forgot password?</button></> : <button type="button" disabled={busy} onClick={() => changeMode('sign-in')}>Back to sign in</button>}{mode !== 'reset' && <button type="button" disabled={busy} onClick={resend}>Resend confirmation email</button>}</div>}
           <details className="account-privacy"><summary>How your notes are stored</summary><p>Your email identifies your account. Research text is stored with Supabase and is not publicly visible. A recovery copy of unsaved changes may also remain in this browser. Site administrators can access stored data for operating the service. You can download your notes or clear their text from My research.</p></details>
         </>}
       <Link className="account-browse" to="/resources">Browse programs without an account →</Link>
