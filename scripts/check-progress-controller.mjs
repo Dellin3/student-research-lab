@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { createProgressController } from '../src/lib/progressController.js'
 import { createDraftStore, emptyProgress, sameProgress, validProgress } from '../src/utils/progressDocument.js'
-import { nextAuthState } from '../src/account/authState.js'
+import { nextAuthState, rootAuthReturnPath } from '../src/account/authState.js'
 
 function memoryStorage() {
   const values = new Map()
@@ -118,6 +118,18 @@ function fixture(initial = row('', 0)) {
   assert(!nextAuthState(recovery, 'SIGNED_IN', sessionB, { client: {} }).recovery)
   assert(!nextAuthState(recovery, 'PASSWORD_RECOVERY', sessionA, { client: {}, callbackError: 'Invalid link' }).recovery)
   assert.equal(nextAuthState(initial, 'SIGNED_IN', sessionA, { client: {}, initializing: true }).status, 'loading')
+}
+// A root OAuth return waits for initialization and never forwards credentials.
+{
+  const callback = { pathname: '/', search: '?code=synthetic-code&next=https://outside.invalid' }
+  assert.equal(rootAuthReturnPath(callback, 'loading'), null)
+  assert.equal(rootAuthReturnPath(callback, 'signed-in'), '/account')
+  assert.equal(rootAuthReturnPath(callback, 'signed-out'), '/account')
+  assert.equal(rootAuthReturnPath(callback, 'error'), '/account')
+  assert.equal(rootAuthReturnPath({ pathname: '/', search: '?utm_source=guide' }, 'signed-in'), null)
+  assert.equal(rootAuthReturnPath({ ...callback, pathname: '/account' }, 'signed-in'), null)
+  assert.equal(rootAuthReturnPath({ pathname: '/', hash: '#error=access_denied' }, 'signed-out'), '/account')
+  assert.equal(rootAuthReturnPath({ ...callback, search: '?code=synthetic-code&mode=recovery' }, 'signed-in'), '/account?mode=recovery')
 }
 assert(validProgress(emptyProgress())); assert(!validProgress({ ...emptyProgress(), question: '\u0000' })); assert(sameProgress(doc('a'), doc('a')))
 console.log('Progress checks passed: serialized autosave, reverted in-flight edits, retries, response loss, conflicts, recovery, isolation, quota errors, load failure, Strict Mode, and auth identity changes.')
