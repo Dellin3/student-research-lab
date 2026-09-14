@@ -1,5 +1,5 @@
-/* Quiet material depth. All lighting stays within the blue and cyan floating surfaces on near-black space
-   palette; physical movement is reserved for navigation and state changes. */
+/* Floating blue and cyan surfaces against softly illuminated, multicolour deep space.
+   Physical movement is reserved for navigation and state changes. */
 @media screen {
   .site-shell {
     --ease-material: cubic-bezier(.2, .75, .2, 1);
@@ -11,14 +11,22 @@
   /* Static distant light sets the stage; all movement belongs to the controls. */
   .site-shell,
   .site-shell.is-interior {
+    position: relative;
+    isolation: isolate;
     background-color: #04060b;
+    background-image: none;
+  }
+  .site-shell::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image:
-      radial-gradient(ellipse 480px 340px at 7% 440px, #7268bd28 0%, #45418714 42%, transparent 76%),
-      radial-gradient(ellipse 580px 400px at 48% 820px, #487ba825 0%, #344b8612 46%, transparent 78%),
-      linear-gradient(to bottom, #04060b00 50%, #04060b 100%),
-      url('/images/deep-space.webp');
-    background-position: top left, top center, top center, top right;
-    background-size: 100% 1120px, 100% 1400px, 100% 980px, auto 980px;
+      linear-gradient(180deg, #04060b99 0%, #04060b33 30%, #04060b1f 60%, #04060b40 100%),
+      url('/images/ethereal-space.webp');
+    background-position: center, 48% center;
+    background-size: cover;
     background-repeat: no-repeat;
   }
   .site-shell .home-opening {
