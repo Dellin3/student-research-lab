@@ -1,4 +1,4 @@
-/* Floating blue and cyan surfaces against softly illuminated, multicolour deep space.
+/* Floating blue and cyan surfaces against quiet, sparsely illuminated deep space.
    Physical movement is reserved for navigation and state changes. */
 @media screen {
   .site-shell {
@@ -22,10 +22,10 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image:
-      linear-gradient(180deg, #04060b99 0%, #04060b33 30%, #04060b1f 60%, #04060b40 100%),
-      url('/images/ethereal-space.webp');
-    background-position: center, 48% center;
+    /* A soft scrim keeps foreground copy clear while retaining the atmospheric rim. */
+    background-image: linear-gradient(180deg, #04060b14 12%, #04060b8c 38%, #04060b38 72%, #04060b66 100%), url('/images/earth-space-v4.webp');
+    background-position: 72% center;
+    /* Preserve the globe's spherical shape at every screen size. */
     background-size: cover;
     background-repeat: no-repeat;
   }
