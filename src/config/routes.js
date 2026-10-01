@@ -5,6 +5,7 @@ export const PUBLIC_ROUTES = [
   { path: '/worksheet', title: 'Download Previous Notes | Research Starter Lab', description: 'Download research notes and tool drafts previously saved in this browser.', sitemap: false, prerender: true, noindex: true },
   { path: '/account', title: 'Sign In | Research Starter Lab', description: 'Sign in to save and continue your research.', sitemap: false, prerender: true, noindex: true },
   { path: '/my-research', title: 'My Research | Research Starter Lab', description: 'Your research question, progress, sources, and next step.', sitemap: false, prerender: true, noindex: true },
+  { path: '/feedback', title: 'Feedback | Research Starter Lab', description: 'Ask a question, report a problem, or suggest an improvement to Research Starter Lab.', sitemap: false, prerender: true, noindex: true },
 ]
 export const LEGACY_REDIRECTS = {
   '/learn': '/start-here', '/tools': '/start-here', '/topic-narrowing': '/start-here',

@@ -10,6 +10,7 @@ import StartHerePage from './pages/StartHerePage.jsx'
 import ResourcesPage from './pages/ResourcesPage.jsx'
 import AccountPage from './pages/AccountPage.jsx'
 import MyResearchPage from './pages/MyResearchPage.jsx'
+import FeedbackPage from './pages/FeedbackPage.jsx'
 import AccountProvider from './account/AccountProvider.jsx'
 import { useAccount } from './account/AccountContext.js'
 import { rootAuthReturnPath } from './account/authState.js'
@@ -21,6 +22,7 @@ import './styles/interiors.css'
 import './styles/depth.css'
 import './styles/two-goals.css'
 import './styles/account.css'
+import './styles/feedback.css'
 
 export default function App() {
   return <AccountProvider><AppShell /></AccountProvider>
@@ -28,6 +30,7 @@ export default function App() {
 function AppShell() {
   const location = useLocation()
   const { pathname } = location
+  const isFeedback = pathname.replace(/\/$/, '') === '/feedback'
   const navigate = useNavigate()
   const account = useAccount()
   const shellRef = useRef(null)
@@ -36,8 +39,8 @@ function AppShell() {
     const destination = rootAuthReturnPath(location, account.status)
     if (destination) navigate(destination, { replace: true })
   }, [location, account.status, navigate])
-  return <div ref={shellRef} className={`site-shell${pathname === '/' ? '' : ' is-interior'}`} data-page={pathname.slice(1) || 'home'}>
-    <a className="skip-link" href="#main-content">Skip to content</a><Header />
+  return <div ref={shellRef} className={`site-shell${pathname === '/' ? '' : ' is-interior'}${isFeedback ? ' is-feedback' : ''}`} data-page={pathname.slice(1) || 'home'}>
+    <a className="skip-link" href="#main-content">Skip to content</a>{!isFeedback && <Header />}
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/start-here" element={<StartHerePage />} />
@@ -45,8 +48,9 @@ function AppShell() {
       <Route path="/worksheet" element={<ResearchRecordPage />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/my-research" element={<MyResearchPage />} />
+      <Route path="/feedback" element={<FeedbackPage />} />
       {Object.entries(LEGACY_REDIRECTS).map(([path, to]) => <Route key={path} path={path} element={<Navigate to={to} replace />} />)}
       <Route path="*" element={<NotFoundPage />} />
-    </Routes><Footer />
+    </Routes>{!isFeedback && <Footer />}
   </div>
 }

@@ -57,6 +57,7 @@ export default function Header() {
             </NavLink>
           ))}
           <NavLink className="account-nav" to={account.status === 'signed-in' ? '/my-research' : '/account'}>{account.status === 'signed-in' ? 'My research' : 'Sign in'}</NavLink>
+          <NavLink to={`/feedback?from=${encodeURIComponent(location.pathname)}`}>Feedback</NavLink>
         </nav>
       </div>
     </header>
