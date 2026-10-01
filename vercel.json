@@ -77,6 +77,10 @@
     {
       "source": "/my-research",
       "destination": "/my-research/index.html"
+    },
+    {
+      "source": "/feedback",
+      "destination": "/feedback/index.html"
     }
   ],
   "headers": [
@@ -114,5 +118,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/feedback.js": {
+      "maxDuration": 30
+    }
+  }
 }
