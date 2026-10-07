@@ -16,5 +16,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run qa:release
+      - run: npm run check:feedback
       - run: npm run check:indexnow
       - run: npm run lint

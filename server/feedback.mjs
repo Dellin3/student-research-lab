@@ -2,10 +2,12 @@ import { createHash } from 'node:crypto'
 import { Buffer } from 'node:buffer'
 import process from 'node:process'
 import { createPrivateFeedbackStore, createResendNotifier } from './feedback-store.mjs'
+import { DEFAULT_SITE_ORIGIN } from '../src/config/site.js'
 
 export const CONTACT_EMAIL = 'zhuoxuan780123@gmail.com'
 export const MAX_BODY_BYTES = 32 * 1024
-const PRODUCTION_ORIGIN = 'https://student-research-lab-theta.vercel.app'
+const PRODUCTION_ORIGIN = DEFAULT_SITE_ORIGIN
+const LEGACY_PRODUCTION_ORIGIN = 'https://student-research-lab-theta.vercel.app'
 const CATEGORIES = new Set(['bug', 'content', 'idea', 'other'])
 const FIELDS = new Set(['id', 'category', 'message', 'name', 'email', 'page', 'website'])
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -33,7 +35,8 @@ function configured(env) {
 }
 
 function allowedOrigins(env) {
-  const origins = new Set([PRODUCTION_ORIGIN])
+  // Keep the previous feedback page usable during the domain migration.
+  const origins = new Set([PRODUCTION_ORIGIN, LEGACY_PRODUCTION_ORIGIN])
   // These are deployment-supplied values, never the request Host header.
   for (const key of ['VERCEL_URL', 'VERCEL_PROJECT_PRODUCTION_URL', 'VERCEL_BRANCH_URL']) {
     const host = env[key]

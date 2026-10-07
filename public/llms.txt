@@ -5,11 +5,11 @@ Learn how to start a small research project and find research programs, papers, 
 An independent student resource. Public guides and the program directory can be read without an account. This site does not certify novelty, feasibility, safety, or publishability and does not guarantee admission or research outcomes.
 
 ## Public pages
-- Home: https://student-research-lab-theta.vercel.app/
-- Start on your own: https://student-research-lab-theta.vercel.app/start-here — four practical steps and a clearly labeled constructed example.
-- Find a program and resources: https://student-research-lab-theta.vercel.app/resources — official-source eligibility summaries, papers, public data, and researcher directories.
-- How to start research without a mentor: https://student-research-lab-theta.vercel.app/guides/research-without-a-mentor — A practical first project for high-school students: narrow a question, use public evidence, record a small attempt, and ask for focused feedback.
-- How to read your first research paper: https://student-research-lab-theta.vercel.app/guides/read-your-first-paper — Read a paper in manageable passes: identify the question, follow one result to its evidence, check limitations, and make a source-linked research note.
+- Home: https://researchstarterlab.com/
+- Start on your own: https://researchstarterlab.com/start-here — four practical steps and a clearly labeled constructed example.
+- Find a program and resources: https://researchstarterlab.com/resources — official-source eligibility summaries, papers, public data, and researcher directories.
+- How to start research without a mentor: https://researchstarterlab.com/guides/research-without-a-mentor — A practical first project for high-school students: narrow a question, use public evidence, record a small attempt, and ask for focused feedback.
+- How to read your first research paper: https://researchstarterlab.com/guides/read-your-first-paper — Read a paper in manageable passes: identify the question, follow one result to its evidence, check limitations, and make a source-linked research note.
 
 ## Scope and sources
 The guides provide introductory teaching material. Constructed examples are labeled WORKED EXAMPLE and do not assert measured results. Each guide links its supporting sources and states its update date. AI-generated claims and citations should be checked against original evidence.

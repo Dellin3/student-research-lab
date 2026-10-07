@@ -1,4 +1,4 @@
-export const DEFAULT_SITE_ORIGIN = 'https://student-research-lab-theta.vercel.app'
+export const DEFAULT_SITE_ORIGIN = 'https://researchstarterlab.com'
 
 export function normalizeSiteOrigin(value) {
   const url = new URL(value)

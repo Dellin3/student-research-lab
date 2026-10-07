@@ -55,7 +55,7 @@ export default function CaseStudiesPage() {
           </div>
           <div>
             <p>An external project involving Cassini radio-occultation data, inverse problems, numerical diagnostics, and interactive tools. Inspect the actual artifact, then ask which decisions and limitations are documented.</p>
-            <a className="text-link" href="https://primes-ring-website-p9yv.vercel.app/" target="_blank" rel="noopener noreferrer">Visit external project <span aria-hidden="true">↗</span></a>
+            <a className="text-link" href="https://saturnringlab.com/" target="_blank" rel="noopener noreferrer">Visit external project <span aria-hidden="true">↗</span></a>
           </div>
         </section>
       </main>
