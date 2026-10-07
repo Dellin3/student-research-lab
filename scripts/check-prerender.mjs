@@ -2,7 +2,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PUBLIC_ROUTES } from '../src/config/routes.js'
-import { absoluteUrl } from '../src/config/site.js'
+import { absoluteUrl } from './site-config.mjs'
+import { GUIDES, GUIDE_UPDATED_DATE } from '../src/data/guides.js'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = join(root, 'dist')
@@ -144,6 +145,20 @@ for (const route of routes) {
   }
   if (html.includes('data-seo-fallback')) {
     errors.push(`${label}: fallback metadata was not replaced.`)
+  }
+  const guide = GUIDES.find(item => item.path === route.path)
+  if (guide) {
+    if (visibleText.split(/\s+/).length < 500) errors.push(`${label}: guide must contain substantial visible teaching content.`)
+    if (!visibleText.includes(guide.answer)) errors.push(`${label}: the complete direct answer must be visible without JavaScript.`)
+    if (!visibleText.includes('WORKED EXAMPLE')) errors.push(`${label}: constructed examples need a visible label.`)
+    if (!html.includes(`dateTime="${GUIDE_UPDATED_DATE}"`)) errors.push(`${label}: update date must be visible.`)
+    const schemaBlocks = [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
+    let schema
+    try { schema = schemaBlocks.map(match => JSON.parse(match[1])) } catch { errors.push(`${label}: JSON-LD must be valid JSON.`); schema = [] }
+    const article = schema.find(entry => Array.isArray(entry['@type']) && entry['@type'].includes('LearningResource'))
+    if (!article || article.headline !== guide.heading || article.url !== expectedCanonical || article.dateModified !== GUIDE_UPDATED_DATE || article.abstract !== guide.answer) errors.push(`${label}: guide schema must describe the visible page.`)
+    if (!schema.some(entry => entry['@type'] === 'BreadcrumbList')) errors.push(`${label}: missing breadcrumb schema.`)
+    for (const source of guide.sources) if (!rootHtml.includes(source.url.replaceAll('&', '&amp;'))) errors.push(`${label}: schema source is not linked in visible content.`)
   }
 }
 

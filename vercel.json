@@ -59,6 +59,14 @@
   ],
   "rewrites": [
     {
+      "source": "/guides/research-without-a-mentor",
+      "destination": "/guides/research-without-a-mentor/index.html"
+    },
+    {
+      "source": "/guides/read-your-first-paper",
+      "destination": "/guides/read-your-first-paper/index.html"
+    },
+    {
       "source": "/start-here",
       "destination": "/start-here/index.html"
     },

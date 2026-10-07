@@ -7,13 +7,19 @@ Two student goals: start a small research project independently, or find a suita
 - `/`: two main entry points and direct resource links.
 - `/start-here`: four steps and one worked example.
 - `/resources`: 15 programs, eligibility/format/search filters, papers/data links, and two researcher directories.
+- `/guides/research-without-a-mentor`: a practical, source-linked independent first project.
+- `/guides/read-your-first-paper`: a source-linked reading exercise and evidence note.
 - `/worksheet`: unindexed recovery of previously saved browser notes; no new notebook workflow.
 
 The former guides and multi-step tools redirect to the relevant main page. Their source and data utilities are retained for compatibility; they are not imported by the active application.
 
 ## Run
 
-Use `npm ci`, then `npm run dev`. `npm run build` creates the client and prerenders the three public pages plus note recovery. `npm run qa:release` checks the current three-page experience, source links, metadata, redirects, and saved-data compatibility. Historical tool-specific scripts are retained for their data utilities and are not current product acceptance gates.
+Use `npm ci`, then `npm run dev`. `npm run build` generates discovery files and prerenders all five public pages plus the unindexed account, progress, feedback, and note recovery routes. `npm run qa:release` checks the two primary journeys, guides, source links, metadata, redirects, and saved-data compatibility. Historical tool-specific scripts are retained for their data utilities and are not current product acceptance gates.
+
+## Canonical domain and discovery
+
+Set `VITE_PUBLIC_SITE_URL=https://your-domain.example` at build time when the permanent domain is ready. It must be an HTTPS origin with no path, query, or fragment. The default remains the existing production URL. This is a public URL, not a secret. `src/config/site.js` is the single origin source for browser metadata and prerendering; `npm run discovery` generates `robots.txt`, both sitemaps, and `llms.txt` from that origin and the active public routes. Build-time `.env.production` values are also honored. Add new guides to `src/data/guides.js`, mount their page in the app, and add an explicit Vercel static rewrite. Keep account/progress/feedback/recovery routes noindex and outside the public sitemap. A domain change also needs hosting setup and permanent redirects; changing this variable alone does not configure DNS or migrate existing local browser notes.
 
 ## Update programs
 

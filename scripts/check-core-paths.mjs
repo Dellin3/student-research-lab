@@ -5,8 +5,10 @@ import { PUBLIC_ROUTES, LEGACY_REDIRECTS } from '../src/config/routes.js'
 import { PROGRAMS, MENTOR_DIRECTORIES, RESOURCES } from '../src/data/resources.js'
 import { filterPrograms } from '../src/utils/programFinder.js'
 import { collectSavedResearch, SAVED_RESEARCH_KEYS } from '../src/utils/savedResearch.js'
+import { GUIDES } from '../src/data/guides.js'
 
-assert.equal(PUBLIC_ROUTES.filter(route => route.sitemap).length, 3, 'Only the three main pages should be indexed')
+assert.deepEqual(PUBLIC_ROUTES.filter(route => route.sitemap).map(route => route.path), ['/', '/start-here', '/resources', ...GUIDES.map(guide => guide.path)], 'Only the main pages and substantive guides should be indexed')
+for (const route of PUBLIC_ROUTES.filter(route => route.noindex)) assert(!route.sitemap, 'Private and recovery pages must stay out of public sitemaps')
 assert(PROGRAMS.length >= 15)
 assert.equal(new Set(PROGRAMS.map(item => item.id)).size, PROGRAMS.length)
 for (const item of PROGRAMS) {
@@ -35,7 +37,7 @@ for (const [from, to] of Object.entries(LEGACY_REDIRECTS)) {
   assert(destination?.sitemap, 'Legacy paths must resolve directly to a main page')
 }
 process.env.NODE_ENV = 'production'
-const vite = await createServer({ appType: 'custom', logLevel: 'silent', server: { middlewareMode: true } })
+const vite = await createServer({ mode: 'production', appType: 'custom', logLevel: 'silent', server: { middlewareMode: true } })
 try {
   const { render } = await vite.ssrLoadModule('/src/entry-server.jsx')
   const page = url => render(url).appHtml
@@ -61,6 +63,13 @@ try {
   assert(start.includes('Make your question small.') && start.includes('Write down what changed.'))
   assert(start.includes('id="example"'))
   assert(!start.includes('<textarea') && !start.includes('Question Builder'))
+  for (const guide of GUIDES) {
+    assert(start.includes(`href="${guide.path}"`), 'Guide must be discoverable from the main research journey')
+    const html = page(guide.path)
+    assert.equal((html.match(/<h1\b/g) || []).length, 1)
+    assert(!html.includes('<textarea') && !html.includes('type="password"'), 'Guides must be readable without a form or account')
+    assert(html.includes('WORKED EXAMPLE') && html.includes('Sources and further reading'))
+  }
   for (const path of ['/', '/start-here', '/resources']) {
     const html = page(path)
     assert.equal((html.match(/<h1\b/g) || []).length, 1)
@@ -71,5 +80,5 @@ try {
   assert(recovery.appHtml.includes('Download previous notes'))
   assert(!recovery.appHtml.includes('<textarea'))
   assert(recovery.headHtml.includes('noindex, follow'))
-  console.log('Core checks passed: three-page journey, 15 sourced programs, filters and shared URLs, direct resource links, 11 redirects, and lossless note recovery.')
+  console.log('Core checks passed: two primary journeys, public guides, 15 sourced programs, filters and shared URLs, direct resource links, 11 redirects, and lossless note recovery.')
 } finally { await vite.close() }

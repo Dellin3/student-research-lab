@@ -2,7 +2,8 @@ import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PUBLIC_ROUTES } from '../src/config/routes.js'
-import { absoluteUrl, SITE } from '../src/config/site.js'
+import { absoluteUrl, SITE, DEFAULT_SITE_ORIGIN, normalizeSiteOrigin } from './site-config.mjs'
+import { discoveryFiles } from './discovery-content.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const staleOrigin = ['https://student-research-lab', '.vercel.app'].join('')
@@ -47,6 +48,19 @@ const sitemapRoutes = PUBLIC_ROUTES.filter((route) => route.sitemap)
 for (const route of sitemapRoutes) {
   reportIf(!route.title?.trim(), `Sitemap route ${route.path} is missing a title.`)
   reportIf(!route.description?.trim(), `Sitemap route ${route.path} is missing a description.`)
+  reportIf(route.noindex, `Sitemap route ${route.path} must not be noindex.`)
+}
+
+for (const value of ['http://example.org', 'https://user:secret@example.org', 'https://example.org/path', 'https://example.org?preview=1', 'https://example.org/#fragment']) {
+  let rejected = false
+  try { normalizeSiteOrigin(value) } catch { rejected = true }
+  reportIf(!rejected, 'Canonical origin validation accepted a non-origin value.')
+}
+reportIf(normalizeSiteOrigin('https://example.org/') !== 'https://example.org', 'Canonical origins must normalize trailing slashes.')
+
+for (const [name, expected] of Object.entries(discoveryFiles())) {
+  reportIf(readFileSync(join(root, 'public', name), 'utf8') !== expected, `${name} is out of sync; run npm run discovery.`)
+  reportIf(readFileSync(join(root, 'dist', name), 'utf8') !== expected, `Built ${name} is out of sync; run npm run build.`)
 }
 
 const scanTargets = [
@@ -65,8 +79,8 @@ const fallbackCanonicals = [
   ...indexHtml.matchAll(/<link[\s\S]*?rel="canonical"[\s\S]*?href="([^"]+)"[\s\S]*?>/g),
 ].map((match) => match[1])
 reportIf(
-  fallbackCanonicals.length !== 1 || fallbackCanonicals[0] !== absoluteUrl('/'),
-  'index.html must contain exactly one canonical link for the homepage.',
+  fallbackCanonicals.length !== 1 || fallbackCanonicals[0] !== `${DEFAULT_SITE_ORIGIN}/`,
+  'index.html fallback must contain exactly one default homepage canonical; production metadata is prerendered from SITE.origin.',
 )
 
 const sitemapPath = join(root, 'public', 'sitemap.xml')

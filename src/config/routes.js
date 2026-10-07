@@ -1,7 +1,10 @@
+import { GUIDES } from '../data/guides.js'
+
 export const PUBLIC_ROUTES = [
   { path: '/', title: 'Start Research & Find Research Programs | Research Starter Lab', description: 'A simple starting point for high-school research: learn how to begin independently and find research programs, papers, and data.', sitemap: true },
   { path: '/start-here', title: 'How to Start Your Own Research | Research Starter Lab', description: 'Four practical steps to begin a small research project, with a worked example and direct links to papers and data.', navigationLabel: 'Start on your own', sitemap: true },
   { path: '/resources', title: 'High-School Research Programs & Resources | Research Starter Lab', description: 'Find research programs with international, U.S. school, and citizenship requirements, plus direct links to papers, data, and researcher directories.', navigationLabel: 'Find a program', sitemap: true },
+  ...GUIDES.map(({ path, title, description }) => ({ path, title, description, sitemap: true })),
   { path: '/worksheet', title: 'Download Previous Notes | Research Starter Lab', description: 'Download research notes and tool drafts previously saved in this browser.', sitemap: false, prerender: true, noindex: true },
   { path: '/account', title: 'Sign In | Research Starter Lab', description: 'Sign in to save and continue your research.', sitemap: false, prerender: true, noindex: true },
   { path: '/my-research', title: 'My Research | Research Starter Lab', description: 'Your research question, progress, sources, and next step.', sitemap: false, prerender: true, noindex: true },

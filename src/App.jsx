@@ -11,6 +11,8 @@ import ResourcesPage from './pages/ResourcesPage.jsx'
 import AccountPage from './pages/AccountPage.jsx'
 import MyResearchPage from './pages/MyResearchPage.jsx'
 import FeedbackPage from './pages/FeedbackPage.jsx'
+import ResearchGuidePage from './pages/ResearchGuidePage.jsx'
+import { GUIDES } from './data/guides.js'
 import AccountProvider from './account/AccountProvider.jsx'
 import { useAccount } from './account/AccountContext.js'
 import { rootAuthReturnPath } from './account/authState.js'
@@ -45,6 +47,7 @@ function AppShell() {
       <Route path="/" element={<HomePage />} />
       <Route path="/start-here" element={<StartHerePage />} />
       <Route path="/resources" element={<ResourcesPage />} />
+      {GUIDES.map(guide => <Route key={guide.path} path={guide.path} element={<ResearchGuidePage path={guide.path} />} />)}
       <Route path="/worksheet" element={<ResearchRecordPage />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/my-research" element={<MyResearchPage />} />
