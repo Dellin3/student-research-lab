@@ -2,9 +2,19 @@
 
 Learn how to start a small research project and find research programs, papers, data, and people to ask.
 
-Public pages:
-- Home: https://student-research-lab-theta.vercel.app/
-- Start on your own: https://student-research-lab-theta.vercel.app/start-here
-- Find a program and resources: https://student-research-lab-theta.vercel.app/resources
+An independent student resource. Public guides and the program directory can be read without an account. This site does not certify novelty, feasibility, safety, or publishability and does not guarantee admission or research outcomes.
 
-Program eligibility summaries link to official sources and identify the cycle used. International nationality, U.S. residence, and citizenship requirements are distinct. This directory does not indicate that applications are currently open.
+## Public pages
+- Home: https://student-research-lab-theta.vercel.app/
+- Start on your own: https://student-research-lab-theta.vercel.app/start-here — four practical steps and a clearly labeled constructed example.
+- Find a program and resources: https://student-research-lab-theta.vercel.app/resources — official-source eligibility summaries, papers, public data, and researcher directories.
+- How to start research without a mentor: https://student-research-lab-theta.vercel.app/guides/research-without-a-mentor — A practical first project for high-school students: narrow a question, use public evidence, record a small attempt, and ask for focused feedback.
+- How to read your first research paper: https://student-research-lab-theta.vercel.app/guides/read-your-first-paper — Read a paper in manageable passes: identify the question, follow one result to its evidence, check limitations, and make a source-linked research note.
+
+## Scope and sources
+The guides provide introductory teaching material. Constructed examples are labeled WORKED EXAMPLE and do not assert measured results. Each guide links its supporting sources and states its update date. AI-generated claims and citations should be checked against original evidence.
+
+Program entries distinguish international nationality, U.S. residence, school attendance, citizenship, and permanent residency. Each names the official source and the cycle used. The directory does not imply applications are open. Check official program pages for current requirements, dates, and fees.
+
+## Private work
+My research is a private account workspace, not a public research archive. Account, research progress, feedback, and legacy-note recovery pages are not recommended as public citation sources and are excluded from the sitemap. Reading a guide does not upload research text.

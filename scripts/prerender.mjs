@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createServer } from 'vite'
 import { PUBLIC_ROUTES } from '../src/config/routes.js'
+import './site-config.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const distDirectory = join(root, 'dist')
@@ -32,6 +33,7 @@ function outputPath(pathname) {
 process.env.NODE_ENV = 'production'
 
 const vite = await createServer({
+  mode: 'production',
   appType: 'custom',
   logLevel: 'silent',
   server: { middlewareMode: true },

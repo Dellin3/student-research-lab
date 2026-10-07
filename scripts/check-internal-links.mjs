@@ -2,7 +2,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, extname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PUBLIC_ROUTES, LEGACY_REDIRECTS } from '../src/config/routes.js'
-import { SITE } from '../src/config/site.js'
+import { SITE, DEFAULT_SITE_ORIGIN } from './site-config.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const routePaths = new Set([...PUBLIC_ROUTES.map((route) => route.path), ...Object.keys(LEGACY_REDIRECTS)])
@@ -30,7 +30,7 @@ for (const file of filesUnder(join(root, 'src')).filter((path) =>
 
   const hostMatches = [...source.matchAll(/https:\/\/[^"'`\s)]+/g)].map((match) => match[0])
   for (const url of hostMatches) {
-    if (url.includes('student-research-lab') && !url.startsWith(SITE.origin)) {
+    if (url.includes('student-research-lab') && !url.startsWith(SITE.origin) && url !== DEFAULT_SITE_ORIGIN) {
       errors.push(`${relative(root, file)} contains old production hostname ${url}.`)
     }
   }

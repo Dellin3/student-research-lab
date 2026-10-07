@@ -1,0 +1,29 @@
+.research-guide { width:min(860px,calc(100% - 4rem)); margin:0 auto; padding:2.5rem 0 4rem; color:#e0e8f7; }
+.research-guide .guide-heading { padding:0; margin:1.6rem 0; }
+.research-guide h1 { color:#f2f5ff; font-size:clamp(2.2rem,4.5vw,3.7rem); line-height:1.13; margin:.7rem 0 1.2rem; }
+.research-guide h2 { color:#f2f5ff; font-size:clamp(1.5rem,2.7vw,2rem); line-height:1.3; margin:0 0 1rem; }
+.research-guide h3 { color:#f2f5ff; font-size:1.25rem; line-height:1.4; margin:1.5rem 0 .5rem; }
+.research-guide :is(p,li,dd,td) { color:#e0e8f7; font-size:1.0625rem; line-height:1.75; }
+.research-guide p { margin:.75rem 0; }
+.research-guide .guide-answer { font-size:1.2rem; color:#d4e2fa; }
+.research-guide :is(.guide-updated,.eyebrow,.guide-breadcrumbs) { color:#b8c7de; font-size:.875rem; }
+.research-guide a { color:#9be8f3; text-underline-offset:.25em; }
+.research-guide a:focus-visible { outline:2px solid #9be8f3; outline-offset:5px; }
+.guide-jumps { display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; padding:1rem 0; border-block:1px solid #8dade040; }
+.research-guide article > section { padding:2rem 0; border-bottom:1px solid #8dade040; scroll-margin-top:7rem; }
+.guide-worked-example { padding:1.3rem 1.5rem; margin:1.5rem 0 0; border-left:3px solid #9be8f3; background:#142b43; }
+.guide-worked-example h3 { margin:.5rem 0 1rem; }
+.guide-worked-example dl { margin:0; }
+.guide-worked-example dl > div { margin:.8rem 0; }
+.guide-worked-example dt { color:#9be8f3; font-weight:650; }
+.guide-worked-example dd { margin:0; }
+.guide-table-wrap { overflow-x:auto; }
+.research-guide table { width:100%; border-collapse:collapse; }
+.research-guide caption { color:#c7d3e8; text-align:left; padding:.5rem 0; }
+.research-guide :is(th,td) { border-bottom:1px solid #8dade040; padding:.75rem; text-align:left; vertical-align:top; }
+.research-guide th { color:#f2f5ff; font-weight:650; }
+.guide-next { display:grid; gap:1rem; padding:2rem 0 0; }
+.starter-guides { padding:2rem 0 0; }
+.starter-guide-links { display:grid; gap:.7rem; }
+.starter-guide-links a { color:#9be8f3; text-underline-offset:.25em; font-size:1.0625rem; }
+@media (max-width:740px) { .research-guide { width:calc(100% - 2rem); padding-top:1.5rem; }.guide-worked-example { padding:1rem; }.research-guide :is(th,td) { padding:.65rem .5rem; } }
