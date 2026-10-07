@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto'
 import { CONTACT_EMAIL, MAX_BODY_BYTES, createFeedbackHandler, createRateLimiter } from '../server/feedback.mjs'
 import { createPrivateFeedbackStore, createResendNotifier } from '../server/feedback-store.mjs'
 
-const origin = 'https://student-research-lab-theta.vercel.app'
+const origin = 'https://researchstarterlab.com'
 const env = {
   NODE_ENV: 'production', VERCEL: '1',
   BLOB_READ_WRITE_TOKEN: 'fake-private-token', RESEND_API_KEY: 'fake-resend-key',
@@ -174,18 +174,21 @@ test('concurrent retries keep one record and use one provider idempotency key', 
   assert.equal(new Set(f.mail.map((item) => JSON.stringify(item.payload))).size, 1)
 })
 
-test('rejects cross-origin, missing origin, and forged Host; accepts trusted Vercel preview', async () => {
+test('rejects cross-origin, missing origin, and forged Host; accepts canonical, legacy, and trusted preview origins', async () => {
   const f = fixture({ env: { ...env, VERCEL_URL: 'research-lab-preview-team.vercel.app' } })
   for (const headers of [
     { origin: 'https://attacker.example', host: 'attacker.example' },
     { origin: '' }, { origin: 'null' }, { 'sec-fetch-site': 'cross-site' },
     { origin: 'http://localhost:3000' },
     { origin: 'https://primes-ring-website-p9yv.vercel.app' },
+    { origin: 'https://saturnringlab.com' },
     { origin: `${origin}.attacker.example` },
   ]) assert.equal((await request(f.handler, { headers })).status, 403)
-  const result = await request(f.handler, { headers: { origin: 'https://research-lab-preview-team.vercel.app' } })
-  assert.equal(result.status, 200)
-  assert.equal(f.mail.length, 1)
+  for (const allowed of [origin, 'https://student-research-lab-theta.vercel.app', 'https://research-lab-preview-team.vercel.app']) {
+    const result = await request(f.handler, { headers: { origin: allowed }, body: feedback({ id: randomUUID() }) })
+    assert.equal(result.status, 200)
+  }
+  assert.equal(f.mail.length, 3)
 })
 
 test('only development allows fixed localhost origins', async () => {

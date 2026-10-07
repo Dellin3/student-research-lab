@@ -1,5 +1,5 @@
-https://student-research-lab-theta.vercel.app/
-https://student-research-lab-theta.vercel.app/start-here
-https://student-research-lab-theta.vercel.app/resources
-https://student-research-lab-theta.vercel.app/guides/research-without-a-mentor
-https://student-research-lab-theta.vercel.app/guides/read-your-first-paper
+https://researchstarterlab.com/
+https://researchstarterlab.com/start-here
+https://researchstarterlab.com/resources
+https://researchstarterlab.com/guides/research-without-a-mentor
+https://researchstarterlab.com/guides/read-your-first-paper

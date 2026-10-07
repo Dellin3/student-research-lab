@@ -19,7 +19,7 @@ Use `npm ci`, then `npm run dev`. `npm run build` generates discovery files and 
 
 ## Canonical domain and discovery
 
-Set `VITE_PUBLIC_SITE_URL=https://your-domain.example` at build time when the permanent domain is ready. It must be an HTTPS origin with no path, query, or fragment. The default remains the existing production URL. This is a public URL, not a secret. `src/config/site.js` is the single origin source for browser metadata and prerendering; `npm run discovery` generates `robots.txt`, both sitemaps, and `llms.txt` from that origin and the active public routes. Build-time `.env.production` values are also honored. Add new guides to `src/data/guides.js`, mount their page in the app, and add an explicit Vercel static rewrite. Keep account/progress/feedback/recovery routes noindex and outside the public sitemap. A domain change also needs hosting setup and permanent redirects; changing this variable alone does not configure DNS or migrate existing local browser notes.
+The canonical production origin is `https://researchstarterlab.com`. Set `VITE_PUBLIC_SITE_URL=https://researchstarterlab.com` at build time; the code fallback uses the same origin. It must be an HTTPS origin with no path, query, or fragment. This is a public URL, not a secret. `src/config/site.js` is the single origin source for browser metadata and prerendering; `npm run discovery` generates `robots.txt`, both sitemaps, and `llms.txt` from that origin and the active public routes. Build-time `.env.production` values are also honored. Add new guides to `src/data/guides.js`, mount their page in the app, and add an explicit Vercel static rewrite. Keep account/progress/feedback/recovery routes noindex and outside the public sitemap. A domain change also needs hosting setup and permanent redirects; changing this variable alone does not configure DNS or migrate existing local browser notes.
 
 ## Update programs
 
@@ -31,4 +31,4 @@ No old browser-storage keys are deleted or modified by this version. Note recove
 
 ## Deployment
 
-Vercel publishes `main` to https://student-research-lab-theta.vercel.app through its GitHub integration, with previews for feature branches. `vercel.json` contains explicit redirects for old routes and rewrites for prerendered pages.
+Vercel publishes `main` to https://researchstarterlab.com through its GitHub integration, with previews for feature branches. `vercel.json` redirects public pages on the previous production alias `student-research-lab-theta.vercel.app` to their matching custom-domain URLs and rewrites prerendered pages. The old account, progress, feedback, and previous-note recovery URLs stay available without indexing, so existing sessions and browser-local notes are not moved across origins. See `docs/GEO_SETUP.md` for the required hosting and authentication configuration.

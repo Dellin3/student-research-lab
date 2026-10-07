@@ -1,6 +1,38 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": false,
   "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "student-research-lab-theta\\.vercel\\.app" }],
+      "missing": [
+        { "type": "query", "key": "code" },
+        { "type": "query", "key": "error" },
+        { "type": "query", "key": "error_code" },
+        { "type": "query", "key": "error_description" },
+        { "type": "query", "key": "mode" }
+      ],
+      "destination": "https://researchstarterlab.com/",
+      "permanent": true
+    },
+    {
+      "source": "/start-here",
+      "has": [{ "type": "host", "value": "student-research-lab-theta\\.vercel\\.app" }],
+      "destination": "https://researchstarterlab.com/start-here",
+      "permanent": true
+    },
+    {
+      "source": "/resources",
+      "has": [{ "type": "host", "value": "student-research-lab-theta\\.vercel\\.app" }],
+      "destination": "https://researchstarterlab.com/resources",
+      "permanent": true
+    },
+    {
+      "source": "/guides/:path*",
+      "has": [{ "type": "host", "value": "student-research-lab-theta\\.vercel\\.app" }],
+      "destination": "https://researchstarterlab.com/guides/:path*",
+      "permanent": true
+    },
     {
       "source": "/learn",
       "destination": "/start-here",

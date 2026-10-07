@@ -6,22 +6,22 @@ The account and progress implementation is connected to Supabase project `poosoe
 
 **Google sign-in is enabled in the provider.** The live settings check on 2026-09-14 returned `external.google: true`. The account page checks `/auth/v1/settings` with the public publishable key and only offers Google when the backend reports it enabled. Network failures have a separate retry state. The existing PKCE initialization handles the callback; do not add a second code exchange.
 
-The production sign-in entry is `https://student-research-lab-theta.vercel.app/account`. Start a fresh sign-in there after deploying this release. A sign-in started on the preview origin cannot reuse its browser verifier on production. If Supabase returns to the same origin's Site URL root, the application waits for initialization and routes to `/account`, without forwarding the callback credentials. Successful sign-in then opens My research.
+The selected production sign-in entry is `https://researchstarterlab.com/account`. Configure and verify the new origin in the Supabase redirect allowlist and Google OAuth client before relying on it. The previous entry `https://student-research-lab-theta.vercel.app/account` remains accessible for existing sessions and pending callbacks. Start each fresh sign-in on the origin where it will finish: a sign-in started on a preview or old production origin cannot reuse its browser verifier on the custom domain. If Supabase returns to the same origin's Site URL root, the application waits for initialization and routes to `/account`, without forwarding the callback credentials. Successful sign-in then opens My research.
 
 The public sign-in page offers **Continue with Google** only. It creates an account on first use and restores that account on later sign-ins. There is no email/password sign-in, email signup, reset-request, or resend-confirmation form. No existing accounts, provider settings, or saved research are changed by this UI simplification. The legacy `emailReady` configuration field no longer controls the UI.
 
 An already-verified password recovery session can still finish its original recovery flow. Merely adding `?mode=recovery` never exposes a password form; the authenticated recovery event and user identity checks are required.
 
-## Google sign-in without buying a domain
+## Google sign-in configuration
 
 The project owner must complete the Google authorization configuration; the connected database tools cannot create Google OAuth credentials or write Supabase Authentication settings.
 
 1. Open https://console.cloud.google.com/auth/overview and select or create a `Research Starter Lab` project.
 2. Configure the consent audience as External and supply the owner's support/contact email. Request only `openid`, `userinfo.email`, and `userinfo.profile`.
-3. Create an OAuth client with application type **Web application**. Authorized JavaScript origin: `https://student-research-lab-theta.vercel.app`. Add the preview origin separately if testing previews.
+3. Use the existing OAuth client with application type **Web application**. Add the authorized JavaScript origin `https://researchstarterlab.com`. Preserve `https://student-research-lab-theta.vercel.app` during migration; add only separately approved preview origins when testing previews.
 4. Add the Google authorized redirect URI: `https://poosoenwocirlebxwzla.supabase.co/auth/v1/callback`.
 5. In the Supabase Google provider settings, enter the Client ID and Client Secret and enable Google. Enter the secret directly in the dashboard, never in chat, the website, or Git.
-6. Set Supabase's Site URL to `https://student-research-lab-theta.vercel.app` and allow `https://student-research-lab-theta.vercel.app/account`. Also allow `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app/account` for preview testing. This website return URL is different from Google's Supabase callback URL in step 4. Keep the client return URL on the origin where sign-in starts.
+6. Set Supabase's Site URL to `https://researchstarterlab.com` and allow the exact return URL `https://researchstarterlab.com/account`. Preserve `https://student-research-lab-theta.vercel.app/account` and existing approved preview callbacks during migration. The existing preview URL is `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app/account`. This website return URL is different from Google's Supabase callback URL in step 4. Keep the client return URL on the origin where sign-in starts; the app already derives it from `window.location.origin`.
 7. Reload the account page. Verify a complete Google sign-in, return to My research, save, sign out, and sign back in to restore. Also verify cancellation and the intended student audience. Provider-enabled status alone does not validate the credentials, audience, or redirects.
 
 The Google button becomes available on reload after the provider is enabled; no website rebuild or email sender is required. Provider enablement and the authorization-start redirect were verified. A complete Google round trip with a real account and the dashboard redirect allowlist have not been independently verified.
@@ -33,8 +33,10 @@ Official guide: https://supabase.com/docs/guides/auth/social-login/auth-google
 Email registration is not part of the current interface. If it is explicitly requested in the future, restore and verify the UI as well as configuring delivery. Changing a public flag alone will not enable it. The Supabase connection exposes database/project tools, but does not expose Authentication configuration writes. The following settings would need to be completed in the Supabase dashboard using the project owner's account:
 
 1. Configure a custom SMTP (Simple Mail Transfer Protocol) sender, for example Resend with a verified sending domain. Supabase's built-in email sender is limited to organization members and is unsuitable for public student registration.
-2. Set the Authentication Site URL to the production website address: `https://student-research-lab-theta.vercel.app`.
+2. Set the Authentication Site URL to the production website address: `https://researchstarterlab.com`.
 3. Allow these exact callback URLs:
+   - `https://researchstarterlab.com/account`
+   - `https://researchstarterlab.com/account?mode=recovery`
    - `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app/account`
    - `https://student-research-lab-git-codex-research-two-paths-delling.vercel.app/account?mode=recovery`
    - `https://student-research-lab-theta.vercel.app/account`
