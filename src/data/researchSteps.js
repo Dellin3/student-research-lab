@@ -32,6 +32,7 @@ export const RESEARCH_STEPS = [
 export const STARTER_EXAMPLES = [
   {
     id: 'environment', label: 'Environment', interest: 'Shade & city heat',
+    heading: 'From city heat to one courtyard.',
     question: 'Are shaded surfaces cooler than sunny surfaces in the same courtyard?',
     steps: [
       ['A smaller question', 'Compare shaded and sunny surfaces in one courtyard, rather than trying to explain the climate of a whole city.', 'Question', 'Are shaded surfaces cooler than sunny surfaces in the same courtyard?'],
@@ -42,6 +43,7 @@ export const STARTER_EXAMPLES = [
   },
   {
     id: 'mathematics', label: 'Mathematics', interest: 'Patterns in numbers',
+    heading: 'From a number pattern to one explanation.',
     question: 'Why is the sum of the first n odd numbers equal to n²?',
     steps: [
       ['A smaller question', 'Choose one pattern you can calculate and explain, rather than a whole subject such as number theory.', 'Question', 'Why is the sum of the first n odd numbers equal to n²?'],
@@ -52,6 +54,7 @@ export const STARTER_EXAMPLES = [
   },
   {
     id: 'humanities', label: 'Humanities', interest: 'How stories change',
+    heading: 'From a historical event to two articles.',
     question: 'How do two newspapers describe the same historical event differently?',
     steps: [
       ['A smaller question', 'Pick one event and two articles published close to it. A small set of texts lets you examine the language carefully.', 'Question', 'How do two newspapers describe the same historical event differently?'],

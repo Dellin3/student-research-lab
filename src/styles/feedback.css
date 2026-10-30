@@ -2,6 +2,9 @@
 .feedback-layout { display:flex; align-items:center; min-height:100svh; padding:52px; min-width:0; }
 .feedback-panel { width:460px; max-width:100%; min-width:0; background:#101a28; border:1px solid #526278; border-radius:12px; padding:28px; box-shadow:none; color:#f4f1e9; font:16px/1.5 var(--font-sans); color-scheme:dark; }
 .feedback-panel h1 { margin:0 0 24px; font:400 30px/1.2 var(--font-serif); letter-spacing:-.02em; color:#f4f1e9; }
+.feedback-back, .feedback-home { display:inline-flex; align-items:center; gap:6px; min-height:32px; color:#c4d9f1; font-size:14px; text-decoration:underline; text-underline-offset:3px; }
+.feedback-back { margin:-6px 0 10px; }
+.feedback-home { justify-self:center; }
 .feedback-form, .feedback-form fieldset { display:grid; gap:18px; margin:0; }
 .feedback-form fieldset { border:0; padding:0; min-width:0; }
 .feedback-personal { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }

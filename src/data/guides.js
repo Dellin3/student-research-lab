@@ -28,3 +28,7 @@ export const GUIDES = [
 ]
 
 export function getGuide(path) { return GUIDES.find(guide => guide.path === path) }
+
+// Plain-text templates students can paste into their own notes.
+export const PAPER_NOTE_TEMPLATE = ['Source:', 'Question:', 'Claim:', 'Evidence:', 'Limitation:', 'Next step:'].join('\n') + '\n'
+export const FEEDBACK_NOTE_TEMPLATE = ['My question:', 'One source I used:', 'What I tried:', 'My result:', 'Where I am stuck:', 'One specific question for you:'].join('\n') + '\n'

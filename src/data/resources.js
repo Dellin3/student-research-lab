@@ -4,6 +4,7 @@ export const RESOURCE_CHECKED_DATE = '2026-09-11'
 export const PROGRAMS = [
   {
     "id": "primes",
+    "fields": ["mathematics"],
     "title": "MIT PRIMES",
     "fullName": "Program for Research In Mathematics, Engineering, and Science",
     "organization": "Massachusetts Institute of Technology",
@@ -23,6 +24,7 @@ export const PROGRAMS = [
   },
   {
     "id": "primes-usa",
+    "fields": ["mathematics"],
     "title": "PRIMES-USA",
     "fullName": "Remote mathematics research through MIT PRIMES",
     "organization": "Massachusetts Institute of Technology",
@@ -42,6 +44,7 @@ export const PROGRAMS = [
   },
   {
     "id": "rsi",
+    "fields": ["mathematics", "sciences", "engineering"],
     "title": "Research Science Institute (RSI)",
     "organization": "Center for Excellence in Education · hosted at MIT",
     "subject": "Science, mathematics & engineering",
@@ -60,6 +63,7 @@ export const PROGRAMS = [
   },
   {
     "id": "ssp",
+    "fields": ["sciences"],
     "title": "Summer Science Program (SSP)",
     "organization": "SSP International",
     "subject": "Astrophysics, biochemistry & biology",
@@ -78,6 +82,7 @@ export const PROGRAMS = [
   },
   {
     "id": "ucsc-sip",
+    "fields": ["sciences", "engineering", "social-humanities"],
     "title": "Science Internship Program (SIP)",
     "organization": "University of California, Santa Cruz",
     "subject": "Sciences, engineering, social sciences & humanities",
@@ -96,6 +101,7 @@ export const PROGRAMS = [
   },
   {
     "id": "ucsb-rmp",
+    "fields": ["sciences", "engineering", "social-humanities"],
     "title": "Research Mentorship Program (RMP)",
     "organization": "University of California, Santa Barbara",
     "subject": "Sciences, engineering, social sciences & humanities",
@@ -113,6 +119,7 @@ export const PROGRAMS = [
   },
   {
     "id": "ucsb-sra",
+    "fields": ["sciences", "social-humanities"],
     "title": "Summer Research Academies (SRA)",
     "organization": "University of California, Santa Barbara",
     "subject": "Sciences, social sciences & humanities",
@@ -130,6 +137,7 @@ export const PROGRAMS = [
   },
   {
     "id": "garcia",
+    "fields": ["sciences", "engineering"],
     "title": "Garcia Summer Research Program",
     "organization": "Stony Brook University · Garcia Center",
     "subject": "Materials science & engineering",
@@ -148,6 +156,7 @@ export const PROGRAMS = [
   },
   {
     "id": "rockefeller",
+    "fields": ["sciences"],
     "title": "Summer Science Research Program",
     "organization": "The Rockefeller University · RockEDU",
     "subject": "Laboratory science",
@@ -165,6 +174,7 @@ export const PROGRAMS = [
   },
   {
     "id": "assip",
+    "fields": ["mathematics", "sciences", "engineering"],
     "title": "Aspiring Scientists Summer Internship Program",
     "fullName": "ASSIP",
     "organization": "George Mason University",
@@ -183,6 +193,7 @@ export const PROGRAMS = [
   },
   {
     "id": "crowdmath",
+    "fields": ["mathematics"],
     "title": "CrowdMath",
     "organization": "MIT PRIMES & Art of Problem Solving",
     "subject": "Mathematics",
@@ -200,6 +211,7 @@ export const PROGRAMS = [
   },
   {
     "id": "bu-rise",
+    "fields": ["sciences", "engineering"],
     "title": "Research in Science & Engineering (RISE)",
     "organization": "Boston University",
     "subject": "Science & engineering",
@@ -217,6 +229,7 @@ export const PROGRAMS = [
   },
   {
     "id": "stanford-simr",
+    "fields": ["sciences"],
     "title": "Stanford Institutes of Medicine Summer Research",
     "fullName": "SIMR",
     "organization": "Stanford University School of Medicine",
@@ -235,6 +248,7 @@ export const PROGRAMS = [
   },
   {
     "id": "stonybrook-simons",
+    "fields": ["mathematics", "sciences", "engineering"],
     "title": "Simons Summer Research Program",
     "organization": "Stony Brook University",
     "subject": "Science, mathematics & engineering",
@@ -252,6 +266,7 @@ export const PROGRAMS = [
   },
   {
     "id": "clark",
+    "fields": ["sciences", "engineering"],
     "title": "Anson L. Clark Scholars Program",
     "organization": "Texas Tech University",
     "subject": "Science, engineering & other offered disciplines",
@@ -273,9 +288,30 @@ export const MENTOR_DIRECTORIES = [
   { id: 'stanford', title: 'Stanford Profiles', description: 'Find researchers by subject, department, or research interest.', href: 'https://profiles.stanford.edu/', source: 'Stanford University' },
   { id: 'brown', title: 'Researchers @ Brown', description: 'Browse faculty interests, publications, and contact information.', href: 'https://vivo.brown.edu/', source: 'Brown University' },
 ]
+// Free research websites, grouped by what a student is trying to do next.
+// Descriptions follow each site's own account of its scope.
+export const RESOURCE_GROUPS = [
+  { id: 'papers', title: 'Find papers', description: 'Search for scholarly writing, then note whether you are reading a peer-reviewed article or a preprint.' },
+  { id: 'data', title: 'Find evidence to examine', description: 'Documented datasets and records. Read how the data were collected before comparing them.' },
+  { id: 'participate', title: 'Help with a real project', description: 'Contribute to research led by professional scientists, usually online.' },
+  { id: 'references', title: 'Keep and cite sources', description: 'Organize what you read and cite it in the style your teacher expects.' },
+]
 export const RESOURCES = [
-  { id: 'scholar', title: 'Google Scholar', category: 'Papers', description: 'Search academic papers and follow their references.', href: 'https://scholar.google.com/', source: 'Google' },
-  { id: 'scholar-help', title: 'Google Scholar search help', category: 'Search help', description: 'Refine searches, trace citations, and find full text.', href: 'https://scholar.google.com/intl/en/scholar/help.html', source: 'Google' },
-  { id: 'data-gov', title: 'Data.gov', category: 'Public data', description: 'Find U.S. government datasets and their documentation.', href: 'https://catalog.data.gov/', source: 'U.S. government' },
-  { id: 'zotero', title: 'Zotero', category: 'References', description: 'Collect sources and organize references.', href: 'https://www.zotero.org/support/quick_start_guide', source: 'Zotero' },
+  { id: 'scholar', group: 'papers', title: 'Google Scholar', category: 'Papers', subjects: 'All subjects', description: 'Search academic papers and follow their references.', href: 'https://scholar.google.com/', source: 'Google', action: 'Search papers' },
+  { id: 'scholar-help', group: 'papers', title: 'Google Scholar search help', category: 'Search help', subjects: 'All subjects', description: 'Refine searches, trace citations, and find full text.', href: 'https://scholar.google.com/intl/en/scholar/help.html', source: 'Google', action: 'Read the guide' },
+  { id: 'arxiv', group: 'papers', title: 'arXiv', category: 'Preprints', subjects: 'Physics · Mathematics · Computer science · Statistics', description: 'Free preprints in physics, mathematics, computer science, and related fields. arXiv does not peer review them.', href: 'https://arxiv.org/', source: 'Cornell University', action: 'Browse preprints' },
+  { id: 'pubmed', group: 'papers', title: 'PubMed', category: 'Papers', subjects: 'Biology · Medicine · Health', description: 'Search biomedical and life-science literature. Entries often link to free full text, such as PubMed Central.', href: 'https://pubmed.ncbi.nlm.nih.gov/', source: 'U.S. National Library of Medicine', action: 'Search PubMed' },
+  { id: 'doaj', group: 'papers', title: 'Directory of Open Access Journals (DOAJ)', category: 'Journals', subjects: 'All subjects, including humanities', description: 'Find peer-reviewed open-access journals and articles in every subject and many languages.', href: 'https://doaj.org/', source: 'DOAJ', action: 'Search journals' },
+  { id: 'unpaywall', group: 'papers', title: 'Unpaywall', category: 'Access help', subjects: 'All subjects', description: 'A free browser extension that looks for a legal, free copy when an article is behind a paywall.', href: 'https://unpaywall.org/products/extension', source: 'OpenAlex', action: 'Get the extension' },
+  { id: 'data-gov', group: 'data', title: 'Data.gov', category: 'Public data', subjects: 'Many subjects · U.S. government', description: 'Find U.S. government datasets and their documentation.', href: 'https://catalog.data.gov/', source: 'U.S. government', action: 'Find datasets' },
+  { id: 'owid', group: 'data', title: 'Our World in Data', category: 'Public data', subjects: 'Health · Environment · Economics · Society', description: 'Charts and downloadable data on global problems. Each chart names its underlying sources.', href: 'https://ourworldindata.org/', source: 'Our World in Data', action: 'Explore charts & data' },
+  { id: 'noaa-cdo', group: 'data', title: 'NOAA Climate Data Online', category: 'Public data', subjects: 'Weather · Climate · Environment', description: 'Free historical weather and climate data, including daily records from individual stations.', href: 'https://www.ncei.noaa.gov/cdo-web/', source: 'NOAA National Centers for Environmental Information', action: 'Find station data' },
+  { id: 'gbif', group: 'data', title: 'GBIF', category: 'Public data', subjects: 'Biology · Ecology', description: 'Open records of where species have been observed or collected, shared by institutions worldwide.', href: 'https://www.gbif.org/occurrence/search', source: 'Global Biodiversity Information Facility', action: 'Search species records' },
+  { id: 'exoplanet-archive', group: 'data', title: 'NASA Exoplanet Archive', category: 'Public data', subjects: 'Astronomy · Physics', description: 'Tables of confirmed exoplanets and their measured properties, with downloads and documentation.', href: 'https://exoplanetarchive.ipac.caltech.edu/', source: 'Caltech / NASA Exoplanet Science Institute', action: 'Open the tables' },
+  { id: 'uci-ml', group: 'data', title: 'UCI Machine Learning Repository', category: 'Public data', subjects: 'Computer science · Statistics', description: 'Hundreds of documented datasets commonly used to practice and compare data-analysis methods.', href: 'https://archive.ics.uci.edu/', source: 'University of California, Irvine', action: 'Browse datasets' },
+  { id: 'oeis', group: 'data', title: 'OEIS', category: 'Mathematics', subjects: 'Mathematics', description: 'Enter the first terms of an integer sequence to find formulas, references, and known results.', href: 'https://oeis.org/', source: 'The OEIS Foundation', action: 'Look up a sequence' },
+  { id: 'zooniverse', group: 'participate', title: 'Zooniverse', category: 'Citizen science', subjects: 'Many subjects', description: 'Online projects where volunteers help researchers classify images, sounds, and documents. No specialized background is needed.', href: 'https://www.zooniverse.org/', source: 'Zooniverse', action: 'Find a project' },
+  { id: 'nasa-citizen-science', group: 'participate', title: 'NASA Citizen Science', category: 'Citizen science', subjects: 'Space · Earth science', description: 'NASA projects that welcome volunteers. Many need only a computer or phone, and no citizenship is required.', href: 'https://science.nasa.gov/citizen-science/', source: 'NASA', action: 'Browse NASA projects' },
+  { id: 'zotero', group: 'references', title: 'Zotero', category: 'References', subjects: 'All subjects', description: 'Collect sources and organize references.', href: 'https://www.zotero.org/support/quick_start_guide', source: 'Zotero', action: 'Read the quick start' },
+  { id: 'purdue-owl', group: 'references', title: 'Purdue OWL: Research and Citation', category: 'Citation', subjects: 'All subjects', description: 'Guides to evaluating sources, quoting and paraphrasing, and citation styles such as MLA, APA, and Chicago.', href: 'https://owl.purdue.edu/owl/research_and_citation/', source: 'Purdue University', action: 'Open the guides' },
 ]

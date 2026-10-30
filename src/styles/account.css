@@ -31,7 +31,7 @@
 .research-account-line { display:flex; align-items:center; justify-content:space-between; gap:1rem; color:#b8c7de; border-bottom:1px solid #8dade040; padding-bottom:.6rem; }
 .research-account-line > span { overflow-wrap:anywhere; font-size:.9375rem; }
 .research-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 0; }
-.research-toolbar > div { display:flex; align-items:center; gap:1.3rem; flex-shrink:0; }
+.research-toolbar > div { display:flex; flex-wrap:wrap; align-items:center; gap:.25rem 1.3rem; flex-shrink:0; }
 .site-shell .research-toolbar .save-state { margin:0; color:#c7d3e8; font-size:.9375rem; }
 .site-shell .save-state.is-saved { color:#a1e4d9; }
 .site-shell .save-state:is(.is-error,.is-conflict) { color:#ffd0a6; }
@@ -43,6 +43,21 @@
 .research-note-field strong { display:block; font-family:var(--font-serif); font-size:1.55rem; line-height:1.3; color:#f2f5ff; font-weight:400; margin-bottom:.6rem; }
 .field-hint { display:block; color:#c7d3e8; font-size:.9375rem; line-height:1.55; }
 .research-note-field textarea { resize:vertical; min-height:110px; }
+.research-note-input { min-width:0; }
+.research-note-input textarea { display:block; }
+.field-meta { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:0 1rem; min-height:2rem; margin-top:.35rem; }
+.source-links { margin-top:.6rem; }
+@media (hover:none) { .shortcut-hint { display:none; } }
+.site-shell .my-research-page .field-count { color:#b8c7de; font-size:.8125rem; }
+.site-shell .my-research-page :is(.is-near, .is-full) .field-count { color:#ffd0a6; font-weight:650; }
+.field-meta .plain-action { padding:.3rem 0; font-size:.875rem; }
+.site-shell .my-research-page .field-warning { margin:0; color:#ffd0a6; font-size:.875rem; }
+.site-shell .my-research-page .field-warning:not(:empty) { margin-top:.25rem; }
+.source-links { padding:.75rem .9rem; border:1px solid #8dade047; border-radius:8px; background:#17283f; }
+.source-links ul { list-style:none; margin:.35rem 0 0; padding:0; display:grid; gap:.35rem; }
+.source-links a { color:#9be8f3; font-size:.9375rem; line-height:1.5; text-underline-offset:.2em; overflow-wrap:anywhere; }
+.site-shell .my-research-page .research-notice { margin:0 0 .6rem; color:#a1e4d9; font-size:.9375rem; }
+.site-shell .my-research-page .research-notice.is-error { color:#ffd0a6; }
 .research-bottom { display:flex; align-items:flex-start; justify-content:space-between; gap:2rem; margin-top:1.2rem; }
 .site-shell .research-bottom p { font-size:.875rem; margin:0; max-width:43rem; }
 .research-bottom button { flex-shrink:0; }
@@ -67,6 +82,6 @@
   .research-bottom { gap:.3rem; }
 }
 @media print {
-  .research-toolbar,.research-account-line,.research-bottom,.research-alert,.recovered-drafts,.research-conflict { display:none; }
+  .research-toolbar,.research-account-line,.research-bottom,.research-alert,.recovered-drafts,.research-conflict,.research-notice,.field-meta,.field-warning { display:none; }
   .research-notes-form,.research-note-field textarea { box-shadow:none; background:white; color:black; }
 }
