@@ -18,7 +18,8 @@ export default function NotFoundPage() {
         <p>The page you requested does not exist or may have moved.</p>
         <div className="button-row">
           <Link className="button primary" to="/">Return home</Link>
-          <Link className="button secondary" to="/start-here">Start Here</Link>
+          <Link className="button secondary" to="/start-here">Start on your own</Link>
+          <Link className="button secondary" to="/resources">Find a program</Link>
         </div>
       </main>
     </>

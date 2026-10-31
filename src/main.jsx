@@ -11,10 +11,12 @@ document.head
   .querySelectorAll('[data-seo-fallback="true"]')
   .forEach((element) => element.remove())
 
+// Filters and example choices are controlled inputs that read the URL. Applying
+// router updates synchronously keeps a clicked option from briefly reverting.
 const application = (
   <StrictMode>
     <HelmetProvider>
-      <BrowserRouter>
+      <BrowserRouter useTransitions={false}>
         <App />
       </BrowserRouter>
     </HelmetProvider>

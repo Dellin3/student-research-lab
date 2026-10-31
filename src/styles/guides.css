@@ -23,6 +23,13 @@
 .research-guide :is(th,td) { border-bottom:1px solid #8dade040; padding:.75rem; text-align:left; vertical-align:top; }
 .research-guide th { color:#f2f5ff; font-weight:650; }
 .guide-next { display:grid; gap:1rem; padding:2rem 0 0; }
+.copy-template { margin:1rem 0 .5rem; }
+.copy-template-button { display:inline-flex; align-items:center; min-height:44px; padding:.55rem 1rem; border:1px solid #8dade080; border-radius:7px; background:#142b43; color:#f2f5ff; font:inherit; font-size:.9375rem; font-weight:600; cursor:pointer; }
+.copy-template-button:hover { background:#1c3b50; border-color:#9be8f3; }
+.copy-template-button:focus-visible { outline:2px solid #9be8f3; outline-offset:4px; }
+.research-guide .copy-template-status { margin:.4rem 0 0; color:#a1e4d9; font-size:.9375rem; }
+.copy-template-text { margin:.5rem 0 0; padding:.9rem 1rem; border:1px solid #8dade047; border-radius:8px; background:#101e31; color:#f2f5ff; font:.9375rem/1.7 var(--font-mono); white-space:pre-wrap; user-select:all; }
+@media print { .copy-template { display:none; } }
 .starter-guides { padding:2rem 0 0; }
 .starter-guide-links { display:grid; gap:.7rem; }
 .starter-guide-links a { color:#9be8f3; text-underline-offset:.25em; font-size:1.0625rem; }

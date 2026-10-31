@@ -6,6 +6,7 @@ import { contact, feedbackCategories, feedbackEmailBody, feedbackPagePath } from
 export default function FeedbackPage() {
   const location = useLocation()
   const page = feedbackPagePath(new URLSearchParams(location.search).get('from'))
+  const returnPath = page && page !== '/feedback' ? page : '/'
   const [fields, setFields] = useState({ category: '', message: '', name: '', email: '', website: '' })
   const [availability, setAvailability] = useState('checking')
   const [sending, setSending] = useState(false)
@@ -85,8 +86,9 @@ export default function FeedbackPage() {
 
   return <><RouteSeo path="/feedback" /><main id="main-content" className="feedback-layout">
     <section className="feedback-panel" aria-labelledby="feedback-title">
+      <Link className="feedback-back" to={returnPath}><span aria-hidden="true">←</span>Back</Link>
       <h1 id="feedback-title">Feedback</h1>
-      {receipt ? <div className="feedback-success" ref={result} tabIndex={-1} role="status"><p>Thank you. Your feedback has been saved.</p><Link className="feedback-submit" to="/">Home</Link></div> : <form className="feedback-form" onSubmit={submit} aria-label="Website feedback">
+      {receipt ? <div className="feedback-success" ref={result} tabIndex={-1} role="status"><p>Thank you. Your feedback has been saved.</p><Link className="feedback-submit" to={returnPath}>{returnPath === '/' ? 'Home' : 'Return to the page you were on'}</Link>{returnPath !== '/' && <Link className="feedback-home" to="/">Home</Link>}</div> : <form className="feedback-form" onSubmit={submit} aria-label="Website feedback">
         <fieldset disabled={sending}>
           <legend className="sr-only">Your feedback</legend>
           <div className="feedback-personal">
